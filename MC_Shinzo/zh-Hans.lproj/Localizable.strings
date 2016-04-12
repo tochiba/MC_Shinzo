@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  MC_Shinzo
+
+  Created by 千葉 俊輝 on 2016/04/10.
+  Copyright © 2016年 Toshiki Chiba. All rights reserved.
+*/
+
+
+"share_share"   = "分享你的朋友";
+"share_illegal" = "报告";
+"share_cancel"  = "取消";
+
+"setting_request"   = "需求";
+"setting_licence"   = "许可证";
+"setting_toolmode"  = "开发模式ON";
+
+"category_popular"  = "人气王";
+"category_new"      = "新";
+"category_favorite" = "收藏夹";
+"category_setting"  = "设置";
+
+"dog"       = "狗";
+"cat"       = "猫";
+"rabbit"    = "兔子";
+"hamster"   = "仓鼠";
+"hedgehog"  = "刺猬";
+"ferret"    = "雪貂";
+"parakeet"  = "鹦鹉";
+"penguin"   = "企鹅";
+
+"review_detail"     = "你确定你想收到的意见和要求？";
+"review_no1"        = "没有";
+"review_yes1"       = "是";
+"review_no2"        = "没有";
+"review_yes2"       = "欢呼";
+"review_request"    = "⭐️⭐️⭐️⭐️⭐️你会在检讨欢呼？";

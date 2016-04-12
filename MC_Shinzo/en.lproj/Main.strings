@@ -1,0 +1,23 @@
+
+/* Class = "UILabel"; text = "モモンガ"; ObjectID = "j0o-9f-p5X"; */
+"j0o-9f-p5X.text" = "モモンガ";
+
+/* Class = "UILabel"; text = "1000"; ObjectID = "kbG-SV-cfc"; */
+"kbG-SV-cfc.text" = "1000";
+
+/* Class = "UIButton"; normalTitle = "…\n "; ObjectID = "zze-nX-5BJ"; */
+"zze-nX-5BJ.normalTitle" = "…\n ";
+
+
+
+/* Class = "UILabel"; text = "ご利用ありがとうございます"; ObjectID = "rNx-qb-Aeo"; */
+"rNx-qb-Aeo.text" = "Thank you for your use";
+
+/* Class = "UIButton"; normalTitle = "使いやすい"; ObjectID = "Fxn-ua-jBS"; */
+"Fxn-ua-jBS.normalTitle" = "Easy to use";
+
+/* Class = "UIButton"; normalTitle = "よくない"; ObjectID = "VZc-XX-ZNY"; */
+"VZc-XX-ZNY.normalTitle" = "Not good";
+
+/* Class = "UILabel"; text = "Alwayzooの使い心地はいかがでしょうか？"; ObjectID = "cHs-ld-I4h"; */
+"cHs-ld-I4h.text" = "Why not comfortable to use Alwayzoo?";
