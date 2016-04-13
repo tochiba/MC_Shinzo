@@ -17,7 +17,7 @@ protocol FavoriteManagerDelegate: class {
 class FavoriteManager {
     static let sharedInstance = FavoriteManager()
     
-    private var animalVideos: [AnimalVideo] = []
+    private var Videos: [Video] = []
     weak var delegate: FavoriteManagerDelegate?
     
     init() {
@@ -28,30 +28,30 @@ class FavoriteManager {
         self.delegate = delegate
         do {
             let realm = try Realm()
-            var _array: [AnimalVideo] = []
-            for f in realm.objects(FavoriteAnimalVideo) {
+            var _array: [Video] = []
+            for f in realm.objects(FavoriteVideo) {
                 _array.append(convert(f))
             }
-            self.animalVideos = _array
+            self.Videos = _array
             self.delegate?.didLoadFavoriteData()
         }
         catch _ as NSError {
         }
     }
     
-    func getFavoriteVideos() -> [AnimalVideo] {
-        return self.animalVideos.reverse()
+    func getFavoriteVideos() -> [Video] {
+        return self.Videos.reverse()
     }
     func isFavoriteVideo(id: String) -> Bool {
-        if let _ = self.animalVideos.indexOf({$0.id == id}) {
+        if let _ = self.Videos.indexOf({$0.id == id}) {
             return true
         }
         
         return false
     }
     
-    func addFavoriteVideo(video: AnimalVideo) {
-        if let _ = self.animalVideos.indexOf({$0.id == video.id}) {
+    func addFavoriteVideo(video: Video) {
+        if let _ = self.Videos.indexOf({$0.id == video.id}) {
             return
         }
         
@@ -66,11 +66,11 @@ class FavoriteManager {
         load()
     }
     
-    func removeFavoriteVideo(video: AnimalVideo) {        
+    func removeFavoriteVideo(video: Video) {        
         do {
             let realm = try Realm()
             let predicate = NSPredicate(format: "id == '\(video.id)'")
-            if let _target = realm.objects(FavoriteAnimalVideo).filter(predicate).first {
+            if let _target = realm.objects(FavoriteVideo).filter(predicate).first {
                 try! realm.write {
                     realm.delete(_target)
                 }
@@ -82,10 +82,10 @@ class FavoriteManager {
         load()
     }
     
-    private func convert(fVideo: FavoriteAnimalVideo) -> AnimalVideo {
-        let a = AnimalVideo()
+    private func convert(fVideo: FavoriteVideo) -> Video {
+        let a = Video()
         a.id = fVideo.id
-        a.animalName = fVideo.animalName
+        a.categoryName = fVideo.categoryName
         a.date = fVideo.date
         a.title = fVideo.title
         a.thumbnailUrl = fVideo.thumbnailUrl
@@ -96,10 +96,10 @@ class FavoriteManager {
         return a
     }
 
-    private func convert(aVideo: AnimalVideo) -> FavoriteAnimalVideo {
-        let f = FavoriteAnimalVideo()
+    private func convert(aVideo: Video) -> FavoriteVideo {
+        let f = FavoriteVideo()
         f.id = aVideo.id
-        f.animalName = aVideo.animalName
+        f.categoryName = aVideo.categoryName
         f.date = aVideo.date
         f.title = aVideo.title
         f.thumbnailUrl = aVideo.thumbnailUrl
@@ -111,9 +111,9 @@ class FavoriteManager {
     }
 }
 
-class FavoriteAnimalVideo: Object {
+class FavoriteVideo: Object {
     dynamic var id: String              = ""
-    dynamic var animalName: String      = ""
+    dynamic var categoryName: String      = ""
     dynamic var date: String            = ""
     dynamic var title: String           = ""
     dynamic var descri: String          = ""
