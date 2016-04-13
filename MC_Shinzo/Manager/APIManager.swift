@@ -17,15 +17,15 @@ protocol SearchAPIManagerDelegate: class {
 
 class APIManager {
     static let sharedInstance = APIManager()
-    private var animalVideoDic: [String:[AnimalVideo]] = [:]
+    private var VideoDic: [String:[Video]] = [:]
     weak var delegate: SearchAPIManagerDelegate?
     
-    func getAnimalVideos(query: String) -> [AnimalVideo] {
+    func getVideos(query: String) -> [Video] {
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return []
         }
         
-        guard let array = self.animalVideoDic[encodedString] else {
+        guard let array = self.VideoDic[encodedString] else {
             return []
         }
         
@@ -50,10 +50,10 @@ class APIManager {
                     return
                 }
 
-                var videos: [AnimalVideo] = []
+                var videos: [Video] = []
                 for i in array {
-                    let a = AnimalVideo()
-                    a.animalName = encodedString
+                    let a = Video()
+                    a.categoryName = encodedString
                     a.id = i["id"]["videoId"].stringValue
                     a.date = i["snippet"]["publishedAt"].stringValue
                     a.title = i["snippet"]["title"].stringValue
@@ -69,12 +69,12 @@ class APIManager {
                     self.nextSearch(encodedString, nextToken: ntoken, aArray: videos)
                 }
                 
-                self.animalVideoDic[encodedString] = videos
+                self.VideoDic[encodedString] = videos
                 self.delegate?.didFinishLoad()
         }
     }
     
-    func nextSearch(query: String, nextToken: String, var aArray: [AnimalVideo]) {
+    func nextSearch(query: String, nextToken: String, var aArray: [Video]) {
         Alamofire.request(.GET, APIURL.YoutubeNextSearch + query + APIPARAM.Token + APITOKEN.YoutubeToken + APIPARAM.NextPageToken + nextToken)
             .responseJSON { response in
                 guard let object = response.result.value else {
@@ -87,8 +87,8 @@ class APIManager {
                 }
                 
                 for i in array {
-                    let a = AnimalVideo()
-                    a.animalName = query
+                    let a = Video()
+                    a.categoryName = query
                     a.id = i["id"]["videoId"].stringValue
                     a.date = i["snippet"]["publishedAt"].stringValue
                     a.title = i["snippet"]["title"].stringValue
@@ -104,7 +104,7 @@ class APIManager {
                     self.nextSearch(query, nextToken: ntoken, aArray: aArray)
                 }
                 
-                self.animalVideoDic[query] = aArray
+                self.VideoDic[query] = aArray
                 self.delegate?.didFinishLoad()
         }
     }

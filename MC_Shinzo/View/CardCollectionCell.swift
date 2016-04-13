@@ -11,12 +11,12 @@ import UIKit
 
 protocol CardCollectionCellDelegate: class {
     func didPushFavorite()
-    func didPushSetting(video: AnimalVideo, frame: CGRect)
-    func didPushPlay(video: AnimalVideo)
+    func didPushSetting(video: Video, frame: CGRect)
+    func didPushPlay(video: Video)
 }
 
 class CardCollectionCell: UICollectionViewCell {
-    var video: AnimalVideo?
+    var video: Video?
     var delegate: CardCollectionCellDelegate?
     
     @IBOutlet weak var imageView: UIImageView!
@@ -53,7 +53,7 @@ class CardCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         self.favoriteButton.setImage(getButtonImage(), forState: .Normal)
     }
-    func setup(video: AnimalVideo, delegate: CardCollectionCellDelegate?) {
+    func setup(video: Video, delegate: CardCollectionCellDelegate?) {
         self.delegate = delegate
         self.video = video
         setupFavoButton(video.id)

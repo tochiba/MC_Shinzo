@@ -19,7 +19,7 @@ class VideoListViewController: UIViewController {
     @IBOutlet weak var bannerView: BannerView!
     
     private var cellSize: CGSize = CGSizeZero
-    private var videoList: [AnimalVideo] = []
+    private var videoList: [Video] = []
     private var isLoading: Bool = false
     
     var queryString: String = ""
@@ -153,10 +153,10 @@ extension VideoListViewController {
         switch self.mode {
         case .Category:
             if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getAnimalVideos(self.queryString)
+                self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
             }
             else {
-                self.videoList = APIManager.sharedInstance.getAnimalVideos(self.queryString)
+                self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
             }
             return
         case .Favorite:
@@ -164,12 +164,12 @@ extension VideoListViewController {
             return
         case .New:
             if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getAnimalVideos("New")
+                self.videoList = NIFTYManager.sharedInstance.getVideos("New")
             }
             return
         case .Popular:
             if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getAnimalVideos("Popular")
+                self.videoList = NIFTYManager.sharedInstance.getVideos("Popular")
             }
             return
         }
@@ -322,7 +322,7 @@ extension VideoListViewController: CardCollectionCellDelegate {
         }
     }
     
-    func didPushSetting(video: AnimalVideo, frame: CGRect) {
+    func didPushSetting(video: Video, frame: CGRect) {
         
         let myAlert = UIAlertController(title: video.title, message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let myAction_1 = UIAlertAction(title: NSLocalizedString("share_share", comment: ""), style: UIAlertActionStyle.Default, handler: {
@@ -359,7 +359,7 @@ extension VideoListViewController: CardCollectionCellDelegate {
         self.presentViewController(myAlert, animated: true, completion: nil)
     }
     
-    func didPushPlay(video: AnimalVideo) {
+    func didPushPlay(video: Video) {
         playVideo(video.id)
         PlayCounter.add()
     }

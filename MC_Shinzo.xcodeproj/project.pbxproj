@@ -35,7 +35,7 @@
 		8FE4EA561CBBF5E700F62BCE /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4EA551CBBF5E700F62BCE /* BannerView.swift */; };
 		8FE4EA581CBBFD4C00F62BCE /* DialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4EA571CBBFD4C00F62BCE /* DialogViewController.swift */; };
 		8FE4EA5A1CBBFE8400F62BCE /* ReviewRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4EA591CBBFE8400F62BCE /* ReviewRequestViewController.swift */; };
-		DB70BAB81CAB73190045E08A /* AnimalMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB70BAB71CAB73190045E08A /* AnimalMovie.swift */; };
+		DB70BAB81CAB73190045E08A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB70BAB71CAB73190045E08A /* Movie.swift */; };
 		DB70BADA1CACBEC60045E08A /* TabPageViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB70BAD91CACBEC60045E08A /* TabPageViewController.framework */; };
 		DB70BADF1CACD6250045E08A /* VideoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB70BADE1CACD6250045E08A /* VideoListViewController.swift */; };
 		DB70BAE11CACD7320045E08A /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB70BAE01CACD7320045E08A /* WebImage.framework */; };
@@ -119,7 +119,7 @@
 		8FE4EA551CBBF5E700F62BCE /* BannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerView.swift; path = View/BannerView.swift; sourceTree = "<group>"; };
 		8FE4EA571CBBFD4C00F62BCE /* DialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DialogViewController.swift; path = ViewController/DialogViewController.swift; sourceTree = "<group>"; };
 		8FE4EA591CBBFE8400F62BCE /* ReviewRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReviewRequestViewController.swift; path = ViewController/ReviewRequestViewController.swift; sourceTree = "<group>"; };
-		DB70BAB71CAB73190045E08A /* AnimalMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimalMovie.swift; path = Model/AnimalMovie.swift; sourceTree = "<group>"; };
+		DB70BAB71CAB73190045E08A /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Model/Movie.swift; sourceTree = "<group>"; };
 		DB70BAD91CACBEC60045E08A /* TabPageViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TabPageViewController.framework; path = Carthage/Build/iOS/TabPageViewController.framework; sourceTree = "<group>"; };
 		DB70BADE1CACD6250045E08A /* VideoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoListViewController.swift; path = ViewController/VideoListViewController.swift; sourceTree = "<group>"; };
 		DB70BAE01CACD7320045E08A /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
@@ -269,7 +269,7 @@
 		DB70BAB61CAB72FA0045E08A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DB70BAB71CAB73190045E08A /* AnimalMovie.swift */,
+				DB70BAB71CAB73190045E08A /* Movie.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -527,7 +527,7 @@
 				8F73AC931CB9F1780051D107 /* CardCollectionCell.swift in Sources */,
 				8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */,
 				8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */,
-				DB70BAB81CAB73190045E08A /* AnimalMovie.swift in Sources */,
+				DB70BAB81CAB73190045E08A /* Movie.swift in Sources */,
 				8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */,
 				8FE4EA5A1CBBFE8400F62BCE /* ReviewRequestViewController.swift in Sources */,
 				8F5517FE1CAF69AA00492953 /* SettingViewController.swift in Sources */,

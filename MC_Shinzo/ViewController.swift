@@ -9,16 +9,20 @@
 import UIKit
 import TabPageViewController
 
+// TODO:
+/*
+人気MC対決
+新人MC対決
+ライミング
+フロー
+ビートアプローチ
+パンチライン
+バイブス
+*/
+
 struct VideoCategory {
     static let localizedCategory: [String] = ["dog", "cat", "rabbit", "hamster", "hedgehog", "ferret", "parakeet", "penguin"]
     static let category: [String] = ["犬", "ネコ", "うさぎ", "ハムスター", "ハリネズミ", "フェレット", "インコ", "ペンギン"]
-    static let categoryColor: [UIColor] = [
-        UIColor(red: 251/255, green: 252/255, blue: 149/255, alpha: 1.0),
-        UIColor(red: 252/255, green: 150/255, blue: 149/255, alpha: 1.0),
-        UIColor(red: 149/255, green: 218/255, blue: 252/255, alpha: 1.0),
-        UIColor(red: 149/255, green: 252/255, blue: 197/255, alpha: 1.0),
-        UIColor(red: 252/255, green: 182/255, blue: 106/255, alpha: 1.0),
-        UIColor(red: 246/255, green: 175/255, blue:  32/255, alpha: 1.0)]
 }
 
 class ViewController: UIViewController {
@@ -59,7 +63,7 @@ extension ViewController {
         for tuple in VideoCategory.category.enumerate() {
             let lstr = VideoCategory.localizedCategory[tuple.index]
             tc.tabItems.append((VideoListViewController.getInstance(tuple.element,
-                color: UIColor(red: 138/255, green: 200/255, blue: 135/255, alpha: 0.4)),
+                color: Config.keyColor(0.4)),
                 NSLocalizedString(lstr, comment: "")))
         }
         
@@ -68,7 +72,7 @@ extension ViewController {
             NSLocalizedString("category_setting", comment: "")))
         
         var option = TabPageOption()
-        option.currentColor = UIColor(red: 138/255, green: 200/255, blue: 135/255, alpha: 1.0)
+        option.currentColor = Config.keyColor()
         tc.option = option
         self.tabPageViewController = tc
     }

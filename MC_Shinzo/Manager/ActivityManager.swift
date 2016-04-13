@@ -11,7 +11,7 @@ import UIKit
 
 class ActivityManager: NSObject {
     
-    class private func getActivityViewController(vc: UIViewController?, video: AnimalVideo) -> UIActivityViewController {
+    class private func getActivityViewController(vc: UIViewController?, video: Video) -> UIActivityViewController {
         
         // 共有する項目
         let shareText = "\(video.title) #Alwayzoo \n"
@@ -41,7 +41,7 @@ class ActivityManager: NSObject {
         return activityVC
     }
     
-    class func showActivityView(viewController: UIViewController, video: AnimalVideo) {
+    class func showActivityView(viewController: UIViewController, video: Video) {
         weak var vc = viewController
         vc?.presentViewController(getActivityViewController(vc, video: video), animated: true, completion: nil)
     }
