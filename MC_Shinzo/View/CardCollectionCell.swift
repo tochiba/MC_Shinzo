@@ -11,7 +11,7 @@ import UIKit
 
 protocol CardCollectionCellDelegate: class {
     func didPushFavorite()
-    func didPushSetting(video: AnimalVideo)
+    func didPushSetting(video: AnimalVideo, frame: CGRect)
     func didPushPlay(video: AnimalVideo)
 }
 
@@ -41,7 +41,7 @@ class CardCollectionCell: UICollectionViewCell {
     }
     @IBAction func didPushSettingButton(sender: AnyObject) {
         if let _v = self.video {
-            self.delegate?.didPushSetting(_v)
+            self.delegate?.didPushSetting(_v, frame: self.frame)
         }
     }
     @IBAction func didPushPlayButton(sender: AnyObject) {
