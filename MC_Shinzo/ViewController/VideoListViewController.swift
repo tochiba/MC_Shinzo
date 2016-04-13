@@ -322,7 +322,7 @@ extension VideoListViewController: CardCollectionCellDelegate {
         }
     }
     
-    func didPushSetting(video: AnimalVideo) {
+    func didPushSetting(video: AnimalVideo, frame: CGRect) {
         
         let myAlert = UIAlertController(title: video.title, message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let myAction_1 = UIAlertAction(title: NSLocalizedString("share_share", comment: ""), style: UIAlertActionStyle.Default, handler: {
@@ -350,6 +350,11 @@ extension VideoListViewController: CardCollectionCellDelegate {
         myAlert.addAction(myAction_1)
         myAlert.addAction(myAction_2)
         myAlert.addAction(myAction_3)
+        
+        if UIApplication.isPad() {
+            myAlert.popoverPresentationController?.sourceView = self.collectionView
+            myAlert.popoverPresentationController?.sourceRect = frame
+        }
         
         self.presentViewController(myAlert, animated: true, completion: nil)
     }
