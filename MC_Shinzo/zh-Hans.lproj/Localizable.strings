@@ -20,18 +20,16 @@
 "category_favorite" = "收藏夹";
 "category_setting"  = "设置";
 
-"dog"       = "狗";
-"cat"       = "猫";
-"rabbit"    = "兔子";
-"hamster"   = "仓鼠";
-"hedgehog"  = "刺猬";
-"ferret"    = "雪貂";
-"parakeet"  = "鹦鹉";
-"penguin"   = "企鹅";
-
 "review_detail"     = "你确定你想收到的意见和要求？";
 "review_no1"        = "没有";
 "review_yes1"       = "是";
 "review_no2"        = "没有";
 "review_yes2"       = "欢呼";
 "review_request"    = "⭐️⭐️⭐️⭐️⭐️你会在检讨欢呼？";
+
+"popular_mc" = "Popular MC";
+"rookie_mc" = "Rookie MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";

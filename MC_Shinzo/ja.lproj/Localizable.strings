@@ -19,14 +19,21 @@
 "category_favorite" = "お気に入り";
 "category_setting"  = "設定";
 
-"dog"       = "犬";
-"cat"       = "ネコ";
-"rabbit"    = "うさぎ";
-"hamster"   = "ハムスター";
-"hedgehog"  = "ハリネズミ";
-"ferret"    = "フェレット";
-"parakeet"  = "インコ";
-"penguin"   = "ペンギン";
+/*
+ 人気MC Popular MC
+ 新人MC Rookie MC
+ ライミング Rhyming
+ フロー Flow
+ ビートアプローチ　Beat Approach
+ パンチライン Punch Line
+ バイブス　Vibes
+ */
+"popular_mc" = "人気MC";
+"rookie_mc" = "新人MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";
 
 "review_detail"     = "ご意見・ご要望をいただいてもよろしいでしょうか？";
 "review_no1"        = "いいえ";
