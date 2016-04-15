@@ -19,18 +19,16 @@
 "category_favorite" = "Favorite";
 "category_setting"  = "Setting";
 
-"dog"       = "Dog";
-"cat"       = "Cat";
-"rabbit"    = "Rabbit";
-"hamster"   = "Hamster";
-"hedgehog"  = "Hedgehog";
-"ferret"    = "Ferret";
-"parakeet"  = "Parakeet";
-"penguin"   = "Penguin";
-
 "review_detail"     = "Are you sure you want to received the opinions and requests?";
 "review_no1"        = "No";
 "review_yes1"       = "Yes";
 "review_no2"        = "No";
 "review_yes2"       = "Cheer";
 "review_request"    = "⭐️⭐️⭐️⭐️⭐️ Will you cheer in the review?";
+
+"popular_mc" = "Popular MC";
+"rookie_mc" = "Rookie MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";

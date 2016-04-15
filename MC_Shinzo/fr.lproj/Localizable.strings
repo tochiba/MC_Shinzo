@@ -20,18 +20,16 @@
 "category_favorite" = "Favorite";
 "category_setting"  = "Réglage";
 
-"dog"      = "Chien";
-"cat"      = "Chat";
-"rabbit"   = "Lapin";
-"hamster"  = "Hamster";
-"hedgehog" = "Hérisson";
-"ferret"   = "Furet";
-"parakeet" = "Perruche";
-"penguin"  = "Manchot";
-
 "review_detail"     = "Êtes-vous sûr de vouloir reçu les avis et les demandes?";
 "review_no1"        = "Non";
 "review_yes1"       = "Oui";
 "review_no2"        = "Non";
 "review_yes2"       = "Acclamation";
 "review_request"    = "⭐️⭐️⭐️⭐️⭐️ Voulez- vous remonter le moral à l'examen?";
+
+"popular_mc" = "Popular MC";
+"rookie_mc" = "Rookie MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";

@@ -9,20 +9,9 @@
 import UIKit
 import TabPageViewController
 
-// TODO:
-/*
-人気MC対決
-新人MC対決
-ライミング
-フロー
-ビートアプローチ
-パンチライン
-バイブス
-*/
-
 struct VideoCategory {
-    static let localizedCategory: [String] = ["dog", "cat", "rabbit", "hamster", "hedgehog", "ferret", "parakeet", "penguin"]
-    static let category: [String] = ["犬", "ネコ", "うさぎ", "ハムスター", "ハリネズミ", "フェレット", "インコ", "ペンギン"]
+    static let localizedCategory: [String] = ["popular_mc", "rookie_mc", "rhyming", "flow", "punchLine", "vibes"]
+    static let category: [String] = ["PopularMC", "RookieMC", "Rhyming", "Flow", "PunchLine", "Vibes"]
 }
 
 class ViewController: UIViewController {

@@ -19,18 +19,16 @@
 "category_favorite" = " 즐겨 찾기 ";
 "category_setting"  = " 설정" ;
 
-"dog"       = " 개 ";
-"cat"       = " 고양이 ";
-"rabbit"    = " 토끼 ";
-"hamster"   = " 햄스터 ";
-"hedgehog"  = " 헤지 호그 ";
-"ferret"    = " 흰 족제비 ";
-"parakeet"  = " 앵무새의 일종 ";
-"penguin"   = " 펭귄 ";
-
 "review_detail"     = "당신은 당신이 의견과 요청을 수신 하시겠습니까?";
 "review_no1"        = "아니";
 "review_yes1"       = "예";
 "review_no2"        = "아니";
 "review_yes2"       = "격려";
 "review_request"    = "⭐️⭐️⭐️⭐️⭐️ 당신은 리뷰 에서 응원 할 것인가?";
+
+"popular_mc" = "Popular MC";
+"rookie_mc" = "Rookie MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";

@@ -20,18 +20,16 @@
 "category_favorite" ="收藏夾";
 "category_setting"  ="設置";
 
-"dog"       = "狗";
-"cat"       = "貓";
-"rabbit"    = "兔子";
-"hamster"   = "倉鼠";
-"hedgehog"  = "刺猬";
-"ferret"    = "雪貂";
-"parakeet"  = "鸚鵡";
-"penguin"   = "企鵝";
-
 "review_detail"     = "你確定你想收到的意見和要求？";
 "review_no1"        = "沒有";
 "review_yes1"       = "是";
 "review_no2"        = "沒有";
 "review_yes2"       = "歡呼";
 "review_request"    = "⭐️⭐️⭐️⭐️⭐️你會在檢討歡呼？";
+
+"popular_mc" = "Popular MC";
+"rookie_mc" = "Rookie MC";
+"rhyming" = "Rhyming";
+"flow" = "Flow";
+"punchLine" = "Punch Line";
+"vibes" = "Vibes";
