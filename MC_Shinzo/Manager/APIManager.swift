@@ -29,7 +29,6 @@ class APIManager {
             return []
         }
         
-        // TODO: 配信済みを除く
         var _array: [Video] = []
         for a in array {
             if !NIFTYManager.sharedInstance.isDeliveredVideo(a) {
