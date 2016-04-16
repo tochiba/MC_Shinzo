@@ -29,8 +29,13 @@ class APIManager {
             return []
         }
         
-        // TODO: 配信済みを除く
-        return array
+        var _array: [Video] = []
+        for a in array {
+            if !NIFTYManager.sharedInstance.isDeliveredVideo(a) {
+                _array.append(a)
+            }
+        }
+        return _array
     }
     
     func search(query: String, aDelegate: SearchAPIManagerDelegate?) {

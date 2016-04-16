@@ -17,10 +17,12 @@ class VideoListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bannerView: BannerView!
+    @IBOutlet weak var topSpace: NSLayoutConstraint!
     
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
     private var isLoading: Bool = false
+    private var pickerBaseView: PickerBaseView?
     
     var queryString: String = ""
 
@@ -29,6 +31,7 @@ class VideoListViewController: UIViewController {
         case Favorite
         case New
         case Popular
+        case Draft
     }
     var mode: Mode = .Category
     
@@ -79,6 +82,7 @@ class VideoListViewController: UIViewController {
        
     override func viewDidLayoutSubviews() {
         setupCellSize()
+        setupLayout()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -115,36 +119,28 @@ class VideoListViewController: UIViewController {
 }
 
 extension VideoListViewController {
+    private func setupLayout() {
+        if self.mode == .Draft {
+            setupSearchLayout()
+        }
+    }
+    
     private func setData() {
         switch self.mode {
         case .Category:
-            if Config.isNotDevMode() {
-                NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
-            }
-            else {
-                APIManager.sharedInstance.search(self.queryString, aDelegate: self)
-            }
+            NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
             return
         case .Favorite:
             FavoriteManager.sharedInstance.load(self)
             return
         case .New:
-            if Config.isNotDevMode() {
-                NIFTYManager.sharedInstance.search(true, aDelegate: self)
-            }
-            else {
-                self.videoList = []
-                self.collectionView.reloadData()
-            }
+            NIFTYManager.sharedInstance.search(true, aDelegate: self)
             return
         case .Popular:
-            if Config.isNotDevMode() {
-                NIFTYManager.sharedInstance.search(false, aDelegate: self)
-            }
-            else {
-                self.videoList = []
-                self.collectionView.reloadData()
-            }
+            NIFTYManager.sharedInstance.search(false, aDelegate: self)
+            return
+        case .Draft:
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             return
         }
     }
@@ -152,25 +148,19 @@ extension VideoListViewController {
     private func loadData() {
         switch self.mode {
         case .Category:
-            if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
-            }
-            else {
-                self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
-            }
+            self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
             return
         case .Favorite:
             self.videoList = FavoriteManager.sharedInstance.getFavoriteVideos()
             return
         case .New:
-            if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getVideos("New")
-            }
+            self.videoList = NIFTYManager.sharedInstance.getVideos("New")
             return
         case .Popular:
-            if Config.isNotDevMode() {
-                self.videoList = NIFTYManager.sharedInstance.getVideos("Popular")
-            }
+            self.videoList = NIFTYManager.sharedInstance.getVideos("Popular")
+            return
+        case .Draft:
+            self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
             return
         }
     }
@@ -340,9 +330,11 @@ extension VideoListViewController: CardCollectionCellDelegate {
         })
         
         if !Config.isNotDevMode() {
+            resetPickerView()
             let myAction_0 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
                 (action: UIAlertAction) in
-                NIFTYManager.sharedInstance.deliverThisVideo(video)
+                //NIFTYManager.sharedInstance.deliverThisVideo(video)
+                self.createPickerView(video, frame: frame)
             })
             myAlert.addAction(myAction_0)
         }
@@ -369,4 +361,121 @@ extension VideoListViewController: ReviewControllerDelegate {
     func didPushFeedBackButton() {
         Meyasubaco.showCommentViewController(self)
     }
+}
+
+extension VideoListViewController: UISearchBarDelegate {
+    private func setupSearchLayout() {
+        self.topSpace.constant = -60
+        
+        if  self.navigationItem.titleView is UISearchBar {
+            return
+        }
+        
+        if let navigationBarFrame = self.navigationController?.navigationBar.bounds {
+            let searchBar: UISearchBar = UISearchBar(frame: navigationBarFrame)
+            searchBar.delegate = self
+            searchBar.placeholder = "Search"
+            searchBar.showsCancelButton = false
+            searchBar.tintColor = Config.keyColor()
+            searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+            searchBar.keyboardType = UIKeyboardType.Default
+            self.navigationItem.titleView = searchBar
+            self.navigationItem.titleView?.frame = searchBar.frame
+            let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "didPushLeftButton:")
+            leftButton.tintColor = Config.keyColor()
+            self.navigationItem.leftBarButtonItem = leftButton
+            
+            searchBar.becomeFirstResponder()
+        }
+    }
+    func didPushLeftButton(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    // テキストが変更される毎に呼ばれる
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    }
+    // Cancelボタンが押された時に呼ばれる
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.text = ""
+    }
+    // Searchボタンが押された時に呼ばれる
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if let txt = searchBar.text {
+            self.queryString = txt
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
+            self.view.endEditing(true)
+        }
+    }
+}
+
+extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    private func resetPickerView() {
+        self.pickerBaseView?.removeFromSuperview()
+        self.pickerBaseView = nil
+    }
+    private func createPickerView(video: Video, frame: CGRect) {
+        var f = frame
+        f.origin.y += 10
+        f.size.height -= 10
+        self.pickerBaseView = PickerBaseView(frame: f)
+        self.pickerBaseView?.backgroundColor = UIColor.whiteColor()
+        self.pickerBaseView?.video = video
+        self.pickerBaseView?.category = VideoCategory.category[0]
+        
+        var pf = f
+        pf.size.height -= 40
+        pf.origin.x = 0
+        pf.origin.y = 0
+        let pview = UIPickerView()
+        pview.frame = pf
+        pview.delegate = self
+        pview.dataSource = self
+        
+        var bf = pf
+        bf.size.height = 40
+        bf.origin.y = pf.size.height
+        let button = UIButton()
+        button.frame = bf
+        button.setTitle("決定", forState: UIControlState.Normal)
+        button.backgroundColor = Config.keyColor(0.3)
+        button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+        button.titleLabel?.text = "決定"
+        button.addTarget(self, action: "didPushDeliverButton:", forControlEvents: .TouchUpInside)
+        
+        self.pickerBaseView?.addSubview(button)
+        self.pickerBaseView?.addSubview(pview)
+        if let view = self.pickerBaseView {
+            self.collectionView?.addSubview(view)
+        }
+    }
+    func didPushDeliverButton(sender: UIButton) {
+        if let p = sender.superview as? PickerBaseView {
+            if let v = p.video {
+                let _v = v
+                _v.categoryName = p.category
+                NIFTYManager.sharedInstance.deliverThisVideo(_v)
+                resetPickerView()
+            }
+        }
+    }
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return VideoCategory.category.count
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return VideoCategory.category[row]
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if let p = pickerView.superview as? PickerBaseView {
+            p.category = VideoCategory.category[row]
+        }
+    }
+}
+
+class PickerBaseView: UIView {
+    var video: Video?
+    var category: String = "None"
 }
