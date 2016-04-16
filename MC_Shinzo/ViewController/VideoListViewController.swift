@@ -17,6 +17,7 @@ class VideoListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bannerView: BannerView!
+    @IBOutlet weak var topSpace: NSLayoutConstraint!
     
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
@@ -29,6 +30,7 @@ class VideoListViewController: UIViewController {
         case Favorite
         case New
         case Popular
+        case Draft
     }
     var mode: Mode = .Category
     
@@ -79,6 +81,7 @@ class VideoListViewController: UIViewController {
        
     override func viewDidLayoutSubviews() {
         setupCellSize()
+        setupLayout()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -115,6 +118,12 @@ class VideoListViewController: UIViewController {
 }
 
 extension VideoListViewController {
+    private func setupLayout() {
+        if self.mode == .Draft {
+            setupSearchLayout()
+        }
+    }
+    
     private func setData() {
         switch self.mode {
         case .Category:
@@ -146,6 +155,9 @@ extension VideoListViewController {
                 self.collectionView.reloadData()
             }
             return
+        case .Draft:
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
+            return
         }
     }
     
@@ -171,6 +183,9 @@ extension VideoListViewController {
             if Config.isNotDevMode() {
                 self.videoList = NIFTYManager.sharedInstance.getVideos("Popular")
             }
+            return
+        case .Draft:
+            self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
             return
         }
     }
@@ -368,5 +383,50 @@ extension VideoListViewController: CardCollectionCellDelegate {
 extension VideoListViewController: ReviewControllerDelegate {
     func didPushFeedBackButton() {
         Meyasubaco.showCommentViewController(self)
+    }
+}
+
+extension VideoListViewController: UISearchBarDelegate {
+    private func setupSearchLayout() {
+        self.topSpace.constant = -60
+        
+        if  self.navigationItem.titleView is UISearchBar {
+            return
+        }
+        
+        if let navigationBarFrame = self.navigationController?.navigationBar.bounds {
+            let searchBar: UISearchBar = UISearchBar(frame: navigationBarFrame)
+            searchBar.delegate = self
+            searchBar.placeholder = "Search"
+            searchBar.showsCancelButton = false
+            searchBar.tintColor = Config.keyColor()
+            searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+            searchBar.keyboardType = UIKeyboardType.Default
+            self.navigationItem.titleView = searchBar
+            self.navigationItem.titleView?.frame = searchBar.frame
+            let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "didPushLeftButton:")
+            leftButton.tintColor = Config.keyColor()
+            self.navigationItem.leftBarButtonItem = leftButton
+            
+            searchBar.becomeFirstResponder()
+        }
+    }
+    func didPushLeftButton(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    // テキストが変更される毎に呼ばれる
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    }
+    // Cancelボタンが押された時に呼ばれる
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.text = ""
+    }
+    // Searchボタンが押された時に呼ばれる
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if let txt = searchBar.text {
+            self.queryString = txt
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
+            self.view.endEditing(true)
+        }
     }
 }

@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ZooZooZoo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MC_Shinzo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,7 +32,7 @@
         <!--Video List View Controller-->
         <scene sceneID="W1b-EW-WDb">
             <objects>
-                <viewController storyboardIdentifier="VideoListViewController" id="Nzs-QP-aI0" customClass="VideoListViewController" customModule="ZooZooZoo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VideoListViewController" id="Nzs-QP-aI0" customClass="VideoListViewController" customModule="MC_Shinzo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3S4-lR-hk5"/>
                         <viewControllerLayoutGuide type="bottom" id="tgl-CX-Gt8"/>
@@ -51,7 +51,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoCell" id="eMw-CR-Y7b" customClass="CardCollectionCell" customModule="ZooZooZoo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoCell" id="eMw-CR-Y7b" customClass="CardCollectionCell" customModule="MC_Shinzo" customModuleProvider="target">
                                         <rect key="frame" x="100" y="64" width="400" height="240"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -218,7 +218,7 @@
                                 </constraints>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFE-Qj-ynu" customClass="BannerView" customModule="ZooZooZoo" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFE-Qj-ynu" customClass="BannerView" customModule="MC_Shinzo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -254,6 +254,7 @@
                         <outlet property="bannerView" destination="dFE-Qj-ynu" id="iMg-zw-Ww4"/>
                         <outlet property="collectionView" destination="szj-IE-Yd0" id="5ke-rq-EMA"/>
                         <outlet property="indicator" destination="wtb-Ox-VMW" id="AL6-2T-Dlk"/>
+                        <outlet property="topSpace" destination="Yd6-9o-uZw" id="MUX-b7-V6V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GPu-ll-xle" sceneMemberID="firstResponder"/>
@@ -263,7 +264,7 @@
         <!--Setting View Controller-->
         <scene sceneID="Xs9-PL-1eu">
             <objects>
-                <viewController storyboardIdentifier="SettingViewController" id="GOT-gd-YO9" customClass="SettingViewController" customModule="ZooZooZoo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingViewController" id="GOT-gd-YO9" customClass="SettingViewController" customModule="MC_Shinzo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Dh4-sD-G6s"/>
                         <viewControllerLayoutGuide type="bottom" id="haO-hi-hO0"/>
@@ -272,7 +273,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PLt-bt-xQN" customClass="SettingTableView" customModule="ZooZooZoo" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PLt-bt-xQN" customClass="SettingTableView" customModule="MC_Shinzo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="94" width="600" height="456"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -290,7 +291,7 @@
                                     <outlet property="delegate" destination="GOT-gd-YO9" id="75R-rz-Fd3"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tOa-ox-INh" customClass="BannerView" customModule="ZooZooZoo" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tOa-ox-INh" customClass="BannerView" customModule="MC_Shinzo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -328,7 +329,7 @@
         <!--Licence View Controller-->
         <scene sceneID="g1i-me-xnS">
             <objects>
-                <viewController storyboardIdentifier="LicenceViewController" id="sUm-gI-PUi" customClass="LicenceViewController" customModule="ZooZooZoo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LicenceViewController" id="sUm-gI-PUi" customClass="LicenceViewController" customModule="MC_Shinzo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vo6-3E-lJA"/>
                         <viewControllerLayoutGuide type="bottom" id="UOM-v3-iSa"/>
@@ -383,7 +384,7 @@
         <!--Review Controller-->
         <scene sceneID="rYk-Ph-xeG">
             <objects>
-                <viewController storyboardIdentifier="ReviewController" id="xoe-j7-XKN" customClass="ReviewController" customModule="ZooZooZoo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReviewController" id="xoe-j7-XKN" customClass="ReviewController" customModule="MC_Shinzo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gQ4-lU-jLs"/>
                         <viewControllerLayoutGuide type="bottom" id="Az4-t6-3SN"/>

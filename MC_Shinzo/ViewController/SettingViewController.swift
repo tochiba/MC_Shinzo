@@ -69,6 +69,13 @@ extension SettingViewController: UITableViewDelegate {
         else if SettingData(rawValue: indexPath.row) == .Request {
             Meyasubaco.showCommentViewController(self)
         }
+        else if SettingData(rawValue: indexPath.row) == .DevMode {
+            if !Config.isNotDevMode() {
+                let vc = VideoListViewController.getInstanceWithMode(.Draft)
+                let nvc = UINavigationController(rootViewController: vc)
+                self.presentViewController(nvc, animated: true, completion: nil)
+            }
+        }
     }
 }
 
