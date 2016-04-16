@@ -13,10 +13,69 @@ protocol NIFTYManagerDelegate: class {
     func didLoad()
 }
 
+// 外部クラスからの配信済みかチェック用
+extension NIFTYManager {
+    func loadDeliveredVideos() {
+        let q = NCMBQuery(className: Video.className())
+        q.limit = 200
+        q.orderByDescending("createDate")
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                var aArray: [Video] = []
+                for a in array {
+                    
+                    if let _a = a as? NCMBObject {
+                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
+                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
+                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
+                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
+                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
+                                
+                                let an = Video()
+                                an.id = i
+                                an.categoryName = ana
+                                an.date = d
+                                an.title = t
+                                an.thumbnailUrl = th
+                                if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                                    an.descri = de
+                                }
+                                if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                                    an.videoUrl = v
+                                }
+                                an.likeCount = 0
+                                if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                                    an.likeCount = l
+                                }
+                                
+                                aArray.append(an)
+                        }
+                    }
+                }
+                self.deliverVideos = aArray
+                self.delegate?.didLoad()
+            }
+        })
+    }
+
+    func isDeliveredVideo(video: Video) -> Bool {
+        if let _ = self.deliverVideos.indexOf({$0.id == video.id}) {
+            return true
+        }
+        return false
+    }
+}
+
 class NIFTYManager {
     static let sharedInstance = NIFTYManager()
     private var VideoDic: [String:[Video]] = [:]
+    private var deliverVideos: [Video] = []
     weak var delegate: NIFTYManagerDelegate?
+    
+    init() {
+        loadDeliveredVideos()
+    }
     
     func illegalThisVideo(video: Video) {
         let v = IllegalVideo()
@@ -36,11 +95,12 @@ class NIFTYManager {
         if video.id.utf16.count == 0 {
             return
         }
-        if !isDelivered(video) {
+
+        if !isDeliveredVideo(video) {
             backgroundSaveObject(video)
         }
     }
-    
+    /*
     private func isDelivered(video: Video) -> Bool {
         let items = getVideos(video.categoryName, isEncoded: true)
         if let _ = items.indexOf({$0.id == video.id}) {
@@ -49,12 +109,13 @@ class NIFTYManager {
         
         return false
     }
-    
+    */
     private func backgroundSaveObject(video: Video) {
         video.saveInBackgroundWithBlock({ error in
             if error != nil {
                 // Error
             }
+            self.loadDeliveredVideos()
         })
     }
 
@@ -216,3 +277,4 @@ class NIFTYManager {
         })
     }
 }
+
