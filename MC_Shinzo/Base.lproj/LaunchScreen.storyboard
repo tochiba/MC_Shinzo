@@ -18,17 +18,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="big_log" translatesAutoresizingMaskIntoConstraints="NO" id="YkF-6v-o8o">
-                                <rect key="frame" x="43" y="303" width="289" height="62"/>
+                                <rect key="frame" x="43" y="343" width="289" height="62"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="62" id="61W-77-MaD"/>
                                     <constraint firstAttribute="width" constant="289" id="Fg2-3r-CiJ"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="splash_icon" translatesAutoresizingMaskIntoConstraints="NO" id="WoT-gn-wAq">
+                                <rect key="frame" x="102" y="173" width="170" height="170"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="170" id="RXd-sJ-IRX"/>
+                                    <constraint firstAttribute="width" constant="170" id="wEv-Zd-tDh"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.1764705882" green="0.1764705882" blue="0.1764705882" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="YkF-6v-o8o" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5pA-9U-rfg"/>
-                            <constraint firstItem="YkF-6v-o8o" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Wm8-66-Prf"/>
+                            <constraint firstItem="WoT-gn-wAq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Dhl-YO-UCI"/>
+                            <constraint firstItem="YkF-6v-o8o" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="40" id="Wm8-66-Prf"/>
+                            <constraint firstItem="YkF-6v-o8o" firstAttribute="top" secondItem="WoT-gn-wAq" secondAttribute="bottom" id="asU-Fr-565"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -40,5 +49,6 @@
     </scenes>
     <resources>
         <image name="big_log" width="289" height="62"/>
+        <image name="splash_icon" width="170" height="170"/>
     </resources>
 </document>
