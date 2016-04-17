@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Subrhyme.png",
+      "filename" : "big_log.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Subrhyme@2x.png",
+      "filename" : "big_log@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Subrhyme@3x.png",
+      "filename" : "big_log@3x.png",
       "scale" : "3x"
     }
   ],

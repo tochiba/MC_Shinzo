@@ -51,8 +51,7 @@ extension ViewController {
         
         for tuple in VideoCategory.category.enumerate() {
             let lstr = VideoCategory.localizedCategory[tuple.index]
-            tc.tabItems.append((VideoListViewController.getInstance(tuple.element,
-                color: Config.keyColor(0.4)),
+            tc.tabItems.append((VideoListViewController.getInstance(tuple.element),
                 NSLocalizedString(lstr, comment: "")))
         }
         
@@ -62,6 +61,7 @@ extension ViewController {
         
         var option = TabPageOption()
         option.currentColor = Config.keyColor()
+        option.tabBackgroundColor = Config.baseColor()
         tc.option = option
         self.tabPageViewController = tc
     }
