@@ -35,7 +35,7 @@ class VideoListViewController: UIViewController {
     }
     var mode: Mode = .Category
     
-    class func getInstance(query: String, color: UIColor=UIColor.whiteColor()) -> VideoListViewController {
+    class func getInstance(query: String, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewControllerWithIdentifier("VideoListViewController") as? VideoListViewController {
             vc.queryString = query
@@ -47,7 +47,7 @@ class VideoListViewController: UIViewController {
         return self.init()
     }
     
-    class func getInstanceWithMode(mode: Mode, color: UIColor=UIColor(red: 138/255, green: 200/255, blue: 135/255, alpha: 0.4)) -> VideoListViewController {
+    class func getInstanceWithMode(mode: Mode, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewControllerWithIdentifier("VideoListViewController") as? VideoListViewController {
             vc.view.backgroundColor = color

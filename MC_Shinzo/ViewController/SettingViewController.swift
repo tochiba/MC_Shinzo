@@ -54,6 +54,8 @@ extension SettingViewController {
     class func getInstance() -> SettingViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewControllerWithIdentifier("SettingViewController") as? SettingViewController {
+            vc.view.backgroundColor = Config.baseColor()
+            vc.tableView.backgroundColor = Config.baseColor()
             return vc
         }
         
@@ -87,6 +89,8 @@ extension SettingViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(SettingData.cellName, forIndexPath: indexPath)
         cell.textLabel?.text = SettingData(rawValue: indexPath.row)?.title
+        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.backgroundColor = Config.baseColor()
         return cell
     }
 }
