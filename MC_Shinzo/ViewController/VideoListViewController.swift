@@ -87,7 +87,7 @@ class VideoListViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         setData()
         
         if ReviewChecker.playCheck(self) {
@@ -227,7 +227,7 @@ extension VideoListViewController {
     
     private func playVideo(id: String) {
         let vc = VideoViewController(videoIdentifier: id)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "moviePlayerPlaybackDidFinish:", name: MPMoviePlayerPlaybackDidFinishNotification, object: vc.moviePlayer)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.moviePlayerPlaybackDidFinish(_:)), name: MPMoviePlayerPlaybackDidFinishNotification, object: vc.moviePlayer)
         self.presentViewController(vc, animated: true, completion: nil)
 //        self.presentMoviePlayerViewControllerAnimated(vc)
     }
@@ -381,7 +381,7 @@ extension VideoListViewController: UISearchBarDelegate {
             searchBar.keyboardType = UIKeyboardType.Default
             self.navigationItem.titleView = searchBar
             self.navigationItem.titleView?.frame = searchBar.frame
-            let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "didPushLeftButton:")
+            let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushLeftButton(_:)))
             leftButton.tintColor = Config.keyColor()
             self.navigationItem.leftBarButtonItem = leftButton
             
@@ -441,7 +441,7 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
         button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
         button.titleLabel?.text = "決定"
-        button.addTarget(self, action: "didPushDeliverButton:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(VideoListViewController.didPushDeliverButton(_:)), forControlEvents: .TouchUpInside)
         
         self.pickerBaseView?.addSubview(button)
         self.pickerBaseView?.addSubview(pview)
