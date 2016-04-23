@@ -79,7 +79,8 @@ class APIManager {
         }
     }
     
-    func nextSearch(query: String, nextToken: String, var aArray: [Video]) {
+    func nextSearch(query: String, nextToken: String, aArray: [Video]) {
+        var _aArray = aArray
         Alamofire.request(.GET, APIURL.YoutubeNextSearch + query + APIPARAM.Token + APITOKEN.YoutubeToken + APIPARAM.NextPageToken + nextToken)
             .responseJSON { response in
                 guard let object = response.result.value else {
@@ -87,11 +88,11 @@ class APIManager {
                 }
                 
                 let json = JSON(object)
-                guard let array = json["items"].array else {
+                guard let _array = json["items"].array else {
                     return
                 }
                 
-                for i in array {
+                for i in _array {
                     let a = Video()
                     a.categoryName = query
                     a.id = i["id"]["videoId"].stringValue
@@ -101,15 +102,15 @@ class APIManager {
                     a.thumbnailUrl = i["snippet"]["thumbnails"]["high"]["url"].stringValue
                     a.likeCount = 1
                     if a.id != "" {
-                        aArray.append(a)
+                        _aArray.append(a)
                     }
                 }
                 
                 if let ntoken = json["nextPageToken"].string {
-                    self.nextSearch(query, nextToken: ntoken, aArray: aArray)
+                    self.nextSearch(query, nextToken: ntoken, aArray: _aArray)
                 }
                 
-                self.VideoDic[query] = aArray
+                self.VideoDic[query] = _aArray
                 self.delegate?.didFinishLoad()
         }
     }

@@ -147,12 +147,12 @@ class PlayCounter: NSObject {
     
     class func add() {
         var i = getCount()
-        i++
+        i += 1
         NSUserDefaults.standardUserDefaults().setInteger(i, forKey: PLAY_COUNT_KEY)
         NSUserDefaults.standardUserDefaults().synchronize()
         
         var t = getTotalCount()
-        t++
+        t += 1
         NSUserDefaults.standardUserDefaults().setInteger(t, forKey: PLAY_TOTAL_COUNT_KEY)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
@@ -177,12 +177,12 @@ class FavoriteCounter: NSObject {
     
     class func add() {
         var i = getCount()
-        i++
+        i += 1
         NSUserDefaults.standardUserDefaults().setInteger(i, forKey: FAVORITE_COUNT_KEY)
         NSUserDefaults.standardUserDefaults().synchronize()
         
         var t = getTotalCount()
-        t++
+        t += 1
         NSUserDefaults.standardUserDefaults().setInteger(t, forKey: FAVORITE_TOTAL_COUNT_KEY)
         NSUserDefaults.standardUserDefaults().synchronize()
     }

@@ -27,11 +27,11 @@ class SettingTableView: UITableView {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         if self.timer.valid {
-            self.counter++
+            self.counter += 1
         }
         else {
             // Timer生成
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "resetTimer", userInfo: nil, repeats: false)
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(SettingTableView.resetTimer), userInfo: nil, repeats: false)
         }
         check()
     }
