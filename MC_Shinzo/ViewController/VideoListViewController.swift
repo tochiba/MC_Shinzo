@@ -72,7 +72,6 @@ class VideoListViewController: UIViewController {
             self?.collectionView.srf_endRefreshing()
         }
         self.collectionView.srf_addRefresher(refresher)
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -83,13 +82,13 @@ class VideoListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupCellSize()
         setupLayout()
+        setData()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
-        setData()
-        
+//        setData()
         if ReviewChecker.playCheck(self) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
