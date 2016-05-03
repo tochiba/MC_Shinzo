@@ -10,7 +10,26 @@ import Foundation
 import UIKit
 import XCDYouTubeKit
 
+enum videoQuality {
+    case High
+    case Medium
+    case Small
+    
+    var getString: String {
+        switch self {
+            case .High:
+            return "XCDYouTubeVideoQualityHD720"
+            case .Medium:
+            return "XCDYouTubeVideoQualityMedium360"
+            case .Small:
+            return "XCDYouTubeVideoQualitySmall240"
+        }
+    }
+}
+
 class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewControllerTransitioningDelegate {
+    
+    
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
@@ -18,6 +37,13 @@ class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewController
         super.viewDidLoad()
         self.modalPresentationStyle = .Custom
         self.transitioningDelegate = self
+        
+        //self.preferredVideoQualities = ["XCDYouTubeVideoQualityMedium360"]
+        
+        self.moviePlayer.repeatMode = .One
+        self.moviePlayer.fullscreen = true
+        self.moviePlayer.prepareToPlay()
+        self.moviePlayer.play()
     }
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
