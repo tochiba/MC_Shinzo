@@ -31,25 +31,31 @@ extension NIFTYManager {
                             let d = _a.objectForKey(VideoKey.dateKey) as? String,
                             let t = _a.objectForKey(VideoKey.titleKey) as? String,
                             let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
-                                
-                                let an = Video()
-                                an.id = i
-                                an.categoryName = ana
-                                an.date = d
-                                an.title = t
-                                an.thumbnailUrl = th
-                                if let de = _a.objectForKey(VideoKey.descriKey) as? String {
-                                    an.descri = de
-                                }
-                                if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
-                                    an.videoUrl = v
-                                }
-                                an.likeCount = 0
-                                if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
-                                    an.likeCount = l
-                                }
-                                
-                                aArray.append(an)
+                            
+                            let an = Video()
+                            an.id = i
+                            an.categoryName = ana
+                            an.date = d
+                            an.title = t
+                            an.thumbnailUrl = th
+                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                                an.descri = de
+                            }
+                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                                an.videoUrl = v
+                            }
+                            an.likeCount = 0
+                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                                an.likeCount = l
+                            }
+                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                                an.channelName = cn
+                            }
+                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                                an.channelId = ci
+                            }
+
+                            aArray.append(an)
                         }
                     }
                 }
@@ -163,25 +169,30 @@ class NIFTYManager {
                             let d = _a.objectForKey(VideoKey.dateKey) as? String,
                             let t = _a.objectForKey(VideoKey.titleKey) as? String,
                             let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
-                                
-                                let an = Video()
-                                an.id = i
-                                an.categoryName = ana
-                                an.date = d
-                                an.title = t
-                                an.thumbnailUrl = th
-                                if let de = _a.objectForKey(VideoKey.descriKey) as? String {
-                                    an.descri = de
-                                }
-                                if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
-                                    an.videoUrl = v
-                                }
-                                an.likeCount = 0
-                                if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
-                                    an.likeCount = l
-                                }
-                                
-                                aArray.append(an)
+                            
+                            let an = Video()
+                            an.id = i
+                            an.categoryName = ana
+                            an.date = d
+                            an.title = t
+                            an.thumbnailUrl = th
+                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                                an.descri = de
+                            }
+                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                                an.videoUrl = v
+                            }
+                            an.likeCount = 0
+                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                                an.likeCount = l
+                            }
+                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                                an.channelName = cn
+                            }
+                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                                an.channelId = ci
+                            }
+                            aArray.append(an)
                         }
                     }
                 }
@@ -215,25 +226,31 @@ class NIFTYManager {
                             let d = _a.objectForKey(VideoKey.dateKey) as? String,
                             let t = _a.objectForKey(VideoKey.titleKey) as? String,
                             let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
-                                
-                                let an = Video()
-                                an.id = i
-                                an.categoryName = ana
-                                an.date = d
-                                an.title = t
-                                an.thumbnailUrl = th
-                                if let de = _a.objectForKey(VideoKey.descriKey) as? String {
-                                    an.descri = de
-                                }
-                                if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
-                                    an.videoUrl = v
-                                }
-                                an.likeCount = 0
-                                if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
-                                    an.likeCount = l
-                                }
-                                
-                                aArray.append(an)
+                            
+                            let an = Video()
+                            an.id = i
+                            an.categoryName = ana
+                            an.date = d
+                            an.title = t
+                            an.thumbnailUrl = th
+                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                                an.descri = de
+                            }
+                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                                an.videoUrl = v
+                            }
+                            an.likeCount = 0
+                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                                an.likeCount = l
+                            }
+                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                                an.channelName = cn
+                            }
+                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                                an.channelId = ci
+                            }
+                            
+                            aArray.append(an)
                         }
                     }
                 }

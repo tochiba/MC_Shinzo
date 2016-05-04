@@ -96,7 +96,18 @@ class Video: NCMBObject, NSCoding {
             self.setObject(likeCount, forKey: VideoKey.likeCountKey)
         }
     }
+    
+    var channelName: String        = "" {
+        didSet {
+            self.setObject(channelName, forKey: VideoKey.channelNameKey)
+        }
+    }
 
+    var channelId: String        = "" {
+        didSet {
+            self.setObject(channelId, forKey: VideoKey.channelIdKey)
+        }
+    }
     
     override init() {
         super.init(className: Video.className())
@@ -137,7 +148,14 @@ class Video: NCMBObject, NSCoding {
             self.likeCount = l
             self.setObject(l, forKey: VideoKey.likeCountKey)
         }
-        
+        if let cn = aDecoder.decodeObjectForKey(VideoKey.channelNameKey) as? String {
+            self.channelName = cn
+            self.setObject(cn, forKey: VideoKey.channelNameKey)
+        }
+        if let ci = aDecoder.decodeObjectForKey(VideoKey.channelIdKey) as? String {
+            self.channelId = ci
+            self.setObject(ci, forKey: VideoKey.channelIdKey)
+        }
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -149,6 +167,8 @@ class Video: NCMBObject, NSCoding {
         aCoder.encodeObject(thumbnailUrl, forKey: VideoKey.thumbnailUrlKey)
         aCoder.encodeObject(videoUrl, forKey: VideoKey.videoUrlKey)
         aCoder.encodeObject(likeCount, forKey: VideoKey.likeCountKey)
+        aCoder.encodeObject(channelName, forKey: VideoKey.channelNameKey)
+        aCoder.encodeObject(channelId, forKey: VideoKey.channelIdKey)
     }
 }
 
@@ -161,4 +181,6 @@ struct VideoKey {
     static let thumbnailUrlKey: String    = "thumbnailUrl"
     static let videoUrlKey: String        = "videoUrl"
     static let likeCountKey: String       = "likeCount"
+    static let channelNameKey: String     = "channelName"
+    static let channelIdKey: String       = "channelId"
 }

@@ -44,9 +44,9 @@ extension ViewController {
         let imageView = UIImageView(image: image)
         tc.navigationItem.titleView = imageView
       
-        tc.tabItems.append((VideoListViewController.getInstanceWithMode(.Popular),
+        tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .Popular),
             NSLocalizedString("category_popular", comment: "")))
-        tc.tabItems.append((VideoListViewController.getInstanceWithMode(.New),
+        tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .New),
             NSLocalizedString("category_new", comment: "")))
         
         for tuple in VideoCategory.category.enumerate() {
@@ -55,7 +55,7 @@ extension ViewController {
                 NSLocalizedString(lstr, comment: "")))
         }
         
-        tc.tabItems.append((VideoListViewController.getInstanceWithMode(.Favorite), NSLocalizedString("category_favorite", comment: "")))
+        tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .Favorite), NSLocalizedString("category_favorite", comment: "")))
         tc.tabItems.append((SettingViewController.getInstance(),
             NSLocalizedString("category_setting", comment: "")))
         
