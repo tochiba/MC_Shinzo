@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UzY-be-V2f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UzY-be-V2f">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -156,10 +155,25 @@
                                                         <action selector="didPushSettingButton:" destination="eMw-CR-Y7b" eventType="touchUpInside" id="KDE-1B-DCS"/>
                                                     </connections>
                                                 </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpU-Pj-Q3S">
+                                                    <rect key="frame" x="15" y="10" width="320" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="Z4R-AB-1QI"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.84013696763204604" green="0.87692707885922039" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didPushChannelButton:" destination="eMw-CR-Y7b" eventType="touchUpInside" id="tnx-FT-ORM"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="zpU-Pj-Q3S" firstAttribute="leading" secondItem="2gd-2x-I6A" secondAttribute="leading" constant="5" id="54v-Af-qcM"/>
                                             <constraint firstAttribute="bottom" secondItem="lxP-hv-VWP" secondAttribute="bottom" id="7bg-ue-5lX"/>
                                             <constraint firstItem="zfI-qB-uSq" firstAttribute="leading" secondItem="2gd-2x-I6A" secondAttribute="leading" constant="139" id="Enx-Hp-7HU"/>
                                             <constraint firstItem="zfI-qB-uSq" firstAttribute="top" secondItem="2gd-2x-I6A" secondAttribute="top" constant="34" id="GCq-Fb-Q5a"/>
@@ -168,7 +182,9 @@
                                             <constraint firstItem="2gd-2x-I6A" firstAttribute="centerY" secondItem="eMw-CR-Y7b" secondAttribute="centerY" id="I7C-2X-Orc"/>
                                             <constraint firstItem="zfI-qB-uSq" firstAttribute="centerY" secondItem="eMw-CR-Y7b" secondAttribute="centerY" id="Ivs-37-Qmi"/>
                                             <constraint firstItem="zfI-qB-uSq" firstAttribute="centerY" secondItem="2gd-2x-I6A" secondAttribute="centerY" id="LBK-yg-ThH"/>
+                                            <constraint firstItem="zze-nX-5BJ" firstAttribute="leading" secondItem="zpU-Pj-Q3S" secondAttribute="trailing" constant="5" id="OTR-BA-yO9"/>
                                             <constraint firstItem="zfI-qB-uSq" firstAttribute="centerX" secondItem="2gd-2x-I6A" secondAttribute="centerX" id="XJc-mq-Ie7"/>
+                                            <constraint firstItem="zpU-Pj-Q3S" firstAttribute="top" secondItem="2gd-2x-I6A" secondAttribute="top" id="Zo8-JE-yvC"/>
                                             <constraint firstItem="lxP-hv-VWP" firstAttribute="top" secondItem="2gd-2x-I6A" secondAttribute="bottom" id="cIS-e2-XQH"/>
                                             <constraint firstItem="zze-nX-5BJ" firstAttribute="top" secondItem="2gd-2x-I6A" secondAttribute="top" constant="-5" id="cki-RQ-OVn"/>
                                             <constraint firstItem="2gd-2x-I6A" firstAttribute="leading" secondItem="eMw-CR-Y7b" secondAttribute="leading" constant="10" id="daW-0y-YYs"/>
@@ -197,6 +213,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <outlet property="channelButton" destination="zpU-Pj-Q3S" id="Ksz-Xb-nHc"/>
                                             <outlet property="favoriteButton" destination="hwE-yi-mZU" id="3vP-dJ-2As"/>
                                             <outlet property="imageView" destination="2gd-2x-I6A" id="dmL-vM-r9z"/>
                                             <outlet property="likeLabel" destination="kbG-SV-cfc" id="mFs-aQ-24Z"/>
@@ -249,7 +266,9 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="uFN-mI-ed5"/>
+                    <navigationItem key="navigationItem" id="uFN-mI-ed5">
+                        <nil key="title"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="bannerView" destination="dFE-Qj-ynu" id="iMg-zw-Ww4"/>
                         <outlet property="collectionView" destination="szj-IE-Yd0" id="5ke-rq-EMA"/>

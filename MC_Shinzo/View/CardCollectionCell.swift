@@ -13,6 +13,7 @@ protocol CardCollectionCellDelegate: class {
     func didPushFavorite()
     func didPushSetting(video: Video, frame: CGRect)
     func didPushPlay(video: Video)
+    func didPushChannel(video: Video)
 }
 
 class CardCollectionCell: UICollectionViewCell {
@@ -22,6 +23,7 @@ class CardCollectionCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var likeLabel: UILabel!
+    @IBOutlet weak var channelButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBAction func didPushFavoriteButton(sender: AnyObject) {
         if let _v = self.video {
@@ -49,6 +51,11 @@ class CardCollectionCell: UICollectionViewCell {
             self.delegate?.didPushPlay(_v)
         }
     }
+    @IBAction func didPushChannelButton(sender: AnyObject) {
+        if let _v = self.video {
+            self.delegate?.didPushChannel(_v)
+        }
+    }
     
     override func awakeFromNib() {
         self.favoriteButton.setImage(getButtonImage(), forState: .Normal)
@@ -56,6 +63,7 @@ class CardCollectionCell: UICollectionViewCell {
     func setup(video: Video, delegate: CardCollectionCellDelegate?) {
         self.delegate = delegate
         self.video = video
+        self.channelButton.hidden = Config.isNotDevMode()
         setupFavoButton(video.id)
     }
     

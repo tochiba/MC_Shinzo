@@ -18,12 +18,14 @@ class VideoListViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bannerView: BannerView!
     @IBOutlet weak var topSpace: NSLayoutConstraint!
+
     
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
     private var isLoading: Bool = false
     private var pickerBaseView: PickerBaseView?
     
+    var titleString: String = ""
     var queryString: String = ""
 
     enum Mode {
@@ -32,6 +34,7 @@ class VideoListViewController: UIViewController {
         case New
         case Popular
         case Draft
+        case Channel
     }
     var mode: Mode = .Category
     
@@ -47,12 +50,16 @@ class VideoListViewController: UIViewController {
         return self.init()
     }
     
-    class func getInstanceWithMode(mode: Mode, color: UIColor=Config.baseColor()) -> VideoListViewController {
+    class func getInstanceWithMode(query: String = "", title: String = "", mode: Mode, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewControllerWithIdentifier("VideoListViewController") as? VideoListViewController {
             vc.view.backgroundColor = color
             vc.collectionView.backgroundColor = color
             vc.mode = mode
+            vc.titleString = title
+            if mode != .Draft {
+                vc.queryString = query
+            }
             return vc
         }
         
@@ -127,6 +134,9 @@ extension VideoListViewController {
         if self.mode == .Draft {
             setupSearchLayout()
         }
+        if self.mode == .Channel {
+            setupChannelLayout()
+        }
     }
     
     private func setData() {
@@ -146,6 +156,9 @@ extension VideoListViewController {
         case .Draft:
             APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             return
+        case .Channel:
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self, mode: .Channel)
+            return
         }
     }
     
@@ -164,6 +177,9 @@ extension VideoListViewController {
             self.videoList = NIFTYManager.sharedInstance.getVideos("Popular")
             return
         case .Draft:
+            self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
+            return
+        case .Channel:
             self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
             return
         }
@@ -259,6 +275,7 @@ extension VideoListViewController: UICollectionViewDataSource {
             }
             cell.titleLabel.text = video.title
             cell.likeLabel.text = String(video.likeCount)
+            cell.channelButton.setTitle(video.channelName, forState: .Normal)
             cell.setup(video, delegate: self)
             
             return cell
@@ -397,6 +414,12 @@ extension VideoListViewController: CardCollectionCellDelegate {
         playVideo(video.id)
         PlayCounter.add()
     }
+    
+    func didPushChannel(video: Video) {
+        let vc = VideoListViewController.getInstanceWithMode(video.channelId, title: video.channelName, mode: .Channel)
+        let nvc = UINavigationController(rootViewController: vc)
+        self.presentViewController(nvc, animated: true, completion: nil)
+    }
 }
 
 extension VideoListViewController: ReviewControllerDelegate {
@@ -514,6 +537,29 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
         if let p = pickerView.superview as? PickerBaseView {
             p.category = VideoCategory.category[row]
         }
+    }
+}
+
+extension VideoListViewController {
+    private func setupChannelLayout() {
+        self.topSpace.constant = -60
+        
+        if  self.navigationItem.titleView is UISearchBar {
+            return
+        }
+        if let navigationBarFrame = self.navigationController?.navigationBar.bounds {
+            let titleView = UILabel(frame: navigationBarFrame)
+            titleView.text = self.titleString
+            titleView.textAlignment = .Center
+            self.navigationItem.titleView = titleView
+            self.navigationItem.titleView?.frame = titleView.frame
+        }
+        let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushCloseButton(_:)))
+        //leftButton.tintColor = Config.keyColor()
+        self.navigationItem.leftBarButtonItem = leftButton
+    }
+    func didPushCloseButton(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
