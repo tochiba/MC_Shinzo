@@ -32,6 +32,7 @@ PODS:
     - JSQMessagesViewController (= 7.2.0)
     - JSQSystemSoundPlayer (= 2.0.1)
   - NCMB (2.3.0)
+  - NendSDK_iOS (3.1.0)
 
 DEPENDENCIES:
   - Crashlytics
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - Meyasubaco
   - NCMB (from `https://github.com/NIFTYCloud-mbaas/ncmb_ios.git`)
+  - NendSDK_iOS
 
 EXTERNAL SOURCES:
   NCMB:
@@ -58,5 +60,6 @@ SPEC CHECKSUMS:
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Meyasubaco: a084baa6c10270a51ef7bd74d1e6cc40d427fb74
   NCMB: a153b3f99d7b3d530eba60dba065487c63962e2d
+  NendSDK_iOS: 49801a87f1ce01b782d99cb639a994dfbfe83017
 
 COCOAPODS: 0.39.0

@@ -311,12 +311,17 @@
                                     <outlet property="delegate" destination="GOT-gd-YO9" id="75R-rz-Fd3"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tOa-ox-INh" customClass="BannerView" customModule="MC_Shinzo" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tOa-ox-INh" customClass="NADView">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cYM-45-kfB"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isAdjustAdSize" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nendSpotID" value="583203"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nendApiKey" value="b10d27fa15052f9dbe7d7b98fe3944707c1c68b4"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1764705882" green="0.1764705882" blue="0.1764705882" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
@@ -337,7 +342,6 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="bannerView" destination="tOa-ox-INh" id="HUs-WX-gpd"/>
                         <outlet property="tableView" destination="PLt-bt-xQN" id="Is0-4r-SAr"/>
                         <segue destination="sUm-gI-PUi" kind="show" identifier="SettingToLicence" id="ni7-fM-2eT"/>
                     </connections>
