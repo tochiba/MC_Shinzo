@@ -14,8 +14,8 @@ class ActivityManager: NSObject {
     class private func getActivityViewController(vc: UIViewController?, video: Video) -> UIActivityViewController {
         
         // 共有する項目
-        let shareText = "\(video.title) #Subrhyme \n"
-        let shareWebsite = NSURL(string: "\(URL.YoutubeShare)\(video.id)")!
+        let shareText = "\(video.title) #Subrhyme \n\(URL.YoutubeShare)\(video.id)"
+        let shareWebsite = NSURL(string: URL.AppStore)!
         let activityItems = [shareText, shareWebsite]
         
         // 初期化処理
