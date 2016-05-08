@@ -22,7 +22,6 @@ class VideoListViewController: UIViewController {
     
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
-    private var isLoading: Bool = false
     private var pickerBaseView: PickerBaseView?
     
     var titleString: String = ""
@@ -229,27 +228,15 @@ extension VideoListViewController {
     }
     
     private func reload() {
-        if isLoading == true {
-            return
-        }
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.isLoading = true
-            dispatch_async(dispatch_get_main_queue(), {
-                self.loadData()
-                self.indicator.startAnimating()
-                self.indicator.hidden = true
-                self.collectionView.reloadData()
-                self.isLoading = false
-            })
-        })
+        self.loadData()
+        self.indicator.stopAnimating()
+        self.indicator.hidden = true
+        self.collectionView.reloadData()
     }
     
     private func playVideo(id: String) {
         let vc = VideoViewController(videoIdentifier: id)
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.moviePlayerPlaybackDidFinish(_:)), name: MPMoviePlayerPlaybackDidFinishNotification, object: vc.moviePlayer)
         self.presentViewController(vc, animated: true, completion: nil)
-//        self.presentMoviePlayerViewControllerAnimated(vc)
     }
     
     func moviePlayerPlaybackDidFinish(notification: NSNotification) {
@@ -347,7 +334,9 @@ extension VideoListViewController: SearchAPIManagerDelegate {
 
 extension VideoListViewController: NIFTYManagerDelegate {
     func didLoad() {
-        reload()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.reload()
+        })
     }
 }
 
@@ -392,7 +381,6 @@ extension VideoListViewController: CardCollectionCellDelegate {
             resetPickerView()
             let myAction_0 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
                 (action: UIAlertAction) in
-                //NIFTYManager.sharedInstance.deliverThisVideo(video)
                 self.createPickerView(video, frame: frame)
             })
             myAlert.addAction(myAction_0)

@@ -60,7 +60,7 @@ extension NIFTYManager {
                     }
                 }
                 self.deliverVideos = aArray
-                self.delegate?.didLoad()
+                APIManager.sharedInstance.delegate?.didFinishLoad()
             }
         })
     }
@@ -75,9 +75,9 @@ extension NIFTYManager {
 
 class NIFTYManager {
     static let sharedInstance = NIFTYManager()
-    private var VideoDic: [String:[Video]] = [:]
+    private var videoDic: [String:[Video]] = [:]
+    private var delegateDic: [String: NIFTYManagerDelegate?] = [:]
     private var deliverVideos: [Video] = []
-    weak var delegate: NIFTYManagerDelegate?
     
     init() {
         loadDeliveredVideos()
@@ -138,7 +138,7 @@ class NIFTYManager {
             encodedString = query
         }
         
-        guard let array = self.VideoDic[encodedString] else {
+        guard let array = self.videoDic[encodedString] else {
             return []
         }
         
@@ -146,11 +146,12 @@ class NIFTYManager {
     }
 
     func search(query: String, aDelegate: NIFTYManagerDelegate?) {
-        self.delegate = aDelegate
-        
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return
         }
+        
+        weak var del = aDelegate
+        self.delegateDic[encodedString] = del
         
         let q = NCMBQuery(className: Video.className())
         q.limit = 200
@@ -196,14 +197,15 @@ class NIFTYManager {
                         }
                     }
                 }
-                self.VideoDic[encodedString] = aArray
+                self.videoDic[encodedString] = aArray
             }
-            self.delegate?.didLoad()
+            if let targetDel = self.delegateDic[encodedString] {
+                targetDel?.didLoad()
+            }
         })
     }
     
     func search(isNew: Bool=false, aDelegate: NIFTYManagerDelegate?) {
-        self.delegate = aDelegate
         
         let q = NCMBQuery(className: Video.className())
         q.limit = 50
@@ -214,6 +216,11 @@ class NIFTYManager {
             // Likeの多さ順
             q.orderByDescending("likeCount")
         }
+        
+        let str = isNew ? "New":"Popular"
+        weak var del = aDelegate
+        self.delegateDic[str] = del
+        
         q.findObjectsInBackgroundWithBlock({
             (array, error) in
             if error == nil {
@@ -254,10 +261,11 @@ class NIFTYManager {
                         }
                     }
                 }
-                let str = isNew ? "New":"Popular"
-                self.VideoDic[str] = aArray
+                self.videoDic[str] = aArray
             }
-            self.delegate?.didLoad()
+            if let targetDel = self.delegateDic[str] {
+                targetDel?.didLoad()
+            }
         })
     }
 

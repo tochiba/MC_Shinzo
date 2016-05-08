@@ -44,10 +44,10 @@ extension ViewController {
         let imageView = UIImageView(image: image)
         tc.navigationItem.titleView = imageView
       
-        tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .Popular),
-            NSLocalizedString("category_popular", comment: "")))
         tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .New),
             NSLocalizedString("category_new", comment: "")))
+        tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .Popular),
+            NSLocalizedString("category_popular", comment: "")))
         
         for tuple in VideoCategory.category.enumerate() {
             let lstr = VideoCategory.localizedCategory[tuple.index]

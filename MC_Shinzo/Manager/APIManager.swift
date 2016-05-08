@@ -31,7 +31,7 @@ enum SearchMode {
 
 class APIManager {
     static let sharedInstance = APIManager()
-    private var VideoDic: [String:[Video]] = [:]
+    private var videoDic: [String:[Video]] = [:]
     weak var delegate: SearchAPIManagerDelegate?
     
     func getVideos(query: String) -> [Video] {
@@ -39,7 +39,7 @@ class APIManager {
             return []
         }
         
-        guard let array = self.VideoDic[encodedString] else {
+        guard let array = self.videoDic[encodedString] else {
             return []
         }
         
@@ -90,7 +90,7 @@ class APIManager {
                     self.nextSearch(encodedString, nextToken: ntoken, aArray: videos, mode: mode)
                 }
                 
-                self.VideoDic[encodedString] = videos
+                self.videoDic[encodedString] = videos
                 self.delegate?.didFinishLoad()
         }
     }
@@ -128,7 +128,7 @@ class APIManager {
                     self.nextSearch(query, nextToken: ntoken, aArray: _aArray, mode: mode)
                 }
                 
-                self.VideoDic[query] = _aArray
+                self.videoDic[query] = _aArray
                 self.delegate?.didFinishLoad()
         }
     }
