@@ -46,6 +46,11 @@ class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewController
         self.moviePlayer.play()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.sendScreenNameLog()
+    }
+    
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PopUpTransitionAnimater(presenting: true)
     }

@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 
 class DialogViewController: UIViewController, UIViewControllerTransitioningDelegate {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.sendScreenNameLog()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .Custom

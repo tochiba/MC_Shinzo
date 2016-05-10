@@ -59,6 +59,10 @@ extension SettingViewController {
         
         return self.init()
     }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.sendScreenNameLog()
+    }
 }
 
 extension SettingViewController: UITableViewDelegate {

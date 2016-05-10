@@ -65,6 +65,14 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>Copyright 2009 - 2015 Google, Inc. All rights reserved.</string>
+			<key>Title</key>
+			<string>GoogleAnalytics-iOS-SDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>
 MIT License
 Copyright (c) 2013-present Jesse Squires
