@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         NCMB.setApplicationKey(API_ID.NCMB_APP_KEY, clientKey: API_ID.NCMB_CLIENT_KEY)
         Meyasubaco.setApiKey(API_KEY.Meyasubaco)
+        TrackingManager.sharedInstance.setup()
         return true
     }
 

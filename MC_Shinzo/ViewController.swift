@@ -18,6 +18,10 @@ class ViewController: UIViewController {
 
     var tabPageViewController :TabPageViewController?
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.sendScreenNameLog()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPageViewController()
