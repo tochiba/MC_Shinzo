@@ -388,6 +388,12 @@ extension VideoListViewController: CardCollectionCellDelegate {
                 self.createPickerView(video, frame: frame)
             })
             myAlert.addAction(myAction_0)
+            
+            let myAction_1 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
+                (action: UIAlertAction) in
+                NIFTYManager.sharedInstance.deleteThisVideo(video)
+            })
+            myAlert.addAction(myAction_1)
         }
         
         myAlert.addAction(myAction_1)

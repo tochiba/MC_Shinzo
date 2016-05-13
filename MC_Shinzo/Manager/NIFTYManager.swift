@@ -106,6 +106,22 @@ class NIFTYManager {
             backgroundSaveObject(video)
         }
     }
+    
+    func deleteThisVideo(video: Video) {
+        let q = NCMBQuery(className: Video.className())
+        q.limit = 1
+        q.whereKey(VideoKey.idKey, equalTo: video.id)
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                for a in array {
+                    if let _a = a as? NCMBObject {
+                        self.backgroundDeleteObject(_a)
+                    }
+                }
+            }
+        })
+    }
     /*
     private func isDelivered(video: Video) -> Bool {
         let items = getVideos(video.categoryName, isEncoded: true)
@@ -118,6 +134,15 @@ class NIFTYManager {
     */
     private func backgroundSaveObject(video: Video) {
         video.saveInBackgroundWithBlock({ error in
+            if error != nil {
+                // Error
+            }
+            self.loadDeliveredVideos()
+        })
+    }
+
+    private func backgroundDeleteObject(video: NCMBObject) {
+        video.deleteInBackgroundWithBlock({ error in
             if error != nil {
                 // Error
             }
