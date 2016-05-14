@@ -24,6 +24,7 @@ class CardCollectionCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var likeLabel: UILabel!
     @IBOutlet weak var channelButton: UIButton!
+    @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBAction func didPushFavoriteButton(sender: AnyObject) {
         if let _v = self.video {
@@ -59,7 +60,10 @@ class CardCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         self.favoriteButton.setImage(getButtonImage(), forState: .Normal)
+        self.settingButton.titleLabel?.minimumScaleFactor = 0.3
+        self.settingButton.titleLabel?.adjustsFontSizeToFitWidth = true
     }
+    
     func setup(video: Video, delegate: CardCollectionCellDelegate?) {
         self.delegate = delegate
         self.video = video
