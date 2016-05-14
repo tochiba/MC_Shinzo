@@ -198,8 +198,9 @@ extension VideoListViewController {
         self.collectionView.scrollsToTop = true
     }
     
-    private func setupCellSize() {
-        let space: Int = 1 //マージン
+    // TODO: Cell間のマージンが大きすぎる（2つ分のマージンになってるから？cellのレイアウトだから厳しいかも）
+    private func setupCellSize(num: Int = 0, heightRaito: CGFloat = 0.6) {
+        let space: Int = 2 //マージン
         var spaceNum: Int = 0 //スペースの数
         var cellNum: Int = 1 //セルの数
         
@@ -223,10 +224,11 @@ extension VideoListViewController {
                 cellNum  = 1
             }
         }
-        
+        spaceNum += num
+        cellNum  += num
         let screenSizeWidth = self.view.frame.size.width//UIScreen.mainScreen().bounds.size.width
         let size = (screenSizeWidth - CGFloat(space * spaceNum)) / CGFloat(cellNum)
-        self.cellSize = CGSizeMake(size, size * 0.6)
+        self.cellSize = CGSizeMake(size, size * heightRaito)
         self.collectionView.reloadData()
     }
     
@@ -283,6 +285,47 @@ extension VideoListViewController: UICollectionViewDelegate {
 extension VideoListViewController: UICollectionViewDelegateFlowLayout {
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        if !(self.mode == .New || self.mode == .Popular) {
+            return self.cellSize
+        }
+        
+        if UIApplication.isLandscape() {
+            if UIApplication.isPad() {
+                if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 {
+                    setupCellSize(heightRaito: 0.5)
+                }
+                else {
+                    setupCellSize(1)
+                }
+            }
+            else {
+                if indexPath.row == 0 || indexPath.row == 1 {
+                    setupCellSize(heightRaito: 0.5)
+                }
+                else {
+                    setupCellSize(1)
+                }
+            }
+        }
+        else {
+            if UIApplication.isPad() {
+                if indexPath.row == 0 || indexPath.row == 1 {
+                    setupCellSize(heightRaito: 0.5)
+                }
+                else {
+                    setupCellSize(1)
+                }
+            }
+            else {
+                if indexPath.row == 0 {
+                    setupCellSize(heightRaito: 0.5)
+                }
+                else {
+                    setupCellSize(1)
+                }
+            }
+        }
         return self.cellSize
     }
 }
