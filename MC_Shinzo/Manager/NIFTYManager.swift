@@ -73,14 +73,128 @@ extension NIFTYManager {
     }
 }
 
+protocol NIFTYManagerChannelDelegate: class {
+    func didLoadChannel()
+}
+// 外部クラスからの配信済みかチェック用
+extension NIFTYManager {
+    // チャンネル用
+    func loadDeliveredChannels(aDelegate: NIFTYManagerChannelDelegate? = nil) {
+        weak var del = aDelegate
+        let q = NCMBQuery(className: Channel.className())
+        q.limit = 200
+        q.orderByDescending("createDate")
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                var aArray: [Channel] = []
+                for a in array {
+                    if let _a = a as? NCMBObject {
+                        if  let cn = _a.objectForKey(VideoKey.channelNameKey) as? String,
+                            let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                            let cl = Channel()
+                            cl.channelName = cn
+                            cl.channelId = ci
+                            aArray.append(cl)
+                        }
+                    }
+                }
+                self.deliverChannels = aArray
+                del?.didLoadChannel()
+            }
+        })
+    }
+    
+    func isDeliveredChannel(channel: Channel) -> Bool {
+        if let _ = self.deliverChannels.indexOf({$0.channelId == channel.channelId}) {
+            return true
+        }
+        return false
+    }
+    
+    func isDeliveredChannel(video: Video) -> Bool {
+        if let _ = self.deliverChannels.indexOf({$0.channelId == video.channelId}) {
+            return true
+        }
+        return false
+    }
+    
+    func deliverThisChannel(channel: Channel) {
+        if channel.channelId.utf16.count == 0 {
+            return
+        }
+        
+        if !isDeliveredChannel(channel) {
+            backgroundSaveChannel(channel)
+        }
+    }
+    
+    func deliverThisChannel(video: Video) {
+        if video.channelId.utf16.count == 0 {
+            return
+        }
+        let c = convert(video)
+        if !isDeliveredChannel(c) {
+            backgroundSaveChannel(c)
+        }
+    }
+    
+    func deleteThisChannel(channel: Channel, aDelegate: NIFTYManagerChannelDelegate? = nil) {
+        let q = NCMBQuery(className: Channel.className())
+        q.limit = 1
+        q.whereKey(VideoKey.channelIdKey, equalTo: channel.channelId)
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                for a in array {
+                    if let _a = a as? NCMBObject {
+                        self.backgroundDeleteChannel(_a, aDelegate: aDelegate)
+                    }
+                }
+            }
+        })
+    }
+
+    func getChannels() -> [Channel] {
+        return self.deliverChannels
+    }
+    
+    private func convert(video: Video) -> Channel {
+        let c = Channel()
+        c.channelName = video.channelName
+        c.channelId = video.channelId
+        return c
+    }
+
+    private func backgroundSaveChannel(channel: Channel) {
+        channel.saveInBackgroundWithBlock({ error in
+            if error != nil {
+                // Error
+            }
+            self.loadDeliveredChannels()
+        })
+    }
+    
+    private func backgroundDeleteChannel(channel: NCMBObject, aDelegate: NIFTYManagerChannelDelegate? = nil) {
+        channel.deleteInBackgroundWithBlock({ error in
+            if error != nil {
+                // Error
+            }
+            self.loadDeliveredChannels(aDelegate)
+        })
+    }
+}
+
 class NIFTYManager {
     static let sharedInstance = NIFTYManager()
     private var videoDic: [String:[Video]] = [:]
     private var delegateDic: [String: NIFTYManagerDelegate?] = [:]
     private var deliverVideos: [Video] = []
+    private var deliverChannels: [Channel] = []
     
     init() {
         loadDeliveredVideos()
+        loadDeliveredChannels()
     }
     
     func illegalThisVideo(video: Video) {

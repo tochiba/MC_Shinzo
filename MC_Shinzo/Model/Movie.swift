@@ -184,3 +184,29 @@ struct VideoKey {
     static let channelNameKey: String     = "channelName"
     static let channelIdKey: String       = "channelId"
 }
+
+
+class Channel: NCMBObject {
+    var channelName: String        = "" {
+        didSet {
+            self.setObject(channelName, forKey: VideoKey.channelNameKey)
+        }
+    }
+    var channelId: String        = "" {
+        didSet {
+            self.setObject(channelId, forKey: VideoKey.channelIdKey)
+        }
+    }
+    
+    class func className() -> String {
+        return "Channel"
+    }
+    override init() {
+        super.init(className: Channel.className())
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(className: Channel.className())
+    }
+}
+

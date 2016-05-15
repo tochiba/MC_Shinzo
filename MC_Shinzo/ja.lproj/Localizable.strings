@@ -13,7 +13,7 @@
 "setting_request"   = "要望";
 "setting_licence"   = "ライセンス";
 "setting_deliverd"  = "配信情報";
-"setting_toolmode"  = "入稿ツールモード ON";
+"setting_toolmode"  = "入稿";
 
 "category_popular"  = "人気";
 "category_new"      = "新着";

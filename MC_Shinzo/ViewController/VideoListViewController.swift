@@ -426,17 +426,28 @@ extension VideoListViewController: CardCollectionCellDelegate {
         
         if !Config.isNotDevMode() {
             resetPickerView()
-            let myAction_0 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
-                (action: UIAlertAction) in
-                self.createPickerView(video, frame: frame)
-            })
-            myAlert.addAction(myAction_0)
+            if NIFTYManager.sharedInstance.isDeliveredVideo(video) {                
+                let myAction_01 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
+                    (action: UIAlertAction) in
+                    NIFTYManager.sharedInstance.deleteThisVideo(video)
+                })
+                myAlert.addAction(myAction_01)
+            }
+            else {
+                let myAction_00 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+                    (action: UIAlertAction) in
+                    self.createPickerView(video, frame: frame)
+                })
+                myAlert.addAction(myAction_00)
+            }
             
-            let myAction_1 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
-                (action: UIAlertAction) in
-                NIFTYManager.sharedInstance.deleteThisVideo(video)
-            })
-            myAlert.addAction(myAction_1)
+            if !NIFTYManager.sharedInstance.isDeliveredChannel(video) {
+                let myAction_03 = UIAlertAction(title: NSLocalizedString("このチャンネルを登録する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+                    (action: UIAlertAction) in
+                    NIFTYManager.sharedInstance.deliverThisChannel(video)
+                })
+                myAlert.addAction(myAction_03)
+            }
         }
         
         myAlert.addAction(myAction_1)
@@ -472,7 +483,7 @@ extension VideoListViewController: ReviewControllerDelegate {
 
 extension VideoListViewController: UISearchBarDelegate {
     private func setupSearchLayout() {
-        self.topSpace.constant = -60
+        self.topSpace.constant = 0
         
         if  self.navigationItem.titleView is UISearchBar {
             return
@@ -584,7 +595,7 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
 
 extension VideoListViewController {
     private func setupChannelLayout() {
-        self.topSpace.constant = -60
+        self.topSpace.constant = 0
         
         if  self.navigationItem.titleView is UISearchBar {
             return
@@ -597,7 +608,6 @@ extension VideoListViewController {
             self.navigationItem.titleView?.frame = titleView.frame
         }
         let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushCloseButton(_:)))
-        //leftButton.tintColor = Config.keyColor()
         self.navigationItem.leftBarButtonItem = leftButton
     }
     func didPushCloseButton(sender: UIButton) {
