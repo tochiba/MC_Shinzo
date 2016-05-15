@@ -12,6 +12,7 @@
 
 "setting_request"   = " 수요 ";
 "setting_licence"   = " 라이센스 ";
+"setting_deliverd"  = "배달 정보";
 "setting_toolmode"  = "개발자 모드 ON ";
 
 "category_popular"  = " 인기 ";

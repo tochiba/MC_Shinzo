@@ -13,6 +13,7 @@
 
 "setting_request"   = "需求";
 "setting_licence"   = "许可证";
+"setting_deliverd"  = "传递信息";
 "setting_toolmode"  = "开发模式ON";
 
 "category_popular"  = "人气王";
