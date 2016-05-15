@@ -24,6 +24,7 @@
 		8F6C2E391CE0ECBA0020BD05 /* Empty.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E381CE0ECBA0020BD05 /* Empty.m */; };
 		8F6C2E3B1CE0ED410020BD05 /* TrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */; };
 		8F6C2E441CE8344B0020BD05 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E431CE8344A0020BD05 /* ChannelViewController.swift */; };
+		8F6C2E461CE8C17B0020BD05 /* AutoDeliverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */; };
 		8F73AC931CB9F1780051D107 /* CardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F73AC921CB9F1780051D107 /* CardCollectionCell.swift */; };
 		8F73ACA41CBA2EDD0051D107 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F73ACA61CBA2EDD0051D107 /* Localizable.strings */; };
 		8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F73ACAF1CBA43F80051D107 /* VideoViewController.swift */; };
@@ -90,6 +91,7 @@
 		8F6C2E381CE0ECBA0020BD05 /* Empty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Empty.m; path = MC_Shinzo/Empty.m; sourceTree = "<group>"; };
 		8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrackingManager.swift; path = Manager/TrackingManager.swift; sourceTree = "<group>"; };
 		8F6C2E431CE8344A0020BD05 /* ChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelViewController.swift; path = ViewController/ChannelViewController.swift; sourceTree = "<group>"; };
+		8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AutoDeliverManager.swift; path = Manager/AutoDeliverManager.swift; sourceTree = "<group>"; };
 		8F73AC921CB9F1780051D107 /* CardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardCollectionCell.swift; path = View/CardCollectionCell.swift; sourceTree = "<group>"; };
 		8F73AC941CBA2DE30051D107 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		8F73AC951CBA2DE40051D107 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				8FD73C251CB29EFC0066DD5C /* ActivityManager.swift */,
 				8F9F61921CB8CCF100C96076 /* FavoriteManager.swift */,
 				8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */,
+				8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				DB70BADF1CACD6250045E08A /* VideoListViewController.swift in Sources */,
 				8F5518001CB0270300492953 /* NIFTYManager.swift in Sources */,
 				8F73AC931CB9F1780051D107 /* CardCollectionCell.swift in Sources */,
+				8F6C2E461CE8C17B0020BD05 /* AutoDeliverManager.swift in Sources */,
 				8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */,
 				8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */,
 				DB70BAB81CAB73190045E08A /* Movie.swift in Sources */,

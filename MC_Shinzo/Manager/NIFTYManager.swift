@@ -60,7 +60,7 @@ extension NIFTYManager {
                     }
                 }
                 self.deliverVideos = aArray
-                APIManager.sharedInstance.delegate?.didFinishLoad()
+                APIManager.sharedInstance.delegate?.didFinishLoad(aArray)
             }
         })
     }
@@ -217,6 +217,12 @@ class NIFTYManager {
         }
 
         if !isDeliveredVideo(video) {
+            let date = NSDate()
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyyMMdd"
+            if  let i = Int(dateFormatter.stringFromDate(date)) {
+                video.dateInteger = i
+            }            
             backgroundSaveObject(video)
         }
     }

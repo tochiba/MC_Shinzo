@@ -373,7 +373,7 @@ extension VideoListViewController: UIViewControllerPreviewingDelegate {
 }
 
 extension VideoListViewController: SearchAPIManagerDelegate {
-    func didFinishLoad() {
+    func didFinishLoad(videos: [Video]) {
         reload()
     }
 }

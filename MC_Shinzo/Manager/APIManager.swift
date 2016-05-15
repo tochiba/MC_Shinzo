@@ -12,7 +12,7 @@ import SwiftyJSON
 import NCMB
 
 protocol SearchAPIManagerDelegate: class {
-    func didFinishLoad()
+    func didFinishLoad(videos: [Video])
 }
 
 enum SearchMode {
@@ -88,10 +88,11 @@ class APIManager {
                 
                 if let ntoken = json["nextPageToken"].string {
                     self.nextSearch(encodedString, nextToken: ntoken, aArray: videos, mode: mode)
+                    return
                 }
                 
                 self.videoDic[encodedString] = videos
-                self.delegate?.didFinishLoad()
+                self.delegate?.didFinishLoad(videos)
         }
     }
     
@@ -126,10 +127,11 @@ class APIManager {
                 
                 if let ntoken = json["nextPageToken"].string {
                     self.nextSearch(query, nextToken: ntoken, aArray: _aArray, mode: mode)
+                    return
                 }
                 
                 self.videoDic[query] = _aArray
-                self.delegate?.didFinishLoad()
+                self.delegate?.didFinishLoad(_aArray)
         }
     }
 

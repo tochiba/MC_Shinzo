@@ -64,11 +64,23 @@ extension SettingViewController {
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if let segue = SettingData(rawValue: indexPath.row)?.segueID {
-            self.performSegueWithIdentifier(segue, sender: nil)
+            if SettingData(rawValue: indexPath.row) != .DevChannel {
+                self.performSegueWithIdentifier(segue, sender: nil)
+            }
+            else if !Config.isNotDevMode() {
+                self.performSegueWithIdentifier(segue, sender: nil)
+            }
         }
         else if SettingData(rawValue: indexPath.row) == .Request {
             Meyasubaco.showCommentViewController(self)
+        }
+        else if SettingData(rawValue: indexPath.row) == .Deliverd {
+            let url = NSURL(string: URL.Twitter)!
+            let brow = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            brow.delegate = self
+            presentViewController(brow, animated: true, completion: nil)
         }
         else if SettingData(rawValue: indexPath.row) == .DevMode {
             if !Config.isNotDevMode() {
@@ -77,11 +89,10 @@ extension SettingViewController: UITableViewDelegate {
                 self.presentViewController(nvc, animated: true, completion: nil)
             }
         }
-        else if SettingData(rawValue: indexPath.row) == .Deliverd {
-            let url = NSURL(string: URL.Twitter)!
-            let brow = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
-            brow.delegate = self
-            presentViewController(brow, animated: true, completion: nil)
+        else if SettingData(rawValue: indexPath.row) == .DevAutoDeliver {
+            if !Config.isNotDevMode() {
+                AutoDeliverManager.sharedInstance.start()
+            }
         }
     }
 }
@@ -109,6 +120,7 @@ private enum SettingData: Int {
     case Deliverd
     case DevMode
     case DevChannel
+    case DevAutoDeliver
     case NumberOfRows
     
     static let cellName = "SettingCell"
@@ -144,6 +156,13 @@ private enum SettingData: Int {
             else {
                 return NSLocalizedString("登録チャンネル", comment: "")
             }
+        case DevAutoDeliver:
+            if Config.isNotDevMode() {
+                return ""
+            }
+            else {
+                return NSLocalizedString("自動入稿", comment: "")
+            }
         case .NumberOfRows:
             return ""
         }
@@ -161,6 +180,8 @@ private enum SettingData: Int {
             return nil
         case DevChannel:
             return "SettingToChannel"
+        case DevAutoDeliver:
+            return nil
         case .NumberOfRows:
             return nil
         }

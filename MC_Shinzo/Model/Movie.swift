@@ -109,6 +109,13 @@ class Video: NCMBObject, NSCoding {
         }
     }
     
+    var dateInteger: Int         = 0 {
+        didSet {
+            self.setObject(dateInteger, forKey: VideoKey.dateIntegerKey)
+        }
+    }
+
+    
     override init() {
         super.init(className: Video.className())
     }
@@ -156,6 +163,10 @@ class Video: NCMBObject, NSCoding {
             self.channelId = ci
             self.setObject(ci, forKey: VideoKey.channelIdKey)
         }
+        if let di = aDecoder.decodeObjectForKey(VideoKey.dateIntegerKey) as? Int {
+            self.dateInteger = di
+            self.setObject(di, forKey: VideoKey.dateIntegerKey)
+        }
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -169,6 +180,7 @@ class Video: NCMBObject, NSCoding {
         aCoder.encodeObject(likeCount, forKey: VideoKey.likeCountKey)
         aCoder.encodeObject(channelName, forKey: VideoKey.channelNameKey)
         aCoder.encodeObject(channelId, forKey: VideoKey.channelIdKey)
+        aCoder.encodeObject(dateInteger, forKey: VideoKey.dateIntegerKey)
     }
 }
 
@@ -183,6 +195,7 @@ struct VideoKey {
     static let likeCountKey: String       = "likeCount"
     static let channelNameKey: String     = "channelName"
     static let channelIdKey: String       = "channelId"
+    static let dateIntegerKey: String     = "dateInteger"
 }
 
 
