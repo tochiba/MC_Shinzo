@@ -13,10 +13,6 @@ import SafariServices
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 }
 
 class SettingTableView: UITableView {
@@ -112,6 +108,7 @@ private enum SettingData: Int {
     case Copyright
     case Deliverd
     case DevMode
+    case DevChannel
     case NumberOfRows
     
     static let cellName = "SettingCell"
@@ -140,6 +137,13 @@ private enum SettingData: Int {
             else {
                 return NSLocalizedString("setting_toolmode", comment: "")
             }
+        case DevChannel:
+            if Config.isNotDevMode() {
+                return ""
+            }
+            else {
+                return NSLocalizedString("登録チャンネル", comment: "")
+            }
         case .NumberOfRows:
             return ""
         }
@@ -155,6 +159,8 @@ private enum SettingData: Int {
             return nil
         case .DevMode:
             return nil
+        case DevChannel:
+            return "SettingToChannel"
         case .NumberOfRows:
             return nil
         }
