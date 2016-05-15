@@ -12,6 +12,7 @@
 
 "setting_request"   = "La domanda";
 "setting_licence"   = "Licenza";
+"setting_deliverd"  = "informazioni consegnato";
 "setting_toolmode"  = "Sviluppatore modalità ON";
 
 "category_popular"  = "popolare";

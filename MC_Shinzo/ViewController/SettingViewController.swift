@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Meyasubaco
+import SafariServices
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
@@ -80,6 +81,12 @@ extension SettingViewController: UITableViewDelegate {
                 self.presentViewController(nvc, animated: true, completion: nil)
             }
         }
+        else if SettingData(rawValue: indexPath.row) == .Deliverd {
+            let url = NSURL(string: URL.Twitter)!
+            let brow = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            brow.delegate = self
+            presentViewController(brow, animated: true, completion: nil)
+        }
     }
 }
 
@@ -97,9 +104,13 @@ extension SettingViewController: UITableViewDataSource {
     }
 }
 
+extension SettingViewController: SFSafariViewControllerDelegate {
+}
+
 private enum SettingData: Int {
     case Request
     case Copyright
+    case Deliverd
     case DevMode
     case NumberOfRows
     
@@ -120,6 +131,8 @@ private enum SettingData: Int {
             return NSLocalizedString("setting_request", comment: "")
         case .Copyright:
             return NSLocalizedString("setting_licence", comment: "")
+        case .Deliverd:
+            return NSLocalizedString("setting_deliverd", comment: "")
         case .DevMode:
             if Config.isNotDevMode() {
                 return ""
@@ -138,6 +151,8 @@ private enum SettingData: Int {
             return nil
         case .Copyright:
             return "SettingToLicence"
+        case .Deliverd:
+            return nil
         case .DevMode:
             return nil
         case .NumberOfRows:
