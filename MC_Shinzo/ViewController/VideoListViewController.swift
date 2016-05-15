@@ -374,7 +374,9 @@ extension VideoListViewController: UIViewControllerPreviewingDelegate {
 
 extension VideoListViewController: SearchAPIManagerDelegate {
     func didFinishLoad(videos: [Video]) {
-        reload()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.reload()
+        })
     }
 }
 
@@ -519,9 +521,14 @@ extension VideoListViewController: UISearchBarDelegate {
     // Searchボタンが押された時に呼ばれる
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let txt = searchBar.text {
+            self.indicator.hidden = false
+            self.indicator.startAnimating()
             self.queryString = txt
             APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             self.view.endEditing(true)
+            searchBar.resignFirstResponder()
+            self.videoList = []
+            self.collectionView.reloadData()
         }
     }
 }
