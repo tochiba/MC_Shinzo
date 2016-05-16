@@ -353,13 +353,22 @@ class NIFTYManager {
     func search(isNew: Bool=false, aDelegate: NIFTYManagerDelegate?) {
         
         let q = NCMBQuery(className: Video.className())
-        q.limit = 50
+        
         if isNew {
             q.orderByDescending("createDate")
+            q.limit = 100
         }
         else {
             // Likeの多さ順
             q.orderByDescending("likeCount")
+            q.limit = 30
+            
+            let date = NSDate(timeIntervalSinceNow: -60 * 60 * 24 * 21) //3週間前
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyyMMdd"
+            if  let i = Int(dateFormatter.stringFromDate(date)) {
+                q.whereKey(VideoKey.dateIntegerKey, greaterThan: i)
+            }
         }
         
         let str = isNew ? "New":"Popular"
