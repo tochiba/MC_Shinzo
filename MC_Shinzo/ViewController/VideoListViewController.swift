@@ -286,10 +286,10 @@ extension VideoListViewController: UICollectionViewDelegateFlowLayout {
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
+        /*
         if !(self.mode == .New || self.mode == .Popular) {
             return self.cellSize
         }
-        
         if UIApplication.isLandscape() {
             if UIApplication.isPad() {
                 if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 {
@@ -326,6 +326,7 @@ extension VideoListViewController: UICollectionViewDelegateFlowLayout {
                 }
             }
         }
+         */
         return self.cellSize
     }
 }
