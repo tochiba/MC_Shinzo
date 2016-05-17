@@ -17,7 +17,7 @@ protocol NIFTYManagerDelegate: class {
 extension NIFTYManager {
     func loadDeliveredVideos() {
         let q = NCMBQuery(className: Video.className())
-        q.limit = 200
+        q.limit = 100000
         q.orderByDescending("createDate")
         q.findObjectsInBackgroundWithBlock({
             (array, error) in
