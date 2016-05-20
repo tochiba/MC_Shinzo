@@ -224,6 +224,7 @@ class NIFTYManager {
                 video.dateInteger = i
             }            
             backgroundSaveObject(video)
+            TwitterManager.sharedInstance.postTweet(video)
         }
     }
     
