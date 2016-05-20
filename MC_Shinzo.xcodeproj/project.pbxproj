@@ -21,6 +21,7 @@
 		8F5517FE1CAF69AA00492953 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517FD1CAF69AA00492953 /* SettingViewController.swift */; };
 		8F5518001CB0270300492953 /* NIFTYManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517FF1CB0270300492953 /* NIFTYManager.swift */; };
 		8F5518021CB0DAD900492953 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5518011CB0DAD900492953 /* Constants.swift */; };
+		8F60C3D41CEE0BF300962848 /* TwitterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60C3D31CEE0BF300962848 /* TwitterManager.swift */; };
 		8F6C2E391CE0ECBA0020BD05 /* Empty.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E381CE0ECBA0020BD05 /* Empty.m */; };
 		8F6C2E3B1CE0ED410020BD05 /* TrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */; };
 		8F6C2E441CE8344B0020BD05 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6C2E431CE8344A0020BD05 /* ChannelViewController.swift */; };
@@ -86,6 +87,7 @@
 		8F5517FD1CAF69AA00492953 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingViewController.swift; path = ViewController/SettingViewController.swift; sourceTree = "<group>"; };
 		8F5517FF1CB0270300492953 /* NIFTYManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NIFTYManager.swift; path = Manager/NIFTYManager.swift; sourceTree = "<group>"; };
 		8F5518011CB0DAD900492953 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8F60C3D31CEE0BF300962848 /* TwitterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwitterManager.swift; path = Manager/TwitterManager.swift; sourceTree = "<group>"; };
 		8F6C2E1D1CD8F9D90020BD05 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8F6C2E371CE0ECB90020BD05 /* MC_Shinzo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MC_Shinzo-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F6C2E381CE0ECBA0020BD05 /* Empty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Empty.m; path = MC_Shinzo/Empty.m; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				8F9F61921CB8CCF100C96076 /* FavoriteManager.swift */,
 				8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */,
 				8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */,
+				8F60C3D31CEE0BF300962848 /* TwitterManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */,
 				8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */,
 				DB70BAB81CAB73190045E08A /* Movie.swift in Sources */,
+				8F60C3D41CEE0BF300962848 /* TwitterManager.swift in Sources */,
 				8F6C2E441CE8344B0020BD05 /* ChannelViewController.swift in Sources */,
 				8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */,
 				8FE4EA5A1CBBFE8400F62BCE /* ReviewRequestViewController.swift in Sources */,
