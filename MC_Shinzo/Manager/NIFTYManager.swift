@@ -357,7 +357,7 @@ class NIFTYManager {
         
         if isNew {
             q.orderByDescending("createDate")
-            q.limit = 100
+            q.limit = 200
         }
         else {
             // Likeの多さ順
