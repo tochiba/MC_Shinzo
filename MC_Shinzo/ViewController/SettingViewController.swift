@@ -106,7 +106,7 @@ extension SettingViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(SettingData.cellName, forIndexPath: indexPath)
         cell.textLabel?.text = SettingData(rawValue: indexPath.row)?.title
         cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.backgroundColor = Config.baseColor()
+        //cell.backgroundColor = Config.baseColor()
         return cell
     }
 }

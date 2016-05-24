@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		344DF3A68C0D109D02861592 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E5740A870A37FB957D9FF2 /* Pods.framework */; };
+		8F13B6391CF49BD800760438 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F13B6381CF49BD800760438 /* MainViewController.swift */; };
 		8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517761CA66F7200492953 /* AppDelegate.swift */; };
 		8F5517791CA66F7200492953 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517781CA66F7200492953 /* ViewController.swift */; };
 		8F55177C1CA66F7200492953 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F55177A1CA66F7200492953 /* Main.storyboard */; };
@@ -68,6 +69,7 @@
 		1AECB451EC228C7520FD51C9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4FD32810B5131896391EEB79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		65E5740A870A37FB957D9FF2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F13B6381CF49BD800760438 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = ViewController/MainViewController.swift; sourceTree = "<group>"; };
 		8F5517731CA66F7200492953 /* MC_Shinzo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MC_Shinzo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F5517761CA66F7200492953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F5517781CA66F7200492953 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				8FE4EA571CBBFD4C00F62BCE /* DialogViewController.swift */,
 				8FE4EA591CBBFE8400F62BCE /* ReviewRequestViewController.swift */,
 				8F6C2E431CE8344A0020BD05 /* ChannelViewController.swift */,
+				8F13B6381CF49BD800760438 /* MainViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FD73C261CB29EFC0066DD5C /* ActivityManager.swift in Sources */,
+				8F13B6391CF49BD800760438 /* MainViewController.swift in Sources */,
 				8F5517AF1CA6E0AC00492953 /* APIManager.swift in Sources */,
 				8F5517791CA66F7200492953 /* ViewController.swift in Sources */,
 				8F9F61931CB8CCF100C96076 /* FavoriteManager.swift in Sources */,

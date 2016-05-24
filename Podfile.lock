@@ -30,6 +30,7 @@ PODS:
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - KYDrawerController (1.1.3)
   - Meyasubaco (0.8.1):
     - AFNetworking (= 2.6.1)
     - JSQMessagesViewController (= 7.2.0)
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - Fabric
   - Google-Mobile-Ads-SDK
   - GoogleAnalytics-iOS-SDK
+  - KYDrawerController
   - Meyasubaco
   - NCMB (from `https://github.com/NIFTYCloud-mbaas/ncmb_ios.git`)
   - NendSDK_iOS
@@ -63,6 +65,7 @@ SPEC CHECKSUMS:
   GoogleAnalytics-iOS-SDK: 13241762fa4aea845eb75bef6c0da3427a26e7b3
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  KYDrawerController: 3bb920220cb1d1ff7d86d40c61d5848ed647d385
   Meyasubaco: a084baa6c10270a51ef7bd74d1e6cc40d427fb74
   NCMB: a153b3f99d7b3d530eba60dba065487c63962e2d
   NendSDK_iOS: 49801a87f1ce01b782d99cb639a994dfbfe83017

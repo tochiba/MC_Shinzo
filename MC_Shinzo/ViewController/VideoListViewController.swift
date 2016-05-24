@@ -35,7 +35,7 @@ class VideoListViewController: UIViewController {
         case Draft
         case Channel
     }
-    var mode: Mode = .Category
+    var mode: Mode = .Popular
     
     class func getInstance(query: String, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
