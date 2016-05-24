@@ -7,6 +7,7 @@ pod 'Meyasubaco'
 pod 'Google-Mobile-Ads-SDK'
 pod 'NendSDK_iOS'
 pod 'GoogleAnalytics-iOS-SDK'
+pod 'KYDrawerController'
 
 post_install do | installer |
     require 'fileutils'
