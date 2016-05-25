@@ -13,6 +13,7 @@ import SafariServices
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
+    var delegate: BaseControllerDelegate?
 }
 
 class SettingTableView: UITableView {
@@ -94,6 +95,10 @@ extension SettingViewController: UITableViewDelegate {
                 AutoDeliverManager.sharedInstance.start()
             }
         }
+        
+        if let mode = SettingData(rawValue: indexPath.row)?.contentsMode {
+            self.delegate?.didSelectCell(mode)
+        }
     }
 }
 
@@ -115,6 +120,10 @@ extension SettingViewController: SFSafariViewControllerDelegate {
 }
 
 private enum SettingData: Int {
+    case New
+    case Popular
+    case Favorite
+    
     case Request
     case Copyright
     case Deliverd
@@ -136,6 +145,12 @@ private enum SettingData: Int {
     
     var title: String {
         switch self {
+        case New:
+            return NSLocalizedString("category_new", comment: "")
+        case Popular:
+            return NSLocalizedString("category_popular", comment: "")
+        case Favorite:
+            return NSLocalizedString("category_favorite", comment: "")
         case .Request:
             return NSLocalizedString("setting_request", comment: "")
         case .Copyright:
@@ -170,6 +185,12 @@ private enum SettingData: Int {
     
     var segueID: String? {
         switch self {
+        case New:
+            return nil
+        case Popular:
+            return nil
+        case Favorite:
+            return nil
         case .Request:
             return nil
         case .Copyright:
@@ -183,6 +204,19 @@ private enum SettingData: Int {
         case DevAutoDeliver:
             return nil
         case .NumberOfRows:
+            return nil
+        }
+    }
+    
+    var contentsMode: VideoListViewController.Mode? {
+        switch self {
+        case New:
+            return VideoListViewController.Mode.New
+        case Popular:
+            return VideoListViewController.Mode.Popular
+        case Favorite:
+            return VideoListViewController.Mode.Favorite
+        default:
             return nil
         }
     }

@@ -141,7 +141,7 @@ extension VideoListViewController {
         }
     }
     
-    private func setData() {
+    func setData() {
         switch self.mode {
         case .Category:
             NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
@@ -236,7 +236,10 @@ extension VideoListViewController {
         self.loadData()
         self.indicator.stopAnimating()
         self.indicator.hidden = true
-        self.collectionView.reloadData()
+        self.collectionView.performBatchUpdates({
+        self.collectionView.reloadSections(NSIndexSet(index: 0))
+            }, completion: { finish in
+        })
     }
     
     private func playVideo(id: String) {
