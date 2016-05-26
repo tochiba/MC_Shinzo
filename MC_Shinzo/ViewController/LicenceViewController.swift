@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class LicenceViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
@@ -21,6 +22,9 @@ class LicenceViewController: UIViewController {
         }
         
         self.textView.text = _string
+    }
+    @IBAction func didPushDone(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

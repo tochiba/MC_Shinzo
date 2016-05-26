@@ -17,6 +17,9 @@ class ChannelViewController: UIViewController {
         super.viewWillAppear(animated)
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
     }
+    @IBAction func didPushDoneButton(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
 extension ChannelViewController {

@@ -45,3 +45,19 @@ class MainViewController: VideoListViewController {
 }
 class DrawerViewController: SettingViewController {
 }
+class AnimationNavigationController: UINavigationController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.modalPresentationStyle = .Custom
+        self.transitioningDelegate = self
+    }
+}
+extension AnimationNavigationController: UIViewControllerTransitioningDelegate {
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PopUpTransitionAnimater(presenting: true)
+    }
+    
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PopUpTransitionAnimater(presenting: false)
+    }
+}
