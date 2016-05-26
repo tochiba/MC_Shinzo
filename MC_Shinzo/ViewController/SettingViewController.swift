@@ -66,6 +66,7 @@ extension SettingViewController {
 extension SettingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         if let segue = SettingData(rawValue: indexPath.row)?.segueID {
             if SettingData(rawValue: indexPath.row) != .DevChannel {
                 self.performSegueWithIdentifier(segue, sender: nil)
@@ -108,10 +109,10 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let data = SettingData(rawValue: indexPath.row)
         let cell = tableView.dequeueReusableCellWithIdentifier(SettingData.cellName, forIndexPath: indexPath)
-        cell.textLabel?.text = SettingData(rawValue: indexPath.row)?.title
+        cell.textLabel?.text = data?.title
         cell.textLabel?.textColor = UIColor.whiteColor()
-        //cell.backgroundColor = Config.baseColor()
         return cell
     }
 }
