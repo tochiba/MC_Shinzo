@@ -11,6 +11,7 @@ import WebImage
 import XCDYouTubeKit
 import SwiftRefresher
 import Meyasubaco
+import ARSLineProgress
 
 class VideoListViewController: UIViewController {
     
@@ -23,6 +24,7 @@ class VideoListViewController: UIViewController {
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
     private var pickerBaseView: PickerBaseView?
+    private var scrollBeginingPoint: CGPoint = CGPointMake(0, 0)
     
     var titleString: String = ""
     var queryString: String = ""
@@ -59,6 +61,7 @@ class VideoListViewController: UIViewController {
             if mode != .Draft {
                 vc.queryString = query
             }
+            vc.setData()
             return vc
         }
         
@@ -67,15 +70,11 @@ class VideoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.indicator.hidden = false
-        self.indicator.startAnimating()
+        setData()
         self.bannerView.setup(self, unitID: AD.BannerUnitID)
         
         let refresher = Refresher { [weak self] () -> Void in
-            self?.reload()
-            self?.loadData()
-            self?.collectionView.reloadData()
-            self?.collectionView.srf_endRefreshing()
+            self?.pullToRefresh()
             TrackingManager.sharedInstance.sendEventAction(.Refresh)
         }
         self.collectionView.srf_addRefresher(refresher)
@@ -97,7 +96,6 @@ class VideoListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupCellSize()
         setupLayout()
-        setData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -142,6 +140,8 @@ extension VideoListViewController {
     }
     
     func setData() {
+        ARSLineProgress.show()
+
         switch self.mode {
         case .Category:
             NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
@@ -234,12 +234,20 @@ extension VideoListViewController {
     
     private func reload() {
         self.loadData()
-        self.indicator.stopAnimating()
-        self.indicator.hidden = true
         self.collectionView.performBatchUpdates({
-        self.collectionView.reloadSections(NSIndexSet(index: 0))
+            self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { finish in
+                ARSLineProgressConfiguration.showSuccessCheckmark = false
+                ARSLineProgress.showSuccess()
         })
+    }
+    
+    private func pullToRefresh() {
+        setData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            guard let s = self else { return }
+            s.collectionView.srf_endRefreshing()
+        }
     }
     
     private func playVideo(id: String) {
@@ -476,7 +484,7 @@ extension VideoListViewController: CardCollectionCellDelegate {
     
     func didPushChannel(video: Video) {
         let vc = VideoListViewController.getInstanceWithMode(video.channelId, title: video.channelName, mode: .Channel)
-        let nvc = UINavigationController(rootViewController: vc)
+        let nvc = AnimationNavigationController(rootViewController: vc)
         self.presentViewController(nvc, animated: true, completion: nil)
     }
 }
@@ -525,8 +533,7 @@ extension VideoListViewController: UISearchBarDelegate {
     // Searchボタンが押された時に呼ばれる
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let txt = searchBar.text {
-            self.indicator.hidden = false
-            self.indicator.startAnimating()
+            ARSLineProgress.show()
             self.queryString = txt
             APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             self.view.endEditing(true)
@@ -629,4 +636,16 @@ extension VideoListViewController {
 class PickerBaseView: UIView {
     var video: Video?
     var category: String = "None"
+}
+
+extension VideoListViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        scrollBeginingPoint = scrollView.contentOffset
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let currentPoint = scrollView.contentOffset
+        UIApplication.sharedApplication().statusBarHidden = scrollBeginingPoint.y < currentPoint.y
+    }
 }

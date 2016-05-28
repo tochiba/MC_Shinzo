@@ -82,7 +82,7 @@ extension NIFTYManager {
     func loadDeliveredChannels(aDelegate: NIFTYManagerChannelDelegate? = nil) {
         weak var del = aDelegate
         let q = NCMBQuery(className: Channel.className())
-        q.limit = 200
+        q.limit = 500
         q.orderByDescending("createDate")
         q.findObjectsInBackgroundWithBlock({
             (array, error) in
@@ -212,20 +212,29 @@ class NIFTYManager {
     }
     
     func deliverThisVideo(video: Video) {
-        if video.id.utf16.count == 0 {
+        if video.id.utf16.count == 0 || isDeliveredVideo(video) {
             return
         }
-
-        if !isDeliveredVideo(video) {
-            let date = NSDate()
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyyMMdd"
-            if  let i = Int(dateFormatter.stringFromDate(date)) {
-                video.dateInteger = i
-            }            
-            backgroundSaveObject(video)
-            TwitterManager.sharedInstance.postTweet(video)
-        }
+        
+        let q = NCMBQuery(className: Video.className())
+        q.limit = 1
+        q.whereKey(VideoKey.idKey, equalTo: video.id)
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                if array.count == 0 {
+                    let date = NSDate()
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd"
+                    if  let i = Int(dateFormatter.stringFromDate(date)) {
+                        video.dateInteger = i
+                    }
+                    self.backgroundSaveObject(video)
+                    TwitterManager.sharedInstance.postTweet(video)
+                    self.refreshNewCategory()
+                }
+            }
+        })
     }
     
     func deleteThisVideo(video: Video) {
@@ -242,6 +251,16 @@ class NIFTYManager {
                 }
             }
         })
+    }
+    
+    private func refreshNewCategory() {
+        if let bvc = UIApplication.sharedApplication().keyWindow?.rootViewController as? BaseViewController {
+            bvc.setDrawerState(.Closed, animated: true)
+            if let mvc = bvc.mainViewController as? MainViewController {
+                mvc.mode = .New
+                mvc.setData()
+            }
+        }
     }
     /*
     private func isDelivered(video: Video) -> Bool {

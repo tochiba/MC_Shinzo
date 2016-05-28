@@ -13,6 +13,11 @@ class ChannelViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var channels: [Channel] = []
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.modalPresentationStyle = .Custom
+        self.transitioningDelegate = self
+    }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
@@ -21,6 +26,17 @@ class ChannelViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
+
+extension ChannelViewController: UIViewControllerTransitioningDelegate {
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PopUpTransitionAnimater(presenting: true)
+    }
+    
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PopUpTransitionAnimater(presenting: false)
+    }
+}
+
 
 extension ChannelViewController {
     private func loadData() {
@@ -40,7 +56,7 @@ extension ChannelViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let c = self.channels[indexPath.row]
         let vc = VideoListViewController.getInstanceWithMode(c.channelId, title: c.channelName, mode: .Channel)
-        let nvc = UINavigationController(rootViewController: vc)
+        let nvc = AnimationNavigationController(rootViewController: vc)
         self.presentViewController(nvc, animated: true, completion: nil)
     }
     

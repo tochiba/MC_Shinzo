@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - ARSLineProgress (1.2.0)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
@@ -39,6 +40,7 @@ PODS:
   - NendSDK_iOS (3.1.0)
 
 DEPENDENCIES:
+  - ARSLineProgress (~> 1.0)
   - Crashlytics
   - Fabric
   - Google-Mobile-Ads-SDK
@@ -59,6 +61,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
+  ARSLineProgress: c0e1947babec0719fbed2fced28e2bc5438cfc51
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Google-Mobile-Ads-SDK: e27569901b58881d9a94b42f2c642739cfe3970a

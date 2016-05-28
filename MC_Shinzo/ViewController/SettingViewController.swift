@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Meyasubaco
 import SafariServices
+import ARSLineProgress
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
@@ -103,6 +104,7 @@ extension SettingViewController: UITableViewDelegate {
             }
             else if data == .DevAutoDeliver {
                 if !Config.isNotDevMode() {
+                    ARSLineProgress.show()
                     AutoDeliverManager.sharedInstance.start()
                 }
             }
@@ -115,7 +117,7 @@ extension SettingViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel(frame: CGRectMake(0,0,tableView.frame.size.width,30))
         label.textColor = UIColor.lightGrayColor()
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = NSTextAlignment.Left
         label.font = UIFont.systemFontOfSize(15)
         label.backgroundColor = UIColor.clearColor()
         label.text = SettingDataSection(rawValue: section)?.title
@@ -128,7 +130,7 @@ extension SettingViewController: UITableViewDataSource {
         return SettingDataSection(rawValue: section)?.title
     }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return SettingDataSection(rawValue: section)?.heightOfSections ?? 0
     }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return SettingDataSection.NumberOfSections.numberOfSections
@@ -160,6 +162,10 @@ private enum SettingDataSection: Int {
         return NumberOfSections.rawValue
     }
     
+    var heightOfSections: CGFloat {
+        return 30 //self == .Setting ? 30 : 0
+    }
+    
     var numberOfRows: Int {
         switch self {
         case .Menu:
@@ -179,9 +185,9 @@ private enum SettingDataSection: Int {
     var title: String {
         switch self {
         case .Menu:
-            return "カテゴリ"
+            return "    " + NSLocalizedString("setting_menu", comment: "")
         case .Setting:
-            return NSLocalizedString("category_setting", comment: "")
+            return "    " + NSLocalizedString("category_setting", comment: "")
         default:
             return ""
         }
