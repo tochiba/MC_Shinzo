@@ -233,6 +233,7 @@ class NIFTYManager {
                         }
                         self.backgroundSaveObject(video)
                         TwitterManager.sharedInstance.postTweet(video)
+                        self.refreshNewCategory()
                     }
                 }
             })
@@ -253,6 +254,16 @@ class NIFTYManager {
                 }
             }
         })
+    }
+    
+    private func refreshNewCategory() {
+        if let bvc = UIApplication.sharedApplication().keyWindow?.rootViewController as? BaseViewController {
+            bvc.setDrawerState(.Closed, animated: true)
+            if let mvc = bvc.mainViewController as? MainViewController {
+                mvc.mode = .New
+                mvc.setData()
+            }
+        }
     }
     /*
     private func isDelivered(video: Video) -> Bool {
