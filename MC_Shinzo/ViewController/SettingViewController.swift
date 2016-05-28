@@ -115,10 +115,10 @@ extension SettingViewController: UITableViewDelegate {
 
 extension SettingViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel(frame: CGRectMake(0,0,tableView.frame.size.width,30))
+        let label = UILabel(frame: CGRectMake(0,0,tableView.frame.size.width,50))
         label.textColor = UIColor.lightGrayColor()
         label.textAlignment = NSTextAlignment.Left
-        label.font = UIFont.systemFontOfSize(15)
+        label.font = UIFont.systemFontOfSize(14)
         label.backgroundColor = UIColor.clearColor()
         label.text = SettingDataSection(rawValue: section)?.title
         return label
@@ -163,7 +163,7 @@ private enum SettingDataSection: Int {
     }
     
     var heightOfSections: CGFloat {
-        return 30 //self == .Setting ? 30 : 0
+        return 50 //self == .Setting ? 30 : 0
     }
     
     var numberOfRows: Int {
