@@ -60,6 +60,7 @@ class VideoListViewController: UIViewController {
             if mode != .Draft {
                 vc.queryString = query
             }
+            vc.setData()
             return vc
         }
         
