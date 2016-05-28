@@ -42,6 +42,12 @@ extension BaseViewController: BaseControllerDelegate {
 }
 
 class MainViewController: VideoListViewController {
+    @IBAction func didPushOpenButton(sender: AnyObject) {
+        if let pvc = self.parentViewController as? BaseViewController {
+            let state: KYDrawerController.DrawerState = pvc.drawerState == .Opened ? KYDrawerController.DrawerState.Closed : KYDrawerController.DrawerState.Opened
+            pvc.setDrawerState(state, animated: true)
+        }
+    }
 }
 class DrawerViewController: SettingViewController {
 }
