@@ -8,6 +8,7 @@ pod 'Google-Mobile-Ads-SDK'
 pod 'NendSDK_iOS'
 pod 'GoogleAnalytics-iOS-SDK'
 pod 'KYDrawerController'
+pod 'ARSLineProgress', '~> 1.0'
 
 post_install do | installer |
     require 'fileutils'

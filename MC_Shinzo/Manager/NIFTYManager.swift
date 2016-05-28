@@ -212,32 +212,29 @@ class NIFTYManager {
     }
     
     func deliverThisVideo(video: Video) {
-        if video.id.utf16.count == 0 {
+        if video.id.utf16.count == 0 || isDeliveredVideo(video) {
             return
         }
         
-        if !isDeliveredVideo(video) {
-            
-            let q = NCMBQuery(className: Video.className())
-            q.limit = 1
-            q.whereKey(VideoKey.idKey, equalTo: video.id)
-            q.findObjectsInBackgroundWithBlock({
-                (array, error) in
-                if error == nil {
-                    if array.count == 0 {
-                        let date = NSDate()
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.dateFormat = "yyyyMMdd"
-                        if  let i = Int(dateFormatter.stringFromDate(date)) {
-                            video.dateInteger = i
-                        }
-                        self.backgroundSaveObject(video)
-                        TwitterManager.sharedInstance.postTweet(video)
-                        self.refreshNewCategory()
+        let q = NCMBQuery(className: Video.className())
+        q.limit = 1
+        q.whereKey(VideoKey.idKey, equalTo: video.id)
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                if array.count == 0 {
+                    let date = NSDate()
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd"
+                    if  let i = Int(dateFormatter.stringFromDate(date)) {
+                        video.dateInteger = i
                     }
+                    self.backgroundSaveObject(video)
+                    TwitterManager.sharedInstance.postTweet(video)
+                    self.refreshNewCategory()
                 }
-            })
-        }
+            }
+        })
     }
     
     func deleteThisVideo(video: Video) {

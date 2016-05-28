@@ -11,6 +11,7 @@ import WebImage
 import XCDYouTubeKit
 import SwiftRefresher
 import Meyasubaco
+import ARSLineProgress
 
 class VideoListViewController: UIViewController {
     
@@ -139,8 +140,7 @@ extension VideoListViewController {
     }
     
     func setData() {
-        self.indicator.hidden = false
-        self.indicator.startAnimating()
+        ARSLineProgress.show()
 
         switch self.mode {
         case .Category:
@@ -234,11 +234,11 @@ extension VideoListViewController {
     
     private func reload() {
         self.loadData()
-        self.indicator.stopAnimating()
-        self.indicator.hidden = true
         self.collectionView.performBatchUpdates({
             self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { finish in
+                ARSLineProgressConfiguration.showSuccessCheckmark = false
+                ARSLineProgress.showSuccess()
         })
     }
     
@@ -533,8 +533,7 @@ extension VideoListViewController: UISearchBarDelegate {
     // Searchボタンが押された時に呼ばれる
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let txt = searchBar.text {
-            self.indicator.hidden = false
-            self.indicator.startAnimating()
+            ARSLineProgress.show()
             self.queryString = txt
             APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             self.view.endEditing(true)

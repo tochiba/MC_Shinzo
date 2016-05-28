@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Meyasubaco
 import SafariServices
+import ARSLineProgress
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
@@ -103,6 +104,7 @@ extension SettingViewController: UITableViewDelegate {
             }
             else if data == .DevAutoDeliver {
                 if !Config.isNotDevMode() {
+                    ARSLineProgress.show()
                     AutoDeliverManager.sharedInstance.start()
                 }
             }
