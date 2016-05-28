@@ -21,9 +21,30 @@ class BaseViewController: KYDrawerController {
         if let dvc = self.drawerViewController as? DrawerViewController {
             dvc.delegate = self
         }
+        checkShortcut()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.didBecomeActivee(_:)), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.willEnterFore(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    func didBecomeActivee(notification: NSNotification?) {
+        checkShortcut()
+    }
+    
+    func willEnterFore(notification: NSNotification?) {
+        checkShortcut()
+    }
+
+    func checkShortcut() {
+        if let adel = UIApplication.sharedApplication().delegate as? AppDelegate where adel.isShortcut {
+            if let mvc = self.mainViewController as? MainViewController {
+                mvc.mode = adel.mode
+                mvc.setData()
+                adel.isShortcut = false
+            }
+        }
     }
     deinit {
         self.delegate = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
 extension BaseViewController: KYDrawerControllerDelegate {
