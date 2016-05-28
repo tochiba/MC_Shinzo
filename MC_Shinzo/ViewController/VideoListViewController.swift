@@ -476,7 +476,7 @@ extension VideoListViewController: CardCollectionCellDelegate {
     
     func didPushChannel(video: Video) {
         let vc = VideoListViewController.getInstanceWithMode(video.channelId, title: video.channelName, mode: .Channel)
-        let nvc = UINavigationController(rootViewController: vc)
+        let nvc = AnimationNavigationController(rootViewController: vc)
         self.presentViewController(nvc, animated: true, completion: nil)
     }
 }
