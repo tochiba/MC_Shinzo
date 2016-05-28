@@ -23,6 +23,7 @@ class VideoListViewController: UIViewController {
     private var cellSize: CGSize = CGSizeZero
     private var videoList: [Video] = []
     private var pickerBaseView: PickerBaseView?
+    private var scrollBeginingPoint: CGPoint = CGPointMake(0, 0)
     
     var titleString: String = ""
     var queryString: String = ""
@@ -67,6 +68,7 @@ class VideoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setData()
         self.bannerView.setup(self, unitID: AD.BannerUnitID)
         
         let refresher = Refresher { [weak self] () -> Void in
@@ -92,7 +94,6 @@ class VideoListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         setupCellSize()
         setupLayout()
-        setData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -635,4 +636,16 @@ extension VideoListViewController {
 class PickerBaseView: UIView {
     var video: Video?
     var category: String = "None"
+}
+
+extension VideoListViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        scrollBeginingPoint = scrollView.contentOffset
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let currentPoint = scrollView.contentOffset
+        UIApplication.sharedApplication().statusBarHidden = scrollBeginingPoint.y < currentPoint.y
+    }
 }

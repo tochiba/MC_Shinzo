@@ -49,7 +49,7 @@ class BaseViewController: KYDrawerController {
 }
 extension BaseViewController: KYDrawerControllerDelegate {
     func drawerController(drawerController: KYDrawerController, stateChanged state: KYDrawerController.DrawerState) {
-        
+        UIApplication.sharedApplication().statusBarHidden = state == .Opened
     }
 }
 extension BaseViewController: BaseControllerDelegate {
@@ -70,6 +70,7 @@ class MainViewController: VideoListViewController {
         }
     }
 }
+
 class DrawerViewController: SettingViewController {
 }
 class AnimationNavigationController: UINavigationController {
