@@ -67,15 +67,10 @@ class VideoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.indicator.hidden = false
-        self.indicator.startAnimating()
         self.bannerView.setup(self, unitID: AD.BannerUnitID)
         
         let refresher = Refresher { [weak self] () -> Void in
-            self?.reload()
-            self?.loadData()
-            self?.collectionView.reloadData()
-            self?.collectionView.srf_endRefreshing()
+            self?.pullToRefresh()
             TrackingManager.sharedInstance.sendEventAction(.Refresh)
         }
         self.collectionView.srf_addRefresher(refresher)
@@ -142,6 +137,9 @@ extension VideoListViewController {
     }
     
     func setData() {
+        self.indicator.hidden = false
+        self.indicator.startAnimating()
+
         switch self.mode {
         case .Category:
             NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
@@ -237,9 +235,17 @@ extension VideoListViewController {
         self.indicator.stopAnimating()
         self.indicator.hidden = true
         self.collectionView.performBatchUpdates({
-        self.collectionView.reloadSections(NSIndexSet(index: 0))
+            self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { finish in
         })
+    }
+    
+    private func pullToRefresh() {
+        setData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            guard let s = self else { return }
+            s.collectionView.srf_endRefreshing()
+        }
     }
     
     private func playVideo(id: String) {
