@@ -239,6 +239,9 @@ extension VideoListViewController {
             }, completion: { finish in
                 ARSLineProgressConfiguration.showSuccessCheckmark = false
                 ARSLineProgress.showSuccess()
+                if self.videoList.count > 0 {
+                    self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+                }
         })
     }
     
