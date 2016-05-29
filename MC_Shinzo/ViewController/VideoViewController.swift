@@ -10,22 +10,27 @@ import Foundation
 import UIKit
 import XCDYouTubeKit
 
+/*
 enum videoQuality {
+    case SuperHigh
     case High
     case Medium
     case Small
     
-    var getString: String {
+    var getString: XCDYouTubeVideoQuality {
         switch self {
-            case .High:
-            return "XCDYouTubeVideoQualityHD720"
-            case .Medium:
-            return "XCDYouTubeVideoQualityMedium360"
-            case .Small:
-            return "XCDYouTubeVideoQualitySmall240"
+        case .SuperHigh:
+            return XCDYouTubeVideoQuality.HD1080
+        case .High:
+            return XCDYouTubeVideoQuality.HD720
+        case .Medium:
+            return XCDYouTubeVideoQuality.Medium360
+        case .Small:
+            return XCDYouTubeVideoQuality.Small240
         }
     }
 }
+*/
 
 class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewControllerTransitioningDelegate {
     
@@ -37,9 +42,6 @@ class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewController
         super.viewDidLoad()
         self.modalPresentationStyle = .Custom
         self.transitioningDelegate = self
-        
-        //self.preferredVideoQualities = ["XCDYouTubeVideoQualityMedium360"]
-        
         self.moviePlayer.repeatMode = .One
         self.moviePlayer.fullscreen = true
         self.moviePlayer.prepareToPlay()
