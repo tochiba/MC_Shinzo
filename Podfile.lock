@@ -38,6 +38,7 @@ PODS:
     - JSQSystemSoundPlayer (= 2.0.1)
   - NCMB (2.3.0)
   - NendSDK_iOS (3.1.0)
+  - OneSignal (1.13.2)
 
 DEPENDENCIES:
   - ARSLineProgress (~> 1.0)
@@ -49,6 +50,7 @@ DEPENDENCIES:
   - Meyasubaco
   - NCMB (from `https://github.com/NIFTYCloud-mbaas/ncmb_ios.git`)
   - NendSDK_iOS
+  - OneSignal
 
 EXTERNAL SOURCES:
   NCMB:
@@ -72,5 +74,6 @@ SPEC CHECKSUMS:
   Meyasubaco: a084baa6c10270a51ef7bd74d1e6cc40d427fb74
   NCMB: a153b3f99d7b3d530eba60dba065487c63962e2d
   NendSDK_iOS: 49801a87f1ce01b782d99cb639a994dfbfe83017
+  OneSignal: 15b94fa760a6754908f11ef92da6ec945923fa2c
 
 COCOAPODS: 0.39.0

@@ -11,3 +11,5 @@
 #import <GoogleAnalytics-iOS-SDK/GAIDictionaryBuilder.h>
 
 #endif
+
+#import <OneSignal/OneSignal.h>

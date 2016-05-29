@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		344DF3A68C0D109D02861592 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E5740A870A37FB957D9FF2 /* Pods.framework */; };
+		8F0C1C281CFAC6E900A8ECCD /* PushAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0C1C271CFAC6E900A8ECCD /* PushAlertViewController.swift */; };
 		8F13B6391CF49BD800760438 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F13B6381CF49BD800760438 /* MainViewController.swift */; };
 		8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517761CA66F7200492953 /* AppDelegate.swift */; };
 		8F5517791CA66F7200492953 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517781CA66F7200492953 /* ViewController.swift */; };
@@ -69,6 +70,7 @@
 		1AECB451EC228C7520FD51C9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4FD32810B5131896391EEB79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		65E5740A870A37FB957D9FF2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F0C1C271CFAC6E900A8ECCD /* PushAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushAlertViewController.swift; path = ViewController/PushAlertViewController.swift; sourceTree = "<group>"; };
 		8F13B6381CF49BD800760438 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = ViewController/MainViewController.swift; sourceTree = "<group>"; };
 		8F5517731CA66F7200492953 /* MC_Shinzo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MC_Shinzo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F5517761CA66F7200492953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				8FE4EA591CBBFE8400F62BCE /* ReviewRequestViewController.swift */,
 				8F6C2E431CE8344A0020BD05 /* ChannelViewController.swift */,
 				8F13B6381CF49BD800760438 /* MainViewController.swift */,
+				8F0C1C271CFAC6E900A8ECCD /* PushAlertViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -383,6 +386,14 @@
 					8F5517721CA66F7200492953 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = AVWWV46Y77;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					8F5517861CA66F7200492953 = {
 						CreatedOnToolsVersion = 7.2;
@@ -552,6 +563,7 @@
 				8F6C2E461CE8C17B0020BD05 /* AutoDeliverManager.swift in Sources */,
 				8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */,
 				8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */,
+				8F0C1C281CFAC6E900A8ECCD /* PushAlertViewController.swift in Sources */,
 				DB70BAB81CAB73190045E08A /* Movie.swift in Sources */,
 				8F60C3D41CEE0BF300962848 /* TwitterManager.swift in Sources */,
 				8F6C2E441CE8344B0020BD05 /* ChannelViewController.swift in Sources */,

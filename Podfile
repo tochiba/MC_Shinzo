@@ -9,7 +9,7 @@ pod 'NendSDK_iOS'
 pod 'GoogleAnalytics-iOS-SDK'
 pod 'KYDrawerController'
 pod 'ARSLineProgress', '~> 1.0'
-
+pod 'OneSignal'
 post_install do | installer |
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-Acknowledgements.plist', 'MC_Shinzo/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
