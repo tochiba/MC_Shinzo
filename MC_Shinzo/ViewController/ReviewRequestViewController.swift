@@ -84,6 +84,7 @@ class ReviewController: DialogViewController {
         case Review.okTag:
             let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1102160099"
             if let url = NSURL(string: str) {
+                ReviewChecker.setDisplayed()
                 UIApplication.sharedApplication().openURL(url)
             }
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -114,9 +115,38 @@ struct Review {
 class ReviewChecker: NSObject {
     class func favoriteCheck(viewController: UIViewController) -> Bool {
         let num = FavoriteCounter.getCount()
-        if num > 7 {
+        if num > 4 {
             FavoriteCounter.reset()
-            if (arc4random() % 5) == 0 {
+            
+            if isDisplayed() {
+                Interstitial.sharedInstance.show(viewController)
+                return false
+            }
+            
+            if (arc4random() % 3) == 0 {
+                return true
+            }
+            else {
+                Interstitial.sharedInstance.show(viewController)
+                return false
+            }
+            
+        }
+        
+        return false
+    }
+    
+    class func playCheck(viewController: UIViewController) -> Bool {
+        let num = PlayCounter.getCount()
+        if num > 4 {
+            PlayCounter.reset()
+
+            if isDisplayed() {
+                Interstitial.sharedInstance.show(viewController)
+                return false
+            }
+
+            if (arc4random() % 3) == 0 {
                 return true
             }
             else {
@@ -128,21 +158,20 @@ class ReviewChecker: NSObject {
         return false
     }
     
-    class func playCheck(viewController: UIViewController) -> Bool {
-        let num = PlayCounter.getCount()
-        if num > 7 {
-            PlayCounter.reset()
-            if (arc4random() % 5) == 0 {
-                return true
-            }
-            else {
-                Interstitial.sharedInstance.show(viewController)
-                return false
-            }
+    class func isDisplayed() -> Bool {
+        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+            return NSUserDefaults.standardUserDefaults().boolForKey(currentVer)
         }
-        
         return false
     }
+    
+    class func setDisplayed() {
+        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: currentVer)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
+
 }
 
 class PlayCounter: NSObject {
