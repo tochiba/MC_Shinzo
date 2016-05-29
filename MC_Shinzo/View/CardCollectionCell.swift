@@ -29,12 +29,12 @@ class CardCollectionCell: UICollectionViewCell {
     @IBAction func didPushFavoriteButton(sender: AnyObject) {
         if let _v = self.video {
             if FavoriteManager.sharedInstance.isFavoriteVideo(_v.id) {
-                self.favoriteButton.tintColor = UIColor.lightGrayColor()
+                self.favoriteButton.selected = false
                 FavoriteManager.sharedInstance.removeFavoriteVideo(_v)
                 changeLikeCount(false)
             }
             else {
-                self.favoriteButton.tintColor = selectColor()
+                self.favoriteButton.selected = true
                 FavoriteManager.sharedInstance.addFavoriteVideo(_v)
                 NIFTYManager.sharedInstance.incrementLike(_v)
                 changeLikeCount(true)
@@ -59,7 +59,6 @@ class CardCollectionCell: UICollectionViewCell {
     }
     
     override func awakeFromNib() {
-        self.favoriteButton.setImage(getButtonImage(), forState: .Normal)
         self.settingButton.titleLabel?.minimumScaleFactor = 0.3
         self.settingButton.titleLabel?.adjustsFontSizeToFitWidth = true
     }
@@ -74,23 +73,7 @@ class CardCollectionCell: UICollectionViewCell {
     private func setupFavoButton(id: String) {
         self.favoriteButton.hidden  = !Config.isNotDevMode()
         self.likeLabel.hidden       = !Config.isNotDevMode()
-        
-        if FavoriteManager.sharedInstance.isFavoriteVideo(id) {
-            self.favoriteButton.tintColor = selectColor()
-        }
-        else {
-            self.favoriteButton.tintColor = UIColor.lightGrayColor()
-        }
-    }
- 
-    private func getButtonImage() -> UIImage? {
-        let image = UIImage(named: "favorite_tab")
-        let _image = image?.imageWithRenderingMode(.AlwaysTemplate)
-        return _image
-    }
-    
-    private func selectColor() -> UIColor {
-        return UIColor(red: 225/255, green: 125/255, blue: 205/255, alpha: 0.7)
+        self.favoriteButton.selected = FavoriteManager.sharedInstance.isFavoriteVideo(id)
     }
     
     private func changeLikeCount(isAdd: Bool) {

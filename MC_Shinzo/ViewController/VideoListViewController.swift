@@ -140,7 +140,7 @@ extension VideoListViewController {
     
     func setData() {
         ARSLineProgress.show()
-
+        
         switch self.mode {
         case .Category:
             NIFTYManager.sharedInstance.search(self.queryString, aDelegate: self)
@@ -231,14 +231,22 @@ extension VideoListViewController {
         self.collectionView.reloadData()
     }
     
-    private func reload() {
+    private func reload(isScrollToTop: Bool = true, showSuccess: Bool = false) {
         self.loadData()
         self.collectionView.performBatchUpdates({
             self.collectionView.reloadSections(NSIndexSet(index: 0))
             }, completion: { finish in
-                ARSLineProgressConfiguration.showSuccessCheckmark = false
-                ARSLineProgress.showSuccess()
-                if self.videoList.count > 0 {
+                if showSuccess {
+                    ARSLineProgress.showSuccess()
+                }
+                else {
+                    ARSLineProgressConfiguration.backgroundViewDismissAnimationDuration = 1.0
+                    ARSLineProgress.hideWithCompletionBlock({
+                        ARSLineProgressConfiguration.restoreDefaults()
+                    })
+                }
+                
+                if isScrollToTop && self.videoList.count > 0 {
                     self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
                 }
         })
@@ -396,9 +404,7 @@ extension VideoListViewController: SearchAPIManagerDelegate {
 
 extension VideoListViewController: NIFTYManagerDelegate {
     func didLoad() {
-//        dispatch_async(dispatch_get_main_queue(), {
-            self.reload()
-//        })
+        reload()
     }
 }
 
@@ -410,7 +416,7 @@ extension VideoListViewController: FavoriteManagerDelegate {
 
 extension VideoListViewController: CardCollectionCellDelegate {
     func didPushFavorite() {
-        reload()
+        reload(false ,showSuccess: true)
         FavoriteCounter.add()
         if ReviewChecker.favoriteCheck(self) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -651,3 +657,4 @@ extension VideoListViewController: UIScrollViewDelegate {
         UIApplication.sharedApplication().statusBarHidden = scrollBeginingPoint.y < currentPoint.y
     }
 }
+
