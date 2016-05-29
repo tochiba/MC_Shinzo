@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NCMB.setApplicationKey(API_ID.NCMB_APP_KEY, clientKey: API_ID.NCMB_CLIENT_KEY)
         Meyasubaco.setApiKey(API_KEY.Meyasubaco)
         TrackingManager.sharedInstance.setup()
+        
+        let _ = OneSignal(launchOptions: launchOptions, appId: APP_ID.OneSignal, handleNotification: nil, autoRegister: false)
+        OneSignal.defaultClient().enableInAppAlertNotification(true)
+
         return true
     }
 

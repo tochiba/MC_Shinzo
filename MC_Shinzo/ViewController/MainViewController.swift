@@ -34,13 +34,14 @@ class BaseViewController: KYDrawerController {
     }
 
     func checkShortcut() {
+        PushAlertViewController.checkPushAlert(self)
         if let adel = UIApplication.sharedApplication().delegate as? AppDelegate where adel.isShortcut {
             if let mvc = self.mainViewController as? MainViewController {
                 mvc.mode = adel.mode
                 mvc.setData()
                 adel.isShortcut = false
             }
-        }
+        }        
     }
     deinit {
         self.delegate = nil
