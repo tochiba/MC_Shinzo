@@ -16,7 +16,6 @@ import ARSLineProgress
 class VideoListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bannerView: BannerView!
     @IBOutlet weak var topSpace: NSLayoutConstraint!
 
@@ -397,9 +396,9 @@ extension VideoListViewController: SearchAPIManagerDelegate {
 
 extension VideoListViewController: NIFTYManagerDelegate {
     func didLoad() {
-        dispatch_async(dispatch_get_main_queue(), {
+//        dispatch_async(dispatch_get_main_queue(), {
             self.reload()
-        })
+//        })
     }
 }
 

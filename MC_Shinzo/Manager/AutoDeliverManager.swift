@@ -33,7 +33,8 @@ extension AutoDeliverManager {
     private func loadVideos() {
         for c in self.channels {
             APIManager.sharedInstance.search(c.channelId, aDelegate: self, mode: .Channel)
-        }        
+        }
+        NIFTYManager.sharedInstance.refreshNewCategory()
     }
 }
 extension AutoDeliverManager: SearchAPIManagerDelegate {

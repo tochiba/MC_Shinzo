@@ -253,7 +253,7 @@ class NIFTYManager {
         })
     }
     
-    private func refreshNewCategory() {
+    func refreshNewCategory() {
         if let bvc = UIApplication.sharedApplication().keyWindow?.rootViewController as? BaseViewController {
             bvc.setDrawerState(.Closed, animated: true)
             if let mvc = bvc.mainViewController as? MainViewController {
