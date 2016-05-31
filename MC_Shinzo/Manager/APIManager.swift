@@ -135,6 +135,21 @@ class APIManager {
         }
     }
 
+    let queue:dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+    func postNotification(video: Video) {
+        dispatch_async(queue) {() -> Void in
+            sleep(60)
+            let text = "【新着動画】\(video.title)がアップロードされました"
+            let param = ["app_id": APP_ID.OneSignal, "contents": ["en": text], "included_segments": ["All"]];
+            let headers = [
+                "Content-Type": "application/json",
+                "Authorization": "Basic \(API_KEY.OneSignal)"
+            ]
+            Alamofire.request(.POST, "https://onesignal.com/api/v1/notifications", parameters: param as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
+            }
+        }
+    }
+
 }
 
 struct APIURL {

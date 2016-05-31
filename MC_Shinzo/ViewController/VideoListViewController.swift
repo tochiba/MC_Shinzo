@@ -36,7 +36,7 @@ class VideoListViewController: UIViewController {
         case Draft
         case Channel
     }
-    var mode: Mode = .Popular
+    var mode: Mode = .New
     
     class func getInstance(query: String, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -113,6 +113,10 @@ class VideoListViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        ARSLineProgressConfiguration.backgroundViewDismissAnimationDuration = 1.0
+        ARSLineProgress.hideWithCompletionBlock({
+            ARSLineProgressConfiguration.restoreDefaults()
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -397,20 +401,24 @@ extension VideoListViewController: UIViewControllerPreviewingDelegate {
 extension VideoListViewController: SearchAPIManagerDelegate {
     func didFinishLoad(videos: [Video]) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.reload()
+            self.reload(false)
         })
     }
 }
 
 extension VideoListViewController: NIFTYManagerDelegate {
     func didLoad() {
-        reload()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.reload()
+        })
     }
 }
 
 extension VideoListViewController: FavoriteManagerDelegate {
     func didLoadFavoriteData() {
-        reload()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.reload()
+        })
     }
 }
 
@@ -543,11 +551,10 @@ extension VideoListViewController: UISearchBarDelegate {
         if let txt = searchBar.text {
             ARSLineProgress.show()
             self.queryString = txt
-            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             self.view.endEditing(true)
             searchBar.resignFirstResponder()
             self.videoList = []
-            self.collectionView.reloadData()
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
         }
     }
 }
