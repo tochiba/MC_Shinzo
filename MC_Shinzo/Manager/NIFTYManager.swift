@@ -267,13 +267,13 @@ class NIFTYManager {
     let queue:dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
     private func postNotification(video: Video) {
         dispatch_async(queue) {() -> Void in
-            sleep(10)
-            let text = "【新着動画】\(video.title)がアップロードされました"
-            OneSignal.defaultClient().postNotification(["contents": ["en": text], "included_segments": ["ALL"], "ios_badgeCount": 1, "ios_badgeType": "Increase"], onSuccess: { (dic) in
-                
-                }, onFailure: {(error) in
-                    
-            })
+//            sleep(10)
+//            let text = "【新着動画】\(video.title)がアップロードされました"
+//            OneSignal.defaultClient().postNotification(["contents": ["en": text], "included_segments": ["ALL"], "ios_badgeCount": 1, "ios_badgeType": "Increase"], onSuccess: { (dic) in
+//                
+//                }, onFailure: {(error) in
+//                    
+//            })
         }
     }
     /*
