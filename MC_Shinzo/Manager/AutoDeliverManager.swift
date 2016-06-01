@@ -41,7 +41,7 @@ extension AutoDeliverManager: SearchAPIManagerDelegate {
     func didFinishLoad(videos: [Video]) {
         for v in videos {
             v.categoryName = VideoCategory.category[0]
-            NIFTYManager.sharedInstance.deliverThisVideo(v)
+            NIFTYManager.sharedInstance.deliverThisVideo(v, isAuto: true)
         }
     }
 }

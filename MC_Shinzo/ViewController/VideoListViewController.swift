@@ -478,6 +478,13 @@ extension VideoListViewController: CardCollectionCellDelegate {
                 })
                 myAlert.addAction(myAction_03)
             }
+            
+            let myAction_04 = UIAlertAction(title: NSLocalizedString("この動画をPUSH配信する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+                (action: UIAlertAction) in
+                APIManager.sharedInstance.postNotification(video)
+            })
+            myAlert.addAction(myAction_04)
+
         }
         
         myAlert.addAction(myAction_1)
