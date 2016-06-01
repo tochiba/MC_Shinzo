@@ -211,7 +211,7 @@ class NIFTYManager {
         })
     }
     
-    func deliverThisVideo(video: Video) {
+    func deliverThisVideo(video: Video, isAuto: Bool = false) {
         if video.id.utf16.count == 0 || isDeliveredVideo(video) {
             return
         }
@@ -231,8 +231,9 @@ class NIFTYManager {
                     }
                     self.backgroundSaveObject(video)
                     TwitterManager.sharedInstance.postTweet(video)
-                    self.refreshNewCategory()
-                    APIManager.sharedInstance.postNotification(video)
+                    if isAuto {
+                        self.refreshNewCategory()
+                    }
                 }
             }
         })
