@@ -445,6 +445,29 @@ class NIFTYManager {
             }
         })
     }
+    
+    func searchFromContents(query: String, aDelegate: NIFTYManagerDelegate?) {
+        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+            return
+        }
+        
+        weak var del = aDelegate
+        self.delegateDic[encodedString] = del
+        
+        var aArray: [Video] = []
+        for a in self.deliverVideos {
+            if a.title.containsString(query) || a.descri.containsString(query) {
+                aArray.append(a)
+            }
+            
+        }
+        self.videoDic[encodedString] = aArray
+        
+        if let targetDel = self.delegateDic[encodedString] {
+            targetDel?.didLoad()
+        }
+    }
+
 
     // Like
     func incrementLike(video: Video) {

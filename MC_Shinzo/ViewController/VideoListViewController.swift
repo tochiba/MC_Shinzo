@@ -35,6 +35,7 @@ class VideoListViewController: UIViewController {
         case Popular
         case Draft
         case Channel
+        case Search
     }
     var mode: Mode = .New
     
@@ -133,8 +134,8 @@ class VideoListViewController: UIViewController {
 }
 
 extension VideoListViewController {
-    private func setupLayout() {
-        if self.mode == .Draft {
+    func setupLayout() {
+        if self.mode == .Draft || self.mode == .Search {
             setupSearchLayout()
         }
         if self.mode == .Channel {
@@ -164,6 +165,9 @@ extension VideoListViewController {
         case .Channel:
             APIManager.sharedInstance.search(self.queryString, aDelegate: self, mode: .Channel)
             return
+        case .Search:
+            NIFTYManager.sharedInstance.searchFromContents(self.queryString, aDelegate: self)
+            return
         }
     }
     
@@ -186,6 +190,9 @@ extension VideoListViewController {
             return
         case .Channel:
             self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
+            return
+        case .Search:
+            self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
             return
         }
     }
@@ -531,19 +538,22 @@ extension VideoListViewController: UISearchBarDelegate {
             searchBar.delegate = self
             searchBar.placeholder = "Search"
             searchBar.showsCancelButton = false
-            searchBar.tintColor = Config.keyColor()
+            searchBar.tintColor = UIColor.darkGrayColor()
             searchBar.autocapitalizationType = UITextAutocapitalizationType.None
             searchBar.keyboardType = UIKeyboardType.Default
             self.navigationItem.titleView = searchBar
             self.navigationItem.titleView?.frame = searchBar.frame
             let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushLeftButton(_:)))
-            leftButton.tintColor = Config.keyColor()
+            leftButton.tintColor = UIColor.whiteColor()
             self.navigationItem.leftBarButtonItem = leftButton
             
             searchBar.becomeFirstResponder()
         }
     }
     func didPushLeftButton(sender: UIButton) {
+        if self.mode == .Search {
+            
+        }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     // テキストが変更される毎に呼ばれる
@@ -561,7 +571,12 @@ extension VideoListViewController: UISearchBarDelegate {
             self.view.endEditing(true)
             searchBar.resignFirstResponder()
             self.videoList = []
-            APIManager.sharedInstance.search(self.queryString, aDelegate: self)
+            if self.mode == .Draft {
+                APIManager.sharedInstance.search(self.queryString, aDelegate: self)
+            }
+            else if self.mode == .Search {
+                NIFTYManager.sharedInstance.searchFromContents(self.queryString, aDelegate: self)
+            }
         }
     }
 }

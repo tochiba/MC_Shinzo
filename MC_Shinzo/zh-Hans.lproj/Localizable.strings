@@ -19,6 +19,7 @@
 "category_popular"  = "人气王";
 "category_new"      = "新";
 "category_favorite" = "收藏夹";
+"category_search"   = "Search";
 "category_setting"  = "设置";
 
 "review_detail"     = "你确定你想收到的意见和要求？";

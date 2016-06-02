@@ -58,6 +58,7 @@ extension BaseViewController: BaseControllerDelegate {
         self.setDrawerState(.Closed, animated: true)
         if let mvc = self.mainViewController as? MainViewController {
             mvc.mode = mode
+            mvc.setupLayout()
             mvc.setData()
         }
     }
@@ -70,6 +71,12 @@ class MainViewController: VideoListViewController {
             pvc.setDrawerState(state, animated: true)
         }
     }
+    @IBAction func didPushSearchButton(sender: AnyObject) {
+        let vc = VideoListViewController.getInstanceWithMode(mode: .Search)
+        let nvc = AnimationNavigationController(rootViewController: vc)
+        nvc.setBlackStyle()
+        self.presentViewController(nvc, animated: true, completion: {})
+    }
 }
 
 class DrawerViewController: SettingViewController {
@@ -79,6 +86,9 @@ class AnimationNavigationController: UINavigationController {
         super.viewDidLoad()
         self.modalPresentationStyle = .Custom
         self.transitioningDelegate = self
+    }
+    func setBlackStyle() {
+        self.navigationBar.barStyle = .Black
     }
 }
 extension AnimationNavigationController: UIViewControllerTransitioningDelegate {

@@ -142,7 +142,7 @@
                                                                 <constraint firstAttribute="width" constant="40" id="Sd3-qe-yYc"/>
                                                                 <constraint firstAttribute="width" secondItem="hwE-yi-mZU" secondAttribute="height" multiplier="1:1" id="xP9-Ms-Nov"/>
                                                             </constraints>
-                                                            <state key="normal" image="77A78DCD-F6DF-47E9-9FC4-4AC034B4E3CB"/>
+                                                            <state key="normal" image="35076651-A581-4007-ADE4-E0D1A12DDF38"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
                                                                     <exclude reference="Krj-rc-RdQ"/>
@@ -1029,11 +1029,24 @@
                                     <action selector="didPushOpenButton:" destination="Azh-YJ-WUm" eventType="touchUpInside" id="gDS-la-wu7"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7Z-Pt-Emn">
+                                <rect key="frame" x="0.0" y="510" width="48" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="IIc-dM-f1e"/>
+                                    <constraint firstAttribute="height" constant="40" id="XW1-ay-ln7"/>
+                                </constraints>
+                                <state key="normal" image="Search_icon"/>
+                                <connections>
+                                    <action selector="didPushSearchButton:" destination="Azh-YJ-WUm" eventType="touchUpInside" id="ImU-83-wfn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.1764705882" green="0.1764705882" blue="0.1764705882" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Kcm-qD-hDS" secondAttribute="bottom" id="12b-nq-M59"/>
                             <constraint firstAttribute="trailing" secondItem="OeF-Sc-XTz" secondAttribute="trailing" id="1Jd-wf-xMm"/>
+                            <constraint firstItem="g7Z-Pt-Emn" firstAttribute="leading" secondItem="A51-gw-uQL" secondAttribute="leading" id="3QR-7D-hvU"/>
+                            <constraint firstItem="grf-tG-2KI" firstAttribute="top" secondItem="g7Z-Pt-Emn" secondAttribute="bottom" id="4IJ-Df-1cU"/>
                             <constraint firstItem="Kcm-qD-hDS" firstAttribute="top" secondItem="A51-gw-uQL" secondAttribute="top" id="4m5-aC-E9V"/>
                             <constraint firstAttribute="trailing" secondItem="Kcm-qD-hDS" secondAttribute="trailing" id="6hE-LF-xx2"/>
                             <constraint firstItem="Kcm-qD-hDS" firstAttribute="top" secondItem="A51-gw-uQL" secondAttribute="top" id="8Xk-l5-Pdz"/>
@@ -1279,7 +1292,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PushAlert" translatesAutoresizingMaskIntoConstraints="NO" id="BbF-HF-zcd">
-                                        <rect key="frame" x="0.0" y="72" width="300" height="176"/>
+                                        <rect key="frame" x="-2" y="72" width="304" height="176"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
@@ -1302,7 +1315,7 @@
                                     <constraint firstItem="55e-V3-78a" firstAttribute="top" secondItem="oa2-y1-rJy" secondAttribute="top" constant="8" id="6Yv-Ci-Y6c"/>
                                     <constraint firstItem="ZWb-GM-rfm" firstAttribute="leading" secondItem="oa2-y1-rJy" secondAttribute="leading" id="7zy-nc-dPJ"/>
                                     <constraint firstItem="nbt-go-hJ5" firstAttribute="top" secondItem="55e-V3-78a" secondAttribute="bottom" constant="4" id="AwB-gk-wbG"/>
-                                    <constraint firstAttribute="trailing" secondItem="BbF-HF-zcd" secondAttribute="trailing" id="Ciu-JO-9ih"/>
+                                    <constraint firstAttribute="trailing" secondItem="BbF-HF-zcd" secondAttribute="trailing" constant="-2" id="Ciu-JO-9ih"/>
                                     <constraint firstAttribute="width" constant="300" id="Ftq-pk-Wwb"/>
                                     <constraint firstAttribute="trailing" secondItem="nbt-go-hJ5" secondAttribute="trailing" constant="8" id="MWH-xi-0My"/>
                                     <constraint firstItem="BbF-HF-zcd" firstAttribute="top" secondItem="nbt-go-hJ5" secondAttribute="bottom" constant="4" id="Mht-xK-onI"/>
@@ -1311,7 +1324,7 @@
                                     <constraint firstAttribute="bottom" secondItem="ZWb-GM-rfm" secondAttribute="bottom" id="ZQq-lq-U7v"/>
                                     <constraint firstItem="BbF-HF-zcd" firstAttribute="top" secondItem="55e-V3-78a" secondAttribute="bottom" constant="8" id="dwO-eA-L0e"/>
                                     <constraint firstItem="55e-V3-78a" firstAttribute="leading" secondItem="oa2-y1-rJy" secondAttribute="leading" constant="8" id="eZn-O5-Tg0"/>
-                                    <constraint firstItem="BbF-HF-zcd" firstAttribute="leading" secondItem="oa2-y1-rJy" secondAttribute="leading" id="o9T-lH-jB6"/>
+                                    <constraint firstItem="BbF-HF-zcd" firstAttribute="leading" secondItem="oa2-y1-rJy" secondAttribute="leading" constant="-2" id="o9T-lH-jB6"/>
                                     <constraint firstItem="BbF-HF-zcd" firstAttribute="centerX" secondItem="oa2-y1-rJy" secondAttribute="centerX" id="vKo-Gs-z23"/>
                                     <constraint firstItem="BbF-HF-zcd" firstAttribute="width" secondItem="BbF-HF-zcd" secondAttribute="height" multiplier="268:175" id="yk5-dB-rdZ"/>
                                 </constraints>
@@ -1371,7 +1384,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="77A78DCD-F6DF-47E9-9FC4-4AC034B4E3CB" width="30" height="30">
+        <image name="35076651-A581-4007-ADE4-E0D1A12DDF38" width="30" height="30">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1486,6 +1499,7 @@ GFIYVRhaAAAAAAAAAgEAAAAAAAAAQQAAAAAAAAAAAAAAAAAAGFw
         <image name="Heart_on" width="38" height="38"/>
         <image name="Opne" width="48" height="40"/>
         <image name="PushAlert" width="414" height="238"/>
+        <image name="Search_icon" width="48" height="40"/>
         <image name="batu2" width="18" height="17"/>
         <image name="bigbig_app_icon" width="170" height="170"/>
         <image name="play" width="102" height="102"/>
