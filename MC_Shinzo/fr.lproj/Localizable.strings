@@ -19,6 +19,7 @@
 "category_popular"  = "Popular";
 "category_new"      = "Nouveau";
 "category_favorite" = "Favorite";
+"category_search"   = "Search";
 "category_setting"  = "Réglage";
 
 "review_detail"     = "Êtes-vous sûr de vouloir reçu les avis et les demandes?";

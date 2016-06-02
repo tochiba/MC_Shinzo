@@ -18,6 +18,7 @@
 "category_popular"  = " 인기 ";
 "category_new"      = " 새로운 ";
 "category_favorite" = " 즐겨 찾기 ";
+"category_search"   = "Search";
 "category_setting"  = " 설정" ;
 
 "review_detail"     = "당신은 당신이 의견과 요청을 수신 하시겠습니까?";

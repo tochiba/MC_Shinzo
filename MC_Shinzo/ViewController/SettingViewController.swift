@@ -73,6 +73,7 @@ extension SettingViewController: UITableViewDelegate {
             if let mode = SettingDataMenuRow(rawValue: indexPath.row)?.contentsMode {
                 self.delegate?.didSelectCell(mode)
             }
+            
             return
         }
         

@@ -19,6 +19,7 @@
 "category_popular"  = "人氣王";
 "category_new"      = "新";
 "category_favorite" ="收藏夾";
+"category_search"   = "Search";
 "category_setting"  ="設置";
 
 "review_detail"     = "你確定你想收到的意見和要求？";
