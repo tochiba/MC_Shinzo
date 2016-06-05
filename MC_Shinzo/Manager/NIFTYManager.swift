@@ -456,10 +456,9 @@ class NIFTYManager {
         
         var aArray: [Video] = []
         for a in self.deliverVideos {
-            if a.title.containsString(query) || a.descri.containsString(query) {
+            if a.title.containsString(query.uppercaseString) || a.title.containsString(query.lowercaseString) || a.descri.containsString(query.uppercaseString) || a.descri.containsString(query.lowercaseString) {
                 aArray.append(a)
             }
-            
         }
         self.videoDic[encodedString] = aArray
         
