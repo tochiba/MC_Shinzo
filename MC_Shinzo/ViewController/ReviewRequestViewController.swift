@@ -115,7 +115,7 @@ struct Review {
 class ReviewChecker: NSObject {
     class func favoriteCheck(viewController: UIViewController) -> Bool {
         let num = FavoriteCounter.getCount()
-        if num > 4 {
+        if num > 3 {
             FavoriteCounter.reset()
             
             if isDisplayed() {
