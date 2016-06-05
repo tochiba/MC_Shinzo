@@ -12,8 +12,8 @@ class PushAlertViewController: DialogViewController {
     class func isEnabled() -> Bool {
         guard let settings = UIApplication.sharedApplication().currentUserNotificationSettings() else {
             return false
-        }
-        return settings.types == UIUserNotificationType.Alert
+        }        
+        return settings.types == UIUserNotificationType(rawValue: 7)
     }
     
     class func ifNeedPushAlert() -> Bool {
@@ -21,7 +21,6 @@ class PushAlertViewController: DialogViewController {
             return false
         }
         
-        // Default is false
         return !isDisplayed()
     }
     
