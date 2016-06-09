@@ -72,35 +72,61 @@ class TwitterManager {
         }
     }
     
-    func postTweet(msg: String) {
-        let url = NSURL(string: "https://api.twitter.com/1.1/statuses/update.json")!
-        let params = ["status" : msg]
-        
-        sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
-            // 投稿完了ハンドラ
-            //print(responseData)
-        }
-    }
-    
     func postTweet(video: Video) {
         let shareText = "\(video.title) #Subrhyme \n\(URL.YoutubeShare)\(video.id)\n\(URL.AppStore)"
 
         if self.account != nil {
-            postTweet(shareText)
+            //postTweet(shareText)
+            uploadImage(video.thumbnailUrl, message: shareText)
         }
         else {
             getAccounts({ (accounts: [ACAccount]) in
                 for a in accounts {
                     if a.username == "Subrhyme_" {
                         self.account = a
-                        self.postTweet(shareText)
+                        self.uploadImage(video.thumbnailUrl, message: shareText)
+                        //self.postTweet(shareText)
                     }
                 }
             })
         }
     }
     
+    func uploadImage(imageUrl: String, message: String) {
+        if let imageURL = NSURL(string: imageUrl) {
+            if let data = NSData(contentsOfURL: imageURL) {
+                let base64String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+                let url = NSURL(string: "https://upload.twitter.com/1.1/media/upload.json")!
+                let params = ["media_data" : base64String]
+                
+                sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+                    do {
+                        let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+                        let json = JSON(jsonObject)
+                        if let id = json["media_id"].int {
+                            self.postTweet(message, mediaId: id)
+                        }
+                    }
+                    catch {
+                        self.postTweet(message)
+                        return
+                    }
+                }
+            }
+        }
+    }
     
+    func postTweet(msg: String, mediaId: Int? = nil) {
+        let url = NSURL(string: "https://api.twitter.com/1.1/statuses/update.json")!
+        var params = ["status" : msg]
+        if let mid = mediaId {
+            params["media_ids"] = String(mid)
+        }
+        
+        sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+        }
+    }
+
     func favorite(id id: Int) {
         
         if self.account != nil {
@@ -123,10 +149,6 @@ class TwitterManager {
         let params = ["id" : String(id)]
         
         sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
-            // 投稿完了ハンドラ
-//            print(urlResponse.statusCode)
-//            print(urlResponse)
-//            print(responseData)            
         }
     }
     
