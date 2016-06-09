@@ -230,6 +230,8 @@ class NIFTYManager {
                         video.dateInteger = i
                     }
                     self.backgroundSaveObject(video)
+                    TwitterManager.sharedInstance.searchTweet(URL.YoutubeShare + video.id)
+                    TwitterManager.sharedInstance.searchTweet(video.title)
                     TwitterManager.sharedInstance.postTweet(video)
                     if isAuto {
                         self.refreshNewCategory()

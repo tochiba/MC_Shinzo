@@ -106,6 +106,7 @@ extension SettingViewController: UITableViewDelegate {
             else if data == .DevAutoDeliver {
                 if !Config.isNotDevMode() {
                     ARSLineProgress.show()
+                    TwitterManager.sharedInstance.startAutoFavorite()
                     AutoDeliverManager.sharedInstance.start()
                 }
             }

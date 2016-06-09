@@ -9,6 +9,7 @@
 import Foundation
 import Accounts
 import Social
+import SwiftyJSON
 
 class TwitterManager {
     static let sharedInstance = TwitterManager()
@@ -97,6 +98,82 @@ class TwitterManager {
                 }
             })
         }
+    }
+    
+    
+    func favorite(id id: Int) {
         
+        if self.account != nil {
+            postFavorite(id: id)
+        }
+        else {
+            getAccounts({ (accounts: [ACAccount]) in
+                for a in accounts {
+                    if a.username == "Subrhyme_" {
+                        self.account = a
+                        self.postFavorite(id: id)
+                    }
+                }
+            })
+        }
+    }
+    
+    private func postFavorite(id id: Int) {
+        let url = NSURL(string: "https://api.twitter.com/1.1/favorites/create.json")!
+        let params = ["id" : String(id)]
+        
+        sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+            // 投稿完了ハンドラ
+//            print(urlResponse.statusCode)
+//            print(urlResponse)
+//            print(responseData)            
+        }
+    }
+    
+    func searchTweet(query: String) {
+        if self.account != nil {
+            getTweet(query)
+        }
+        else {
+            getAccounts({ (accounts: [ACAccount]) in
+                for a in accounts {
+                    if a.username == "Subrhyme_" {
+                        self.account = a
+                        self.getTweet(query)
+                    }
+                }
+            })
+        }
+    }
+    
+    func getTweet(query: String) {
+        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+            return
+        }
+        let url = NSURL(string: "https://api.twitter.com/1.1/search/tweets.json")!
+        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "100"]
+        
+        sendRequest(url, requestMethod: .GET, params: params) { (responseData, urlResponse) -> Void in
+            do {
+                let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+                let json = JSON(jsonObject)
+                for entity in json["statuses"].arrayValue {
+                    if let id = entity["id"].int {
+                        self.favorite(id: id)                        
+                    }
+                }
+            }
+            catch {
+                return
+            }
+        }
+    }
+
+    
+    func startAutoFavorite() {
+        let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ", "フリースタイルラップ", "フリースタイルバトル", "サイファー"]
+        for q in queryList {
+            getTweet(q)
+        }
     }
 }
