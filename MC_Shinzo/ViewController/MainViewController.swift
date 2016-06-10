@@ -81,6 +81,7 @@ class MainViewController: VideoListViewController {
 
 class DrawerViewController: SettingViewController {
 }
+
 class AnimationNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
