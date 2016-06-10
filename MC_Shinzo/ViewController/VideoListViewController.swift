@@ -463,20 +463,18 @@ extension VideoListViewController: CardCollectionCellDelegate {
         
         if !Config.isNotDevMode() {
             resetPickerView()
-            if NIFTYManager.sharedInstance.isDeliveredVideo(video) {                
-                let myAction_01 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
-                    (action: UIAlertAction) in
-                    NIFTYManager.sharedInstance.deleteThisVideo(video)
-                })
-                myAlert.addAction(myAction_01)
-            }
-            else {
-                let myAction_00 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
-                    (action: UIAlertAction) in
-                    self.createPickerView(video, frame: frame)
-                })
-                myAlert.addAction(myAction_00)
-            }
+            let myAction_01 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
+                (action: UIAlertAction) in
+                NIFTYManager.sharedInstance.deleteThisVideo(video)
+            })
+            myAlert.addAction(myAction_01)
+            
+            let myAction_00 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+                (action: UIAlertAction) in
+                self.createPickerView(video, frame: frame)
+            })
+            myAlert.addAction(myAction_00)
+            
             
             if !NIFTYManager.sharedInstance.isDeliveredChannel(video) {
                 let myAction_03 = UIAlertAction(title: NSLocalizedString("このチャンネルを登録する", comment: ""), style: UIAlertActionStyle.Default, handler: {
