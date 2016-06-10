@@ -20,7 +20,8 @@ class SettingViewController: UIViewController {
 class SettingTableView: UITableView {
     var timer: NSTimer = NSTimer()
     var counter: Int = 0
-
+    weak var viewController: UIViewController?
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         if self.timer.valid {
@@ -39,9 +40,43 @@ class SettingTableView: UITableView {
     
     private func check() {
         if self.counter > 11 {
-            Config.setDevMode(Config.isNotDevMode())
-            self.reloadData()
-            resetTimer()
+            
+            let alert: UIAlertController = UIAlertController(title:"Dev Mode",
+                                                            message: "Input Password",
+                                                            preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
+                                                           style: UIAlertActionStyle.Cancel,
+                                                           handler:{
+                                                            (action:UIAlertAction!) -> Void in
+            })
+            let defaultAction:UIAlertAction = UIAlertAction(title: "OK",
+                                                            style: UIAlertActionStyle.Default,
+                                                            handler:{
+                                                                (action:UIAlertAction!) -> Void in
+                                                                let textFields:Array<UITextField>? =  alert.textFields as Array<UITextField>?
+                                                                if textFields != nil {
+                                                                    for textField:UITextField in textFields! {
+                                                                        if textField.text == PASS.DevMode {
+                                                                            Config.setDevMode(Config.isNotDevMode())
+                                                                            self.reloadData()
+                                                                            self.resetTimer()
+                                                                        }
+                                                                    }
+                                                                }
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(defaultAction)
+            
+            alert.addTextFieldWithConfigurationHandler({(text:UITextField!) -> Void in
+                text.placeholder = "password"
+                let label:UILabel = UILabel(frame: CGRectMake(0, 0, 50, 30))
+                label.text = "PASS"
+                text.leftView = label
+                text.leftViewMode = UITextFieldViewMode.Always
+                
+            })
+            self.viewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 }
@@ -59,6 +94,7 @@ extension SettingViewController {
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.tableView.viewController = self
         self.sendScreenNameLog()
     }
 }
