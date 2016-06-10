@@ -193,7 +193,7 @@ class TwitterManager {
 
     
     func startAutoFavorite() {
-        let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ", "フリースタイルラップ", "フリースタイルバトル", "サイファー"]
+        let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ", "フリースタイルラップ", "フリースタイルバトル"]
         for q in queryList {
             getTweet(q)
         }
