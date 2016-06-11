@@ -173,15 +173,20 @@ class TwitterManager {
             return
         }
         let url = NSURL(string: "https://api.twitter.com/1.1/search/tweets.json")!
-        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "100"]
+        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "20"]
         
         sendRequest(url, requestMethod: .GET, params: params) { (responseData, urlResponse) -> Void in
             do {
                 let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
                 let json = JSON(jsonObject)
                 for entity in json["statuses"].arrayValue {
-                    if let id = entity["id"].int {
-                        self.favorite(id: id)                        
+                    if let id = entity["id"].int, let favo = entity["favorited"].bool {
+                        //favorited
+                        if !favo {
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                                self.favorite(id: id)
+                            })
+                        }
                     }
                 }
             }
