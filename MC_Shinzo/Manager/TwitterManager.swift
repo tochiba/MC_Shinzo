@@ -169,11 +169,14 @@ class TwitterManager {
     }
     
     func getTweet(query: String) {
+        // 一旦オフに
+        return
+        
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return
         }
         let url = NSURL(string: "https://api.twitter.com/1.1/search/tweets.json")!
-        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "20"]
+        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "10"]
         
         sendRequest(url, requestMethod: .GET, params: params) { (responseData, urlResponse) -> Void in
             do {
@@ -183,9 +186,9 @@ class TwitterManager {
                     if let id = entity["id"].int, let favo = entity["favorited"].bool {
                         //favorited
                         if !favo {
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                                self.favorite(id: id)
-                            })
+                            sleep(1)
+                            self.favorite(id: id)
+                            sleep(1)
                         }
                     }
                 }
@@ -198,7 +201,7 @@ class TwitterManager {
 
     
     func startAutoFavorite() {
-        let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ", "フリースタイルラップ", "フリースタイルバトル"]
+        let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ"]//, "フリースタイルラップ", "フリースタイルバトル"]
         for q in queryList {
             getTweet(q)
         }
