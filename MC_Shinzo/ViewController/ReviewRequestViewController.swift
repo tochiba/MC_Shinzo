@@ -82,7 +82,7 @@ class ReviewController: DialogViewController {
             self.dismissViewControllerAnimated(true, completion: nil)
             break
         case Review.okTag:
-            let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1102160099"
+            let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1104660363"
             if let url = NSURL(string: str) {
                 ReviewChecker.setDisplayed()
                 UIApplication.sharedApplication().openURL(url)

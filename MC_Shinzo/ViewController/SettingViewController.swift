@@ -14,7 +14,20 @@ import ARSLineProgress
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
+    @IBOutlet weak var bannerView: BannerView!
     var delegate: BaseControllerDelegate?
+}
+extension SettingViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let sectionHeaderHeight = self.tableView.sectionHeaderHeight + 20
+        let offSetY = scrollView.contentOffset.y
+        if offSetY <= sectionHeaderHeight && offSetY >= 0 {
+            scrollView.contentInset = UIEdgeInsetsMake(-offSetY, 0, 0, 0)
+        }
+        else if offSetY >= sectionHeaderHeight {
+            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0)
+        }
+    }
 }
 
 class SettingTableView: UITableView {
@@ -94,6 +107,7 @@ extension SettingViewController {
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.bannerView.setup(self, unitID: AD.DrawerBannerUnitID)
         self.tableView.viewController = self
         self.sendScreenNameLog()
     }
@@ -107,7 +121,18 @@ extension SettingViewController: UITableViewDelegate {
         
         if sdata == .Menu {
             if let mode = SettingDataMenuRow(rawValue: indexPath.row)?.contentsMode {
-                self.delegate?.didSelectCell(mode)
+                self.delegate?.didSelectCell(mode, query: "")
+            }
+            
+            return
+        }
+        
+        if sdata == .Rapper {
+            guard let rdata = SettingDataRapperRow(rawValue: indexPath.row) else {
+                return
+            }
+            if let mode = rdata.contentsMode {
+                self.delegate?.didSelectCell(mode, query: rdata.query)
             }
             
             return
@@ -178,9 +203,23 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let sdata = SettingDataSection(rawValue: indexPath.section)
+        let sdata = SettingDataSection(rawValue: indexPath.section)! as SettingDataSection
         let cell = tableView.dequeueReusableCellWithIdentifier(SettingDataSection.cellName, forIndexPath: indexPath)
-        cell.textLabel?.text = sdata == .Menu ? SettingDataMenuRow(rawValue: indexPath.row)?.title:SettingDataSettingRow(rawValue: indexPath.row)?.title
+        var text: String? = ""
+        switch sdata {
+        case .Menu:
+            text = SettingDataMenuRow(rawValue: indexPath.row)?.title
+            break
+        case .Rapper:
+            text = SettingDataRapperRow(rawValue: indexPath.row)?.title
+            break
+        case .Setting:
+            text = SettingDataSettingRow(rawValue: indexPath.row)?.title
+            break
+        default:
+            break
+        }
+        cell.textLabel?.text = text
         cell.textLabel?.textColor = UIColor.whiteColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
         cell.backgroundColor = UIColor.clearColor()
@@ -193,6 +232,7 @@ extension SettingViewController: SFSafariViewControllerDelegate {
 
 private enum SettingDataSection: Int {
     case Menu
+    case Rapper
     case Setting
     case NumberOfSections
     
@@ -210,6 +250,8 @@ private enum SettingDataSection: Int {
         switch self {
         case .Menu:
             return SettingDataRow.Favorite.rawValue + 1
+        case .Rapper:
+            return SettingDataRapperRow.Dotama.numberOfRows
         case .Setting:
             if Config.isNotDevMode() {
                 return SettingDataRow.Deliverd.rawValue - SettingDataRow.Favorite.rawValue
@@ -226,6 +268,8 @@ private enum SettingDataSection: Int {
         switch self {
         case .Menu:
             return "    " + NSLocalizedString("setting_menu", comment: "")
+        case .Rapper:
+            return "    " + NSLocalizedString("setting_rapper", comment: "")
         case .Setting:
             return "    " + NSLocalizedString("category_setting", comment: "")
         default:
@@ -380,6 +424,88 @@ private enum SettingDataMenuRow: Int {
             return VideoListViewController.Mode.Popular
         case Favorite:
             return VideoListViewController.Mode.Favorite
+        default:
+            return nil
+        }
+    }
+}
+
+private enum SettingDataRapperRow: Int {
+    case Saue
+    case Kan
+    case Tpablow
+    case Rshitei
+    case Chico
+    case Dotama
+    case Ace
+    case Takumaki
+    case Mrq
+    case NumberOfRows
+    
+    var numberOfRows: Int {
+        return NumberOfRows.rawValue
+    }
+    var title: String {
+        switch self {
+        case Saue:
+            return NSLocalizedString("サイプレス上野", comment: "")
+        case Kan:
+            return NSLocalizedString("漢 a.k.a GAMI", comment: "")
+        case Tpablow:
+            return NSLocalizedString("T-PABLOW", comment: "")
+        case Rshitei:
+            return NSLocalizedString("R-指定", comment: "")
+        case Chico:
+            return NSLocalizedString("CHICO CARLITO", comment: "")
+        case Dotama:
+            return NSLocalizedString("DOTAMA", comment: "")
+        case Ace:
+            return NSLocalizedString("ACE", comment: "")
+        case Takumaki:
+            return NSLocalizedString("焚巻", comment: "")
+        case Mrq:
+            return NSLocalizedString("Mr.Q", comment: "")
+        default:
+            return ""
+        }
+    }
+
+    var query: String {
+        switch self {
+        case Saue:
+            return NSLocalizedString("上野", comment: "")
+        case Kan:
+            return NSLocalizedString("漢", comment: "")
+        case Tpablow:
+            return NSLocalizedString("T-p", comment: "")
+        case Rshitei:
+            return NSLocalizedString("R-指定", comment: "")
+        case Chico:
+            return NSLocalizedString("CHICO", comment: "")
+        case Dotama:
+            return NSLocalizedString("DOTAMA", comment: "")
+        case Ace:
+            return NSLocalizedString("ACE", comment: "")
+        case Takumaki:
+            return NSLocalizedString("焚巻", comment: "")
+        case Mrq:
+            return NSLocalizedString("Mr.Q", comment: "")
+        default:
+            return ""
+        }
+    }
+
+    var segueID: String? {
+        switch self {
+        default:
+            return nil
+        }
+    }
+    
+    var contentsMode: VideoListViewController.Mode? {
+        switch self {
+        case Saue, Kan, Tpablow, Rshitei, Chico, Dotama, Ace,Takumaki, Mrq:
+            return VideoListViewController.Mode.Rapper
         default:
             return nil
         }
