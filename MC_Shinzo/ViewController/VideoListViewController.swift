@@ -36,6 +36,7 @@ class VideoListViewController: UIViewController {
         case Draft
         case Channel
         case Search
+        case Rapper
     }
     var mode: Mode = .New
     
@@ -167,6 +168,8 @@ extension VideoListViewController {
             return
         case .Search:
             NIFTYManager.sharedInstance.searchFromContents(self.queryString, aDelegate: self)
+        case .Rapper:
+            NIFTYManager.sharedInstance.searchFromContents(self.queryString, aDelegate: self)
             return
         }
     }
@@ -192,6 +195,9 @@ extension VideoListViewController {
             self.videoList = APIManager.sharedInstance.getVideos(self.queryString)
             return
         case .Search:
+            self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
+            return
+        case .Rapper:
             self.videoList = NIFTYManager.sharedInstance.getVideos(self.queryString)
             return
         }

@@ -11,7 +11,7 @@ import UIKit
 import KYDrawerController
 
 protocol BaseControllerDelegate: class {
-    func didSelectCell(mode: VideoListViewController.Mode)
+    func didSelectCell(mode: VideoListViewController.Mode, query: String)
 }
 
 class BaseViewController: KYDrawerController {
@@ -54,10 +54,11 @@ extension BaseViewController: KYDrawerControllerDelegate {
     }
 }
 extension BaseViewController: BaseControllerDelegate {
-    func didSelectCell(mode: VideoListViewController.Mode) {
+    func didSelectCell(mode: VideoListViewController.Mode, query: String) {
         self.setDrawerState(.Closed, animated: true)
         if let mvc = self.mainViewController as? MainViewController {
             mvc.mode = mode
+            mvc.queryString = query
             mvc.setupLayout()
             mvc.setData()
         }
