@@ -14,6 +14,7 @@ import ARSLineProgress
 
 class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: SettingTableView!
+    @IBOutlet weak var bannerView: BannerView!
     var delegate: BaseControllerDelegate?
 }
 extension SettingViewController: UIScrollViewDelegate {
@@ -106,6 +107,7 @@ extension SettingViewController {
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.bannerView.setup(self, unitID: AD.DrawerBannerUnitID)
         self.tableView.viewController = self
         self.sendScreenNameLog()
     }
