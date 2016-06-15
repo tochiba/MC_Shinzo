@@ -13,6 +13,7 @@
 "setting_request"   = "Demand";
 "setting_licence"   = "Lizenz";
 "setting_deliverd"  = "Geliefert Informationen";
+"setting_review"    = "⭐️⭐️⭐️⭐️⭐️";
 "setting_toolmode"  = "Entwicklermodus ON";
 
 "category_popular"  = "Popular";

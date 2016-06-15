@@ -157,6 +157,14 @@ extension SettingViewController: UITableViewDelegate {
                 brow.delegate = self
                 presentViewController(brow, animated: true, completion: nil)
             }
+            else if data == .Review {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
+                    nVC.delegate = self
+                    nVC.showCloseButton = true
+                    self.presentViewController(nVC, animated: true, completion: nil)
+                }
+            }
             else if data == .DevMode {
                 if !Config.isNotDevMode() {
                     let vc = VideoListViewController.getInstanceWithMode(mode: .Draft)
@@ -516,6 +524,7 @@ private enum SettingDataSettingRow: Int {
     case Request
     case Copyright
     case Deliverd
+    case Review
     
     case DevMode
     case DevChannel
@@ -540,6 +549,8 @@ private enum SettingDataSettingRow: Int {
             return NSLocalizedString("setting_licence", comment: "")
         case .Deliverd:
             return NSLocalizedString("setting_deliverd", comment: "")
+        case .Review:
+            return NSLocalizedString("setting_review", comment: "")
         case .DevMode:
             if Config.isNotDevMode() {
                 return ""
@@ -574,6 +585,8 @@ private enum SettingDataSettingRow: Int {
             return "SettingToLicence"
         case .Deliverd:
             return nil
+        case .Review:
+            return nil
         case .DevMode:
             return nil
         case DevChannel:
@@ -587,6 +600,12 @@ private enum SettingDataSettingRow: Int {
     
     var contentsMode: VideoListViewController.Mode? {
         return nil
+    }
+}
+
+extension SettingViewController: ReviewControllerDelegate {
+    func didPushFeedBackButton() {
+        Meyasubaco.showCommentViewController(self)
     }
 }
 
