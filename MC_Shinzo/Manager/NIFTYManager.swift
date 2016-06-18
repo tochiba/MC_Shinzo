@@ -17,7 +17,7 @@ protocol NIFTYManagerDelegate: class {
 extension NIFTYManager {
     func loadDeliveredVideos() {
         let q = NCMBQuery(className: Video.className())
-        q.limit = 100000
+        q.limit = 1000
         q.orderByDescending("createDate")
         q.findObjectsInBackgroundWithBlock({
             (array, error) in
@@ -59,6 +59,70 @@ extension NIFTYManager {
                         }
                     }
                 }
+                
+                let limitNum: Int32 = 1000
+                if aArray.count == Int(limitNum) {
+                    var skip: Int32 = 1000
+                    self.loadDeliveredVideos(&skip, array: &aArray)
+                    return
+                }
+
+                self.deliverVideos = aArray
+                APIManager.sharedInstance.delegate?.didFinishLoad(aArray)
+            }
+        })
+    }
+
+    func loadDeliveredVideos(inout skip: Int32, inout array aArray: [Video]) {
+        let limitNum: Int32 = 1000
+        let q = NCMBQuery(className: Video.className())
+        q.limit = limitNum
+        q.skip = skip
+        q.orderByDescending("createDate")
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            if error == nil {
+                for a in array {                    
+                    if let _a = a as? NCMBObject {
+                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
+                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
+                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
+                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
+                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
+                            
+                            let an = Video()
+                            an.id = i
+                            an.categoryName = ana
+                            an.date = d
+                            an.title = t
+                            an.thumbnailUrl = th
+                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                                an.descri = de
+                            }
+                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                                an.videoUrl = v
+                            }
+                            an.likeCount = 0
+                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                                an.likeCount = l
+                            }
+                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                                an.channelName = cn
+                            }
+                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                                an.channelId = ci
+                            }
+                            
+                            aArray.append(an)
+                        }
+                    }
+                }
+                if aArray.count == Int(skip + limitNum) {
+                    skip += limitNum
+                    self.loadDeliveredVideos(&skip, array: &aArray)
+                    return
+                }
+                
                 self.deliverVideos = aArray
                 APIManager.sharedInstance.delegate?.didFinishLoad(aArray)
             }
