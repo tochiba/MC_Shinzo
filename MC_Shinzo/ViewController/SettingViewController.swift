@@ -447,7 +447,7 @@ private enum SettingDataRapperRow: Int {
     case Dotama
     case Ace
     case Takumaki
-    case Mrq
+    case Chin
     case NumberOfRows
     
     var numberOfRows: Int {
@@ -471,8 +471,8 @@ private enum SettingDataRapperRow: Int {
             return NSLocalizedString("ACE", comment: "")
         case Takumaki:
             return NSLocalizedString("焚巻", comment: "")
-        case Mrq:
-            return NSLocalizedString("Mr.Q", comment: "")
+        case Chin:
+            return NSLocalizedString("鎮座DOPENESS", comment: "")
         default:
             return ""
         }
@@ -496,8 +496,8 @@ private enum SettingDataRapperRow: Int {
             return NSLocalizedString("ACE", comment: "")
         case Takumaki:
             return NSLocalizedString("焚巻", comment: "")
-        case Mrq:
-            return NSLocalizedString("Mr.Q", comment: "")
+        case Chin:
+            return NSLocalizedString("鎮座", comment: "")
         default:
             return ""
         }
@@ -512,7 +512,7 @@ private enum SettingDataRapperRow: Int {
     
     var contentsMode: VideoListViewController.Mode? {
         switch self {
-        case Saue, Kan, Tpablow, Rshitei, Chico, Dotama, Ace,Takumaki, Mrq:
+        case Saue, Kan, Tpablow, Rshitei, Chico, Dotama, Ace,Takumaki, Chin:
             return VideoListViewController.Mode.Rapper
         default:
             return nil
