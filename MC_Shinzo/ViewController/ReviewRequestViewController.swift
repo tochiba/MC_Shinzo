@@ -74,6 +74,7 @@ class ReviewController: DialogViewController {
             self.dismissViewControllerAnimated(true, completion: nil)
             break
         case FeedBack.okTag:
+            ReviewChecker.setDisplayed()
             self.dismissViewControllerAnimated(true, completion: {
                 self.delegate?.didPushFeedBackButton()
             })
@@ -123,7 +124,7 @@ class ReviewChecker: NSObject {
                 return false
             }
             
-            if (arc4random() % 3) == 0 {
+            if (arc4random() % 2) == 0 {
                 return true
             }
             else {
@@ -146,7 +147,7 @@ class ReviewChecker: NSObject {
                 return false
             }
 
-            if (arc4random() % 3) == 0 {
+            if (arc4random() % 2) == 0 {
                 return true
             }
             else {
