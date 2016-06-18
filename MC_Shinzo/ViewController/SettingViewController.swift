@@ -127,6 +127,17 @@ extension SettingViewController: UITableViewDelegate {
             return
         }
         
+        if sdata == .Event {
+            guard let rdata = SettingDataEventRow(rawValue: indexPath.row) else {
+                return
+            }
+            if let mode = rdata.contentsMode {
+                self.delegate?.didSelectCell(mode, query: rdata.query)
+            }
+            
+            return
+        }
+
         if sdata == .Rapper {
             guard let rdata = SettingDataRapperRow(rawValue: indexPath.row) else {
                 return
@@ -177,6 +188,7 @@ extension SettingViewController: UITableViewDelegate {
                     ARSLineProgress.show()
                     TwitterManager.sharedInstance.startAutoFavorite()
                     AutoDeliverManager.sharedInstance.start()
+//                    NIFTYManager.sharedInstance.checkDeleteVideos()
                 }
             }
             return
@@ -218,6 +230,9 @@ extension SettingViewController: UITableViewDataSource {
         case .Menu:
             text = SettingDataMenuRow(rawValue: indexPath.row)?.title
             break
+        case .Event:
+            text = SettingDataEventRow(rawValue: indexPath.row)?.title
+            break
         case .Rapper:
             text = SettingDataRapperRow(rawValue: indexPath.row)?.title
             break
@@ -240,6 +255,7 @@ extension SettingViewController: SFSafariViewControllerDelegate {
 
 private enum SettingDataSection: Int {
     case Menu
+    case Event
     case Rapper
     case Setting
     case NumberOfSections
@@ -258,9 +274,13 @@ private enum SettingDataSection: Int {
         switch self {
         case .Menu:
             return SettingDataRow.Favorite.rawValue + 1
+        case .Event:
+            return SettingDataEventRow.Freestyle.numberOfRows
         case .Rapper:
             return SettingDataRapperRow.Dotama.numberOfRows
         case .Setting:
+            return SettingDataSettingRow.Deliverd.numberOfRows
+            
             if Config.isNotDevMode() {
                 return SettingDataRow.Deliverd.rawValue - SettingDataRow.Favorite.rawValue
             }
@@ -276,6 +296,8 @@ private enum SettingDataSection: Int {
         switch self {
         case .Menu:
             return "    " + NSLocalizedString("setting_menu", comment: "")
+        case .Event:
+            return "    " + NSLocalizedString("setting_event", comment: "")
         case .Rapper:
             return "    " + NSLocalizedString("setting_rapper", comment: "")
         case .Setting:
@@ -434,6 +456,63 @@ private enum SettingDataMenuRow: Int {
             return VideoListViewController.Mode.Favorite
         default:
             return nil
+        }
+    }
+}
+
+private enum SettingDataEventRow: Int {
+    case Freestyle
+    case Koukousei
+    case Umb
+    case Sengoku
+    case NumberOfRows
+    
+    var numberOfRows: Int {
+        return NumberOfRows.rawValue
+    }
+    var title: String {
+        switch self {
+        case Freestyle:
+            return NSLocalizedString("フリースタイルダンジョン", comment: "")
+        case Koukousei:
+            return NSLocalizedString("高校生ラップ選手権", comment: "")
+        case Umb:
+            return NSLocalizedString("UMB", comment: "")
+        case Sengoku:
+            return NSLocalizedString("戦極MC BATTLE", comment: "")
+        default:
+            return ""
+        }
+    }
+    
+    var query: String {
+        switch self {
+        case Freestyle:
+            return NSLocalizedString("フリースタイルダンジョン", comment: "")
+        case Koukousei:
+            return NSLocalizedString("高校生", comment: "")
+        case Umb:
+            return NSLocalizedString("UMB", comment: "")
+        case Sengoku:
+            return NSLocalizedString("戦極MC", comment: "")
+        default:
+            return ""
+        }
+    }
+    
+    var segueID: String? {
+        switch self {
+        default:
+            return nil
+        }
+    }
+    
+    var contentsMode: VideoListViewController.Mode? {
+        switch self {
+        case NumberOfRows:
+            return nil
+        default:
+            return VideoListViewController.Mode.Rapper
         }
     }
 }
