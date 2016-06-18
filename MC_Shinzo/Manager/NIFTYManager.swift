@@ -452,7 +452,7 @@ class NIFTYManager {
             q.orderByDescending("likeCount")
             q.limit = 30
             
-            let date = NSDate(timeIntervalSinceNow: -60 * 60 * 24 * 21) //3週間前
+            let date = NSDate(timeIntervalSinceNow: -60 * 60 * 24 * 14) //2週間前
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd"
             if  let i = Int(dateFormatter.stringFromDate(date)) {
