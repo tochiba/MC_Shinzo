@@ -57,11 +57,6 @@ class APIManager {
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return
         }
-        if mode == .Query {
-            if !Config.isNotDevMode() {
-                TwitterManager.sharedInstance.getTweet(query)
-            }
-        }
         
         Alamofire.request(.GET, mode.stringUrl + encodedString + APIPARAM.Token + APITOKEN.YoutubeToken)
             .responseJSON { response in

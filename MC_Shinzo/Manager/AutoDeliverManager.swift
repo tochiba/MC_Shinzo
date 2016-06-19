@@ -18,14 +18,18 @@ extension AutoDeliverManager {
     @objc func start() {
         if UIApplication.isSimulator() {
             // Simulatorは20分に一回チェック
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(60 * 20, target: self, selector: #selector(self.start), userInfo: nil, repeats: false)
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(60 * 20, target: self, selector: #selector(self.restart), userInfo: nil, repeats: false)
         }
         
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
         for v in NIFTYManager.sharedInstance.getDeliverVideoList() {
             APIManager.sharedInstance.videoCheckSearch(v)
         }
-        
+    }
+    
+    @objc func restart() {
+        TwitterManager.sharedInstance.startAutoFavorite()
+        start()
     }
 }
 extension AutoDeliverManager: NIFTYManagerChannelDelegate {
