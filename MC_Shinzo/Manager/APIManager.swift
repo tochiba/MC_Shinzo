@@ -57,11 +57,6 @@ class APIManager {
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return
         }
-        if mode == .Query {
-            if !Config.isNotDevMode() {
-                TwitterManager.sharedInstance.getTweet(query)
-            }
-        }
         
         Alamofire.request(.GET, mode.stringUrl + encodedString + APIPARAM.Token + APITOKEN.YoutubeToken)
             .responseJSON { response in
@@ -142,7 +137,10 @@ class APIManager {
 
     func postNotification(video: Video) {
         let text = "【新着動画】\(video.title)がアップロードされました"
-        let param = ["app_id": APP_ID.OneSignal, "contents": ["en": text], "included_segments": ["All"]];
+        let param = ["app_id": APP_ID.OneSignal,
+                     "contents": ["en": text],
+                     "included_segments": ["All"],
+                     "ios_badgeType": "Increase"];
         let headers = [
             "Content-Type": "application/json",
             "Authorization": "Basic \(API_KEY.OneSignal)"
@@ -152,10 +150,32 @@ class APIManager {
     }
 }
 
+extension APIManager {
+    func videoCheckSearch(video: Video) {
+        Alamofire.request(.GET, APIURL.YoutubeVideoSearch + video.id + APIPARAM.Token + APITOKEN.YoutubeToken)
+            .responseJSON { response in
+                
+                guard let object = response.result.value else {
+                    return
+                }
+                let json = JSON(object)
+                guard let _array = json["items"].array else {
+                    return
+                }
+                for i in _array {
+                    if let s = i["status"]["uploadStatus"].string where s != "processed" {
+                        NIFTYManager.sharedInstance.deleteThisVideo(video)
+                    }
+                }
+        }
+    }
+}
+
 struct APIURL {
     static let YoutubeSearch = "https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&order=date&q="
     static let YoutubeNextSearch = "https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&order=date&q="
     static let YoutubeChanel = "https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&order=date&channelId="
+    static let YoutubeVideoSearch = "https://www.googleapis.com/youtube/v3/videos?part=id,snippet,status&maxResults=1&order=date&id="
 }
 
 struct APIPARAM {

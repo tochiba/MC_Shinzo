@@ -169,14 +169,11 @@ class TwitterManager {
     }
     
     func getTweet(query: String) {
-        // 一旦オフに
-        return
-        
         guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             return
         }
         let url = NSURL(string: "https://api.twitter.com/1.1/search/tweets.json")!
-        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "10"]
+        let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "5"]
         
         sendRequest(url, requestMethod: .GET, params: params) { (responseData, urlResponse) -> Void in
             do {

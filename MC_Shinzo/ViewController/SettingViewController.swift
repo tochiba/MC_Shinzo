@@ -186,9 +186,7 @@ extension SettingViewController: UITableViewDelegate {
             else if data == .DevAutoDeliver {
                 if !Config.isNotDevMode() {
                     ARSLineProgress.show()
-                    TwitterManager.sharedInstance.startAutoFavorite()
                     AutoDeliverManager.sharedInstance.start()
-//                    NIFTYManager.sharedInstance.checkDeleteVideos()
                 }
             }
             return
@@ -280,13 +278,6 @@ private enum SettingDataSection: Int {
             return SettingDataRapperRow.Dotama.numberOfRows
         case .Setting:
             return SettingDataSettingRow.Deliverd.numberOfRows
-            
-            if Config.isNotDevMode() {
-                return SettingDataRow.Deliverd.rawValue - SettingDataRow.Favorite.rawValue
-            }
-            else {
-                return SettingDataRow.DevAutoDeliver.rawValue - SettingDataRow.Favorite.rawValue
-            }
         default:
             return 0
         }
