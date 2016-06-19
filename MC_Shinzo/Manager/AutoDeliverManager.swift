@@ -11,10 +11,16 @@ import Foundation
 class AutoDeliverManager {
     static let sharedInstance = AutoDeliverManager()
     private var channels: [Channel] = []
+    var timer: NSTimer = NSTimer()
 }
 
 extension AutoDeliverManager {
-    func start() {
+    @objc func start() {
+        if UIApplication.isSimulator() {
+            // Simulatorは20分に一回チェック
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(60 * 20, target: self, selector: #selector(self.start), userInfo: nil, repeats: false)
+        }
+        
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
         for v in NIFTYManager.sharedInstance.getDeliverVideoList() {
             APIManager.sharedInstance.videoCheckSearch(v)
