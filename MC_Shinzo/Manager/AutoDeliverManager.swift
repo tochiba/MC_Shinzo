@@ -15,8 +15,11 @@ class AutoDeliverManager {
 
 extension AutoDeliverManager {
     func start() {
-        NIFTYManager.sharedInstance.loadDeliveredVideos()
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
+        for v in NIFTYManager.sharedInstance.getDeliverVideoList() {
+            APIManager.sharedInstance.videoCheckSearch(v)
+        }
+        
     }
 }
 extension AutoDeliverManager: NIFTYManagerChannelDelegate {

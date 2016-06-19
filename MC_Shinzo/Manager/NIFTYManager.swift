@@ -275,6 +275,10 @@ class NIFTYManager {
         })
     }
     
+    func getDeliverVideoList() -> [Video] {
+        return self.deliverVideos
+    }
+    
     func deliverThisVideo(video: Video, isAuto: Bool = false) {
         if video.id.utf16.count == 0 || isDeliveredVideo(video) {
             return
@@ -282,10 +286,11 @@ class NIFTYManager {
         
         let q = NCMBQuery(className: Video.className())
         q.limit = 1
-        q.whereKey(VideoKey.idKey, equalTo: video.id)
+        q.whereKey(VideoKey.idKey, equalTo: video.id)//配信済みかチェックするため
         q.findObjectsInBackgroundWithBlock({
             (array, error) in
             if error == nil {
+                //配信済みかチェックするため
                 if array.count == 0 {
                     let date = NSDate()
                     let dateFormatter = NSDateFormatter()
