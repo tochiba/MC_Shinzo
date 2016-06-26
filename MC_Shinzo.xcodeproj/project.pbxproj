@@ -32,6 +32,9 @@
 		8F73ACA41CBA2EDD0051D107 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F73ACA61CBA2EDD0051D107 /* Localizable.strings */; };
 		8F73ACB01CBA43F80051D107 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F73ACAF1CBA43F80051D107 /* VideoViewController.swift */; };
 		8F73ACB71CBBE50D0051D107 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F73ACB61CBBE50D0051D107 /* Settings.bundle */; };
+		8F9B99C61D1FD944007828FA /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99C51D1FD944007828FA /* CommentManager.swift */; };
+		8F9B99C81D1FDF81007828FA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99C71D1FDF81007828FA /* Comment.swift */; };
+		8F9B99CA1D1FDF9C007828FA /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99C91D1FDF9C007828FA /* Room.swift */; };
 		8F9F61891CB7FC8800C96076 /* SwiftRefresher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F61881CB7FC8800C96076 /* SwiftRefresher.framework */; };
 		8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F618C1CB80B8500C96076 /* LicenceViewController.swift */; };
 		8F9F618F1CB8CCC400C96076 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F618E1CB8CCC400C96076 /* Realm.framework */; };
@@ -125,6 +128,9 @@
 		8F73ACAF1CBA43F80051D107 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoViewController.swift; path = ViewController/VideoViewController.swift; sourceTree = "<group>"; };
 		8F73ACB61CBBE50D0051D107 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8F93F5631CBC20DA00F3E11E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		8F9B99C51D1FD944007828FA /* CommentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentManager.swift; path = Manager/CommentManager.swift; sourceTree = "<group>"; };
+		8F9B99C71D1FDF81007828FA /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
+		8F9B99C91D1FDF9C007828FA /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Room.swift; path = Model/Room.swift; sourceTree = "<group>"; };
 		8F9F61881CB7FC8800C96076 /* SwiftRefresher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRefresher.framework; path = Carthage/Build/iOS/SwiftRefresher.framework; sourceTree = "<group>"; };
 		8F9F618C1CB80B8500C96076 /* LicenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LicenceViewController.swift; path = ViewController/LicenceViewController.swift; sourceTree = "<group>"; };
 		8F9F618E1CB8CCC400C96076 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -222,7 +228,7 @@
 			children = (
 				8F73AC911CB9F1570051D107 /* View */,
 				DB70BADD1CACD5E10045E08A /* ViewController */,
-				DB70BAB61CAB72FA0045E08A /* Model */,
+				DB70BAB61CAB72FA0045E08A /* Entity */,
 				8F5517AD1CA6E07700492953 /* Manager */,
 				8F5517761CA66F7200492953 /* AppDelegate.swift */,
 				8F5517781CA66F7200492953 /* ViewController.swift */,
@@ -266,6 +272,7 @@
 				8F6C2E3A1CE0ED410020BD05 /* TrackingManager.swift */,
 				8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */,
 				8F60C3D31CEE0BF300962848 /* TwitterManager.swift */,
+				8F9B99C51D1FD944007828FA /* CommentManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -288,12 +295,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		DB70BAB61CAB72FA0045E08A /* Model */ = {
+		DB70BAB61CAB72FA0045E08A /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				DB70BAB71CAB73190045E08A /* Movie.swift */,
+				8F9B99C71D1FDF81007828FA /* Comment.swift */,
+				8F9B99C91D1FDF9C007828FA /* Room.swift */,
 			);
-			name = Model;
+			name = Entity;
 			sourceTree = "<group>";
 		};
 		DB70BADD1CACD5E10045E08A /* ViewController */ = {
@@ -548,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F9B99C61D1FD944007828FA /* CommentManager.swift in Sources */,
 				8FD73C261CB29EFC0066DD5C /* ActivityManager.swift in Sources */,
 				8F13B6391CF49BD800760438 /* MainViewController.swift in Sources */,
 				8F5517AF1CA6E0AC00492953 /* APIManager.swift in Sources */,
@@ -568,7 +578,9 @@
 				8F60C3D41CEE0BF300962848 /* TwitterManager.swift in Sources */,
 				8F6C2E441CE8344B0020BD05 /* ChannelViewController.swift in Sources */,
 				8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */,
+				8F9B99C81D1FDF81007828FA /* Comment.swift in Sources */,
 				8FE4EA5A1CBBFE8400F62BCE /* ReviewRequestViewController.swift in Sources */,
+				8F9B99CA1D1FDF9C007828FA /* Room.swift in Sources */,
 				8F6C2E391CE0ECBA0020BD05 /* Empty.m in Sources */,
 				8F5517FE1CAF69AA00492953 /* SettingViewController.swift in Sources */,
 				8F5518021CB0DAD900492953 /* Constants.swift in Sources */,
