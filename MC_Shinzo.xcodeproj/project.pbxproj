@@ -36,6 +36,7 @@
 		8F9B99C81D1FDF81007828FA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99C71D1FDF81007828FA /* Comment.swift */; };
 		8F9B99CA1D1FDF9C007828FA /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99C91D1FDF9C007828FA /* Room.swift */; };
 		8F9B99CC1D201DFF007828FA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99CB1D201DFF007828FA /* User.swift */; };
+		8F9B99CE1D201FF3007828FA /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9B99CD1D201FF3007828FA /* UserManager.swift */; };
 		8F9F61891CB7FC8800C96076 /* SwiftRefresher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F61881CB7FC8800C96076 /* SwiftRefresher.framework */; };
 		8F9F618D1CB80B8500C96076 /* LicenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F618C1CB80B8500C96076 /* LicenceViewController.swift */; };
 		8F9F618F1CB8CCC400C96076 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F618E1CB8CCC400C96076 /* Realm.framework */; };
@@ -133,6 +134,7 @@
 		8F9B99C71D1FDF81007828FA /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
 		8F9B99C91D1FDF9C007828FA /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Room.swift; path = Model/Room.swift; sourceTree = "<group>"; };
 		8F9B99CB1D201DFF007828FA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		8F9B99CD1D201FF3007828FA /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserManager.swift; path = Manager/UserManager.swift; sourceTree = "<group>"; };
 		8F9F61881CB7FC8800C96076 /* SwiftRefresher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRefresher.framework; path = Carthage/Build/iOS/SwiftRefresher.framework; sourceTree = "<group>"; };
 		8F9F618C1CB80B8500C96076 /* LicenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LicenceViewController.swift; path = ViewController/LicenceViewController.swift; sourceTree = "<group>"; };
 		8F9F618E1CB8CCC400C96076 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				8F6C2E451CE8C17B0020BD05 /* AutoDeliverManager.swift */,
 				8F60C3D31CEE0BF300962848 /* TwitterManager.swift */,
 				8F9B99C51D1FD944007828FA /* CommentManager.swift */,
+				8F9B99CD1D201FF3007828FA /* UserManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				8F5517791CA66F7200492953 /* ViewController.swift in Sources */,
 				8F9F61931CB8CCF100C96076 /* FavoriteManager.swift in Sources */,
 				8FE4EA581CBBFD4C00F62BCE /* DialogViewController.swift in Sources */,
+				8F9B99CE1D201FF3007828FA /* UserManager.swift in Sources */,
 				8FD73C241CB0FD6A0066DD5C /* Config.swift in Sources */,
 				8FE4EA561CBBF5E700F62BCE /* BannerView.swift in Sources */,
 				8F6C2E3B1CE0ED410020BD05 /* TrackingManager.swift in Sources */,
