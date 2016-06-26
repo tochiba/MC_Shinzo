@@ -79,12 +79,6 @@ class VideoListViewController: UIViewController {
             TrackingManager.sharedInstance.sendEventAction(.Refresh)
         }
         self.collectionView.srf_addRefresher(refresher)
-        
-        // 3D Touchが使える端末か確認
-        if UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
-            // どのビューをPeek and Popの対象にするか指定
-            self.registerForPreviewingWithDelegate(self, sourceView: self.view)
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -102,6 +96,11 @@ class VideoListViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        // 3D Touchが使える端末か確認
+        if UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
+            // どのビューをPeek and Popの対象にするか指定
+            self.registerForPreviewingWithDelegate(self, sourceView: self.view)
+        }
         if ReviewChecker.playCheck(self) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
