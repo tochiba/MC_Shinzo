@@ -53,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -> Void) {
         self.mode = VideoListViewController.Mode.Favorite
         self.isShortcut = true
@@ -76,6 +77,9 @@ extension UIApplication {
     
     static func isPad() -> Bool {
         return UIDevice.currentDevice().userInterfaceIdiom == .Pad
+    }
+    static func isSimulator() -> Bool {
+        return TARGET_OS_SIMULATOR != 0
     }
 }
 

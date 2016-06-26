@@ -74,22 +74,15 @@ class TwitterManager {
     
     func postTweet(video: Video) {
         let shareText = "\(video.title) #Subrhyme \n\(URL.YoutubeShare)\(video.id)\n\(URL.AppStore)"
-
-        if self.account != nil {
-            //postTweet(shareText)
-            uploadImage(video.thumbnailUrl, message: shareText)
-        }
-        else {
-            getAccounts({ (accounts: [ACAccount]) in
-                for a in accounts {
-                    if a.username == "Subrhyme_" {
-                        self.account = a
-                        self.uploadImage(video.thumbnailUrl, message: shareText)
-                        //self.postTweet(shareText)
-                    }
+        
+        getAccounts({ (accounts: [ACAccount]) in
+            for a in accounts {
+                if a.username == "Subrhyme_" {
+                    self.account = a
+                    self.uploadImage(video.thumbnailUrl, message: shareText)
                 }
-            })
-        }
+            }
+        })
     }
     
     func uploadImage(imageUrl: String, message: String) {
@@ -128,7 +121,6 @@ class TwitterManager {
     }
 
     func favorite(id id: Int) {
-        
         if self.account != nil {
             postFavorite(id: id)
         }
@@ -147,8 +139,15 @@ class TwitterManager {
     private func postFavorite(id id: Int) {
         let url = NSURL(string: "https://api.twitter.com/1.1/favorites/create.json")!
         let params = ["id" : String(id)]
-        
+        print("Check Twitter: \(NSDate()) Favo ID: \(String(id))")
         sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+            do {
+            let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+            let json = JSON(jsonObject)
+                print(json)
+            }
+            catch {}
+            
         }
     }
     
@@ -183,9 +182,7 @@ class TwitterManager {
                     if let id = entity["id"].int, let favo = entity["favorited"].bool {
                         //favorited
                         if !favo {
-                            sleep(1)
                             self.favorite(id: id)
-                            sleep(1)
                         }
                     }
                 }
@@ -199,8 +196,17 @@ class TwitterManager {
     
     func startAutoFavorite() {
         let queryList: [String] = ["フリースタイルダンジョン", "MCバトル", "高校生ラップ"]//, "フリースタイルラップ", "フリースタイルバトル"]
-        for q in queryList {
-            getTweet(q)
-        }
+        
+        getAccounts({ (accounts: [ACAccount]) in
+            for a in accounts {
+                if a.username == "Subrhyme_" {
+                    self.account = a
+                    for q in queryList {
+                        self.getTweet(q)
+                    }
+                }
+            }
+        })
+        
     }
 }

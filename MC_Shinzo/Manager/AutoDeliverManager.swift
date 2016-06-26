@@ -28,7 +28,8 @@ extension AutoDeliverManager {
     }
     
     @objc func restart() {
-        TwitterManager.sharedInstance.startAutoFavorite()
+        //print("Check: \(NSDate())")
+        //TwitterManager.sharedInstance.startAutoFavorite()
         start()
     }
 }
