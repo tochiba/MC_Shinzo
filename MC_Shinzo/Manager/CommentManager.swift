@@ -9,14 +9,63 @@
 import Foundation
 import NCMB
 
+protocol CommentManagerDelegate: class {
+    func loadComment(videoId: String, comments: [Comment])
+}
+
 class CommentManager {
     static let sharedInstance = CommentManager()
-    // TODO:
-    func getComments(videoId videoId: String) {
+    private var commentDic: [String:[Comment]] = [:]
+
+    func getComments(videoId videoId: String, delegate: CommentManagerDelegate?) {
+        weak var weakDelegate = delegate
+        if let c = commentDic[videoId] {
+            weakDelegate?.loadComment(videoId, comments: c)
+        }
+        
+        let q = NCMBQuery(className: Comment.className())
+        q.limit = 1000
+        q.whereKey(VideoKey.idKey, equalTo: videoId)
+        q.findObjectsInBackgroundWithBlock({
+            (array, error) in
+            var clist: [Comment] = []
+            for a in array {
+                if let _a = a as? NCMBObject {
+                    if  let vi = _a.objectForKey(VideoKey.idKey) as? String,
+                        let sn = _a.objectForKey(CommentKey.senderName) as? String,
+                        let si = _a.objectForKey(CommentKey.senderId) as? String,
+                        let d  = _a.objectForKey(CommentKey.date) as? Int,
+                        let t  = _a.objectForKey(CommentKey.text) as? String {
+                        
+                        let c = Comment()
+                        c.videoId = vi
+                        c.senderName = sn
+                        c.senderId = si
+                        c.dateInt = d
+                        c.text = t
+                        clist.append(c)
+                    }
+                }
+            }
+            self.commentDic[videoId] = clist
+            weakDelegate?.loadComment(videoId, comments: clist)
+        })
     }
-    // TODO: Userクラス必要かな
+
     func addComment(text text: String, videoId: String) {
-        // saveComment
+        let u = UserManager.sharedInstance.getUser()
+        let c = Comment()
+        c.videoId = videoId
+        c.senderName = u.name
+        c.senderId = u.id
+        let date = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        if  let i = Int(dateFormatter.stringFromDate(date)) {
+            c.dateInt = i
+        }
+        c.text = text
+        saveComment(c)
     }
     
     private func saveComment(c: Comment) {
