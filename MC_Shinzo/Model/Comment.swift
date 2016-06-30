@@ -28,9 +28,9 @@ class Comment: NCMBObject, NSCoding {
             self.setObject(senderId, forKey: CommentKey.senderId)
         }
     }
-    var date: String  = "" {
+    var dateInt: Int = 0 {
         didSet {
-            self.setObject(date, forKey: CommentKey.date)
+            self.setObject(dateInt, forKey: CommentKey.date)
         }
     }
     var text: String  = "" {
@@ -57,8 +57,8 @@ class Comment: NCMBObject, NSCoding {
             self.senderId = si
             self.setObject(si, forKey: CommentKey.senderId)
         }
-        if let d = aDecoder.decodeObjectForKey(CommentKey.date) as? String {
-            self.date = d
+        if let d = aDecoder.decodeObjectForKey(CommentKey.date) as? Int {
+            self.dateInt = d
             self.setObject(d, forKey: CommentKey.date)
         }
         if let t = aDecoder.decodeObjectForKey(CommentKey.text) as? String {
@@ -71,7 +71,7 @@ class Comment: NCMBObject, NSCoding {
         aCoder.encodeObject(videoId, forKey: VideoKey.idKey)
         aCoder.encodeObject(senderName, forKey: CommentKey.senderName)
         aCoder.encodeObject(senderId, forKey: CommentKey.senderId)
-        aCoder.encodeObject(date, forKey: CommentKey.date)
+        aCoder.encodeObject(dateInt, forKey: CommentKey.date)
         aCoder.encodeObject(text, forKey: CommentKey.text)
         
     }
