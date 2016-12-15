@@ -18,7 +18,7 @@ class SettingViewController: UIViewController {
     var delegate: BaseControllerDelegate?
 }
 extension SettingViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let sectionHeaderHeight = self.tableView.sectionHeaderHeight + 20
         let offSetY = scrollView.contentOffset.y
         if offSetY <= sectionHeaderHeight && offSetY >= 0 {
@@ -31,17 +31,17 @@ extension SettingViewController: UIScrollViewDelegate {
 }
 
 class SettingTableView: UITableView {
-    var timer: NSTimer = NSTimer()
+    var timer: Timer = Timer()
     var counter: Int = 0
     weak var viewController: UIViewController?
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        if self.timer.valid {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        if self.timer.isValid {
             self.counter += 1
         }
         else {
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: #selector(SettingTableView.resetTimer), userInfo: nil, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(SettingTableView.resetTimer), userInfo: nil, repeats: false)
         }
         check()
     }
@@ -51,20 +51,20 @@ class SettingTableView: UITableView {
         self.timer.invalidate()
     }
     
-    private func check() {
+    fileprivate func check() {
         if self.counter > 11 {
             
             let alert: UIAlertController = UIAlertController(title:"Dev Mode",
                                                             message: "Input Password",
-                                                            preferredStyle: UIAlertControllerStyle.Alert)
+                                                            preferredStyle: UIAlertControllerStyle.alert)
             
             let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
-                                                           style: UIAlertActionStyle.Cancel,
+                                                           style: UIAlertActionStyle.cancel,
                                                            handler:{
                                                             (action:UIAlertAction!) -> Void in
             })
             let defaultAction:UIAlertAction = UIAlertAction(title: "OK",
-                                                            style: UIAlertActionStyle.Default,
+                                                            style: UIAlertActionStyle.default,
                                                             handler:{
                                                                 (action:UIAlertAction!) -> Void in
                                                                 let textFields:Array<UITextField>? =  alert.textFields as Array<UITextField>?
@@ -81,15 +81,15 @@ class SettingTableView: UITableView {
             alert.addAction(cancelAction)
             alert.addAction(defaultAction)
             
-            alert.addTextFieldWithConfigurationHandler({(text:UITextField!) -> Void in
+            alert.addTextField(configurationHandler: {(text:UITextField!) -> Void in
                 text.placeholder = "password"
-                let label:UILabel = UILabel(frame: CGRectMake(0, 0, 50, 30))
+                let label:UILabel = UILabel(frame: CGRect(x:0, y:0, width:50, height:30))
                 label.text = "PASS"
                 text.leftView = label
-                text.leftViewMode = UITextFieldViewMode.Always
+                text.leftViewMode = UITextFieldViewMode.always
                 
             })
-            self.viewController?.presentViewController(alert, animated: true, completion: nil)
+            self.viewController?.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -97,7 +97,7 @@ class SettingTableView: UITableView {
 extension SettingViewController {
     class func getInstance() -> SettingViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = storyboard.instantiateViewControllerWithIdentifier("SettingViewController") as? SettingViewController {
+        if let vc = storyboard.instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController {
             vc.view.backgroundColor = Config.baseColor()
             vc.tableView.backgroundColor = Config.baseColor()
             return vc
@@ -105,7 +105,7 @@ extension SettingViewController {
         
         return self.init()
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.bannerView.setup(self, unitID: AD.DrawerBannerUnitID)
         self.tableView.viewController = self
@@ -114,12 +114,12 @@ extension SettingViewController {
 }
 
 extension SettingViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
         let sdata = SettingDataSection(rawValue: indexPath.section)
         
-        if sdata == .Menu {
+        if sdata == .menu {
             if let mode = SettingDataMenuRow(rawValue: indexPath.row)?.contentsMode {
                 self.delegate?.didSelectCell(mode, query: "")
             }
@@ -127,7 +127,7 @@ extension SettingViewController: UITableViewDelegate {
             return
         }
         
-        if sdata == .Event {
+        if sdata == .event {
             guard let rdata = SettingDataEventRow(rawValue: indexPath.row) else {
                 return
             }
@@ -138,7 +138,7 @@ extension SettingViewController: UITableViewDelegate {
             return
         }
 
-        if sdata == .Rapper {
+        if sdata == .rapper {
             guard let rdata = SettingDataRapperRow(rawValue: indexPath.row) else {
                 return
             }
@@ -149,41 +149,41 @@ extension SettingViewController: UITableViewDelegate {
             return
         }
         
-        if sdata == .Setting {
+        if sdata == .setting {
             let data = SettingDataSettingRow(rawValue: indexPath.row)
             if let segue = data?.segueID {
-                if data != .DevChannel {
-                    self.performSegueWithIdentifier(segue, sender: nil)
+                if data != .devChannel {
+                    self.performSegue(withIdentifier: segue, sender: nil)
                 }
                 else if !Config.isNotDevMode() {
-                    self.performSegueWithIdentifier(segue, sender: nil)
+                    self.performSegue(withIdentifier: segue, sender: nil)
                 }
             }
-            else if data == .Request {
+            else if data == .request {
                 Meyasubaco.showCommentViewController(self)
             }
-            else if data == .Deliverd {
-                let url = NSURL(string: URL.Twitter)!
-                let brow = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            else if data == .deliverd {
+                let url = Foundation.URL(string: URL.Twitter)!
+                let brow = SFSafariViewController(url: url, entersReaderIfAvailable: false)
                 brow.delegate = self
-                presentViewController(brow, animated: true, completion: nil)
+                present(brow, animated: true, completion: nil)
             }
-            else if data == .Review {
+            else if data == .review {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
+                if let nVC = storyboard.instantiateViewController(withIdentifier: "ReviewController") as? ReviewController {
                     nVC.delegate = self
                     nVC.showCloseButton = true
-                    self.presentViewController(nVC, animated: true, completion: nil)
+                    self.present(nVC, animated: true, completion: nil)
                 }
             }
-            else if data == .DevMode {
+            else if data == .devMode {
                 if !Config.isNotDevMode() {
                     let vc = VideoListViewController.getInstanceWithMode(mode: .Draft)
                     let nvc = UINavigationController(rootViewController: vc)
-                    self.presentViewController(nvc, animated: true, completion: nil)
+                    self.present(nvc, animated: true, completion: nil)
                 }
             }
-            else if data == .DevAutoDeliver {
+            else if data == .devAutoDeliver {
                 if !Config.isNotDevMode() {
                     ARSLineProgress.show()
                     AutoDeliverManager.sharedInstance.start()
@@ -195,55 +195,58 @@ extension SettingViewController: UITableViewDelegate {
 }
 
 extension SettingViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel(frame: CGRectMake(0,0,tableView.frame.size.width,50))
-        label.textColor = UIColor.lightGrayColor()
-        label.textAlignment = NSTextAlignment.Left
-        label.font = UIFont.systemFontOfSize(14)
-        label.backgroundColor = UIColor.clearColor()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel(frame: CGRect(x: 0,y: 0,width: tableView.frame.size.width,height: 50))
+        label.textColor = UIColor.lightGray
+        label.textAlignment = NSTextAlignment.left
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.backgroundColor = UIColor.clear
         label.text = SettingDataSection(rawValue: section)?.title
         return label
     }
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.lightGray.withAlphaComponent(0.5)
     }
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return SettingDataSection(rawValue: section)?.title
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return SettingDataSection(rawValue: section)?.heightOfSections ?? 0
     }
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
         return SettingDataSection.NumberOfSections.numberOfSections
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return SettingDataSection(rawValue: section)!.numberOfRows
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sdata = SettingDataSection(rawValue: indexPath.section)! as SettingDataSection
-        let cell = tableView.dequeueReusableCellWithIdentifier(SettingDataSection.cellName, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SettingDataSection.cellName, for: indexPath)
         var text: String? = ""
         switch sdata {
-        case .Menu:
+        case .menu:
             text = SettingDataMenuRow(rawValue: indexPath.row)?.title
             break
-        case .Event:
+        case .event:
             text = SettingDataEventRow(rawValue: indexPath.row)?.title
             break
-        case .Rapper:
+        case .rapper:
             text = SettingDataRapperRow(rawValue: indexPath.row)?.title
             break
-        case .Setting:
+        case .setting:
             text = SettingDataSettingRow(rawValue: indexPath.row)?.title
             break
         default:
             break
         }
         cell.textLabel?.text = text
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.contentView.backgroundColor = UIColor.clearColor()
-        cell.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textColor = UIColor.white
+        cell.contentView.backgroundColor = UIColor.clear
+        cell.backgroundColor = UIColor.clear
         return cell
     }
 }
@@ -252,16 +255,16 @@ extension SettingViewController: SFSafariViewControllerDelegate {
 }
 
 private enum SettingDataSection: Int {
-    case Menu
-    case Event
-    case Rapper
-    case Setting
+    case menu
+    case event
+    case rapper
+    case setting
     case NumberOfSections
     
     static let cellName = "SettingCell"
 
     var numberOfSections: Int {
-        return NumberOfSections.rawValue
+        return SettingDataSection.NumberOfSections.rawValue
     }
     
     var heightOfSections: CGFloat {
@@ -270,14 +273,14 @@ private enum SettingDataSection: Int {
     
     var numberOfRows: Int {
         switch self {
-        case .Menu:
-            return SettingDataRow.Favorite.rawValue + 1
-        case .Event:
-            return SettingDataEventRow.Freestyle.numberOfRows
-        case .Rapper:
-            return SettingDataRapperRow.Dotama.numberOfRows
-        case .Setting:
-            return SettingDataSettingRow.Deliverd.numberOfRows
+        case .menu:
+            return SettingDataRow.favorite.rawValue + 1
+        case .event:
+            return SettingDataEventRow.freestyle.numberOfRows
+        case .rapper:
+            return SettingDataRapperRow.dotama.numberOfRows
+        case .setting:
+            return SettingDataSettingRow.deliverd.numberOfRows
         default:
             return 0
         }
@@ -285,72 +288,72 @@ private enum SettingDataSection: Int {
     
     var title: String {
         switch self {
-        case .Menu:
+        case .menu:
             return "    " + NSLocalizedString("setting_menu", comment: "")
-        case .Event:
+        case .event:
             return "    " + NSLocalizedString("setting_event", comment: "")
-        case .Rapper:
+        case .rapper:
             return "    " + NSLocalizedString("setting_rapper", comment: "")
-        case .Setting:
+        case .setting:
             return "    " + NSLocalizedString("category_setting", comment: "")
         default:
             return ""
         }
     }
     
-    private enum SettingDataRow: Int {
-        case New
-        case Popular
-        case Favorite
+    fileprivate enum SettingDataRow: Int {
+        case new
+        case popular
+        case favorite
         
-        case Request
-        case Copyright
-        case Deliverd
+        case request
+        case copyright
+        case deliverd
         
-        case DevMode
-        case DevChannel
-        case DevAutoDeliver
+        case devMode
+        case devChannel
+        case devAutoDeliver
         case NumberOfRows
         
 
         var numberOfRows: Int {
             if Config.isNotDevMode() {
-                return NumberOfRows.rawValue-1
+                return SettingDataRow.NumberOfRows.rawValue-1
             }
             else {
-                return NumberOfRows.rawValue
+                return SettingDataRow.NumberOfRows.rawValue
             }
         }
         
         var title: String {
             switch self {
-            case New:
+            case .new:
                 return NSLocalizedString("category_new", comment: "")
-            case Popular:
+            case .popular:
                 return NSLocalizedString("category_popular", comment: "")
-            case Favorite:
+            case .favorite:
                 return NSLocalizedString("category_favorite", comment: "")
-            case .Request:
+            case .request:
                 return NSLocalizedString("setting_request", comment: "")
-            case .Copyright:
+            case .copyright:
                 return NSLocalizedString("setting_licence", comment: "")
-            case .Deliverd:
+            case .deliverd:
                 return NSLocalizedString("setting_deliverd", comment: "")
-            case .DevMode:
+            case .devMode:
                 if Config.isNotDevMode() {
                     return ""
                 }
                 else {
                     return NSLocalizedString("setting_toolmode", comment: "")
                 }
-            case DevChannel:
+            case .devChannel:
                 if Config.isNotDevMode() {
                     return ""
                 }
                 else {
                     return NSLocalizedString("登録チャンネル", comment: "")
                 }
-            case DevAutoDeliver:
+            case .devAutoDeliver:
                 if Config.isNotDevMode() {
                     return ""
                 }
@@ -364,23 +367,23 @@ private enum SettingDataSection: Int {
         
         var segueID: String? {
             switch self {
-            case New:
+            case .new:
                 return nil
-            case Popular:
+            case .popular:
                 return nil
-            case Favorite:
+            case .favorite:
                 return nil
-            case .Request:
+            case .request:
                 return nil
-            case .Copyright:
+            case .copyright:
                 return "SettingToLicence"
-            case .Deliverd:
+            case .deliverd:
                 return nil
-            case .DevMode:
+            case .devMode:
                 return nil
-            case DevChannel:
+            case .devChannel:
                 return "SettingToChannel"
-            case DevAutoDeliver:
+            case .devAutoDeliver:
                 return nil
             case .NumberOfRows:
                 return nil
@@ -389,11 +392,11 @@ private enum SettingDataSection: Int {
         
         var contentsMode: VideoListViewController.Mode? {
             switch self {
-            case New:
+            case .new:
                 return VideoListViewController.Mode.New
-            case Popular:
+            case .popular:
                 return VideoListViewController.Mode.Popular
-            case Favorite:
+            case .favorite:
                 return VideoListViewController.Mode.Favorite
             default:
                 return nil
@@ -403,21 +406,21 @@ private enum SettingDataSection: Int {
 }
 
 private enum SettingDataMenuRow: Int {
-    case New
-    case Popular
-    case Favorite
+    case new
+    case popular
+    case favorite
     case NumberOfRows
     
     var numberOfRows: Int {
-        return NumberOfRows.rawValue
+        return SettingDataMenuRow.NumberOfRows.rawValue
     }
     var title: String {
         switch self {
-        case New:
+        case .new:
             return NSLocalizedString("category_new", comment: "")
-        case Popular:
+        case .popular:
             return NSLocalizedString("category_popular", comment: "")
-        case Favorite:
+        case .favorite:
             return NSLocalizedString("category_favorite", comment: "")
         default:
             return ""
@@ -426,11 +429,11 @@ private enum SettingDataMenuRow: Int {
     
     var segueID: String? {
         switch self {
-        case New:
+        case .new:
             return nil
-        case Popular:
+        case .popular:
             return nil
-        case Favorite:
+        case .favorite:
             return nil
         default:
             return nil
@@ -439,11 +442,11 @@ private enum SettingDataMenuRow: Int {
     
     var contentsMode: VideoListViewController.Mode? {
         switch self {
-        case New:
+        case .new:
             return VideoListViewController.Mode.New
-        case Popular:
+        case .popular:
             return VideoListViewController.Mode.Popular
-        case Favorite:
+        case .favorite:
             return VideoListViewController.Mode.Favorite
         default:
             return nil
@@ -452,24 +455,24 @@ private enum SettingDataMenuRow: Int {
 }
 
 private enum SettingDataEventRow: Int {
-    case Freestyle
-    case Koukousei
-    case Umb
-    case Sengoku
+    case freestyle
+    case koukousei
+    case umb
+    case sengoku
     case NumberOfRows
     
     var numberOfRows: Int {
-        return NumberOfRows.rawValue
+        return SettingDataEventRow.NumberOfRows.rawValue
     }
     var title: String {
         switch self {
-        case Freestyle:
+        case .freestyle:
             return NSLocalizedString("フリースタイルダンジョン", comment: "")
-        case Koukousei:
+        case .koukousei:
             return NSLocalizedString("高校生ラップ選手権", comment: "")
-        case Umb:
+        case .umb:
             return NSLocalizedString("UMB", comment: "")
-        case Sengoku:
+        case .sengoku:
             return NSLocalizedString("戦極MC BATTLE", comment: "")
         default:
             return ""
@@ -478,13 +481,13 @@ private enum SettingDataEventRow: Int {
     
     var query: String {
         switch self {
-        case Freestyle:
+        case .freestyle:
             return NSLocalizedString("フリースタイルダンジョン", comment: "")
-        case Koukousei:
+        case .koukousei:
             return NSLocalizedString("高校生", comment: "")
-        case Umb:
+        case .umb:
             return NSLocalizedString("UMB", comment: "")
-        case Sengoku:
+        case .sengoku:
             return NSLocalizedString("戦極MC", comment: "")
         default:
             return ""
@@ -500,7 +503,7 @@ private enum SettingDataEventRow: Int {
     
     var contentsMode: VideoListViewController.Mode? {
         switch self {
-        case NumberOfRows:
+        case .NumberOfRows:
             return nil
         default:
             return VideoListViewController.Mode.Rapper
@@ -509,39 +512,39 @@ private enum SettingDataEventRow: Int {
 }
 
 private enum SettingDataRapperRow: Int {
-    case Saue
-    case Kan
-    case Tpablow
-    case Rshitei
-    case Chico
-    case Dotama
-    case Ace
-    case Takumaki
-    case Chin
+    case saue
+    case kan
+    case tpablow
+    case rshitei
+    case chico
+    case dotama
+    case ace
+    case takumaki
+    case chin
     case NumberOfRows
     
     var numberOfRows: Int {
-        return NumberOfRows.rawValue
+        return SettingDataRapperRow.NumberOfRows.rawValue
     }
     var title: String {
         switch self {
-        case Saue:
+        case .saue:
             return NSLocalizedString("サイプレス上野", comment: "")
-        case Kan:
+        case .kan:
             return NSLocalizedString("漢 a.k.a GAMI", comment: "")
-        case Tpablow:
+        case .tpablow:
             return NSLocalizedString("T-PABLOW", comment: "")
-        case Rshitei:
+        case .rshitei:
             return NSLocalizedString("R-指定", comment: "")
-        case Chico:
+        case .chico:
             return NSLocalizedString("CHICO CARLITO", comment: "")
-        case Dotama:
+        case .dotama:
             return NSLocalizedString("DOTAMA", comment: "")
-        case Ace:
+        case .ace:
             return NSLocalizedString("ACE", comment: "")
-        case Takumaki:
+        case .takumaki:
             return NSLocalizedString("焚巻", comment: "")
-        case Chin:
+        case .chin:
             return NSLocalizedString("鎮座DOPENESS", comment: "")
         default:
             return ""
@@ -550,23 +553,23 @@ private enum SettingDataRapperRow: Int {
 
     var query: String {
         switch self {
-        case Saue:
+        case .saue:
             return NSLocalizedString("上野", comment: "")
-        case Kan:
+        case .kan:
             return NSLocalizedString("漢", comment: "")
-        case Tpablow:
+        case .tpablow:
             return NSLocalizedString("T-p", comment: "")
-        case Rshitei:
+        case .rshitei:
             return NSLocalizedString("R-指定", comment: "")
-        case Chico:
+        case .chico:
             return NSLocalizedString("CHICO", comment: "")
-        case Dotama:
+        case .dotama:
             return NSLocalizedString("DOTAMA", comment: "")
-        case Ace:
+        case .ace:
             return NSLocalizedString("ACE", comment: "")
-        case Takumaki:
+        case .takumaki:
             return NSLocalizedString("焚巻", comment: "")
-        case Chin:
+        case .chin:
             return NSLocalizedString("鎮座", comment: "")
         default:
             return ""
@@ -582,7 +585,7 @@ private enum SettingDataRapperRow: Int {
     
     var contentsMode: VideoListViewController.Mode? {
         switch self {
-        case Saue, Kan, Tpablow, Rshitei, Chico, Dotama, Ace,Takumaki, Chin:
+        case .saue, .kan, .tpablow, .rshitei, .chico, .dotama, .ace,.takumaki, .chin:
             return VideoListViewController.Mode.Rapper
         default:
             return nil
@@ -591,51 +594,51 @@ private enum SettingDataRapperRow: Int {
 }
 
 private enum SettingDataSettingRow: Int {
-    case Request
-    case Copyright
-    case Deliverd
-    case Review
+    case request
+    case copyright
+    case deliverd
+    case review
     
-    case DevMode
-    case DevChannel
-    case DevAutoDeliver
+    case devMode
+    case devChannel
+    case devAutoDeliver
     case NumberOfRows
     
     
     var numberOfRows: Int {
         if Config.isNotDevMode() {
-            return DevMode.rawValue
+            return SettingDataSettingRow.devMode.rawValue
         }
         else {
-            return NumberOfRows.rawValue
+            return SettingDataSettingRow.NumberOfRows.rawValue
         }
     }
     
     var title: String {
         switch self {
-        case .Request:
+        case .request:
             return NSLocalizedString("setting_request", comment: "")
-        case .Copyright:
+        case .copyright:
             return NSLocalizedString("setting_licence", comment: "")
-        case .Deliverd:
+        case .deliverd:
             return NSLocalizedString("setting_deliverd", comment: "")
-        case .Review:
+        case .review:
             return NSLocalizedString("setting_review", comment: "")
-        case .DevMode:
+        case .devMode:
             if Config.isNotDevMode() {
                 return ""
             }
             else {
                 return NSLocalizedString("setting_toolmode", comment: "")
             }
-        case DevChannel:
+        case .devChannel:
             if Config.isNotDevMode() {
                 return ""
             }
             else {
                 return NSLocalizedString("登録チャンネル", comment: "")
             }
-        case DevAutoDeliver:
+        case .devAutoDeliver:
             if Config.isNotDevMode() {
                 return ""
             }
@@ -649,19 +652,19 @@ private enum SettingDataSettingRow: Int {
     
     var segueID: String? {
         switch self {
-        case .Request:
+        case .request:
             return nil
-        case .Copyright:
+        case .copyright:
             return "SettingToLicence"
-        case .Deliverd:
+        case .deliverd:
             return nil
-        case .Review:
+        case .review:
             return nil
-        case .DevMode:
+        case .devMode:
             return nil
-        case DevChannel:
+        case .devChannel:
             return "SettingToChannel"
-        case DevAutoDeliver:
+        case .devAutoDeliver:
             return nil
         case .NumberOfRows:
             return nil

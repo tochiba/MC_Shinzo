@@ -10,7 +10,7 @@ import Foundation
 
 class PushAlertViewController: DialogViewController {
     class func isEnabled() -> Bool {
-        guard let settings = UIApplication.sharedApplication().currentUserNotificationSettings() else {
+        guard let settings = UIApplication.shared.currentUserNotificationSettings else {
             return false
         }        
         return settings.types == UIUserNotificationType(rawValue: 7)
@@ -25,36 +25,36 @@ class PushAlertViewController: DialogViewController {
     }
     
     class func isDisplayed() -> Bool {
-        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
-            return NSUserDefaults.standardUserDefaults().boolForKey(currentVer+"SHOW_PUSH_ALERT")
+        if let currentVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            return UserDefaults.standard.bool(forKey: currentVer+"SHOW_PUSH_ALERT")
         }
         return false
     }
     
     class func setDisplayed() {
-        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: currentVer+"SHOW_PUSH_ALERT")
-            NSUserDefaults.standardUserDefaults().synchronize()
+        if let currentVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            UserDefaults.standard.set(true, forKey: currentVer+"SHOW_PUSH_ALERT")
+            UserDefaults.standard.synchronize()
         }
     }
 
-    class func checkPushAlert(viewController: UIViewController?) {
+    class func checkPushAlert(_ viewController: UIViewController?) {
         if ifNeedPushAlert() {
             weak var vc = viewController
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let nVC = storyboard.instantiateViewControllerWithIdentifier("PushAlertViewController") as? PushAlertViewController {
-                vc?.presentViewController(nVC, animated: true, completion: nil)
+            if let nVC = storyboard.instantiateViewController(withIdentifier: "PushAlertViewController") as? PushAlertViewController {
+                vc?.present(nVC, animated: true, completion: nil)
             }
         }
     }
 
-    @IBAction func didPushOk(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: {
+    @IBAction func didPushOk(_ sender: AnyObject) {
+        dismiss(animated: true, completion: {
             PushAlertViewController.setDisplayed()
             OneSignal.defaultClient().registerForPushNotifications()
         })
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.sendScreenNameLog()
     }

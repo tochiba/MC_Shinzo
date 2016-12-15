@@ -17,19 +17,19 @@ protocol FavoriteManagerDelegate: class {
 class FavoriteManager {
     static let sharedInstance = FavoriteManager()
     
-    private var Videos: [Video] = []
+    fileprivate var Videos: [Video] = []
     weak var delegate: FavoriteManagerDelegate?
     
     init() {
         load()
     }
     
-    func load(delegate: FavoriteManagerDelegate?=nil) {
+    func load(_ delegate: FavoriteManagerDelegate?=nil) {
         self.delegate = delegate
         do {
             let realm = try Realm()
             var _array: [Video] = []
-            for f in realm.objects(FavoriteVideo) {
+            for f in realm.objects(FavoriteVideo.self) {
                 _array.append(convert(f))
             }
             self.Videos = _array
@@ -40,18 +40,18 @@ class FavoriteManager {
     }
     
     func getFavoriteVideos() -> [Video] {
-        return self.Videos.reverse()
+        return self.Videos.reversed()
     }
-    func isFavoriteVideo(id: String) -> Bool {
-        if let _ = self.Videos.indexOf({$0.id == id}) {
+    func isFavoriteVideo(_ id: String) -> Bool {
+        if let _ = self.Videos.index(where: {$0.id == id}) {
             return true
         }
         
         return false
     }
     
-    func addFavoriteVideo(video: Video) {
-        if let _ = self.Videos.indexOf({$0.id == video.id}) {
+    func addFavoriteVideo(_ video: Video) {
+        if let _ = self.Videos.index(where: {$0.id == video.id}) {
             return
         }
         
@@ -66,11 +66,11 @@ class FavoriteManager {
         load()
     }
     
-    func removeFavoriteVideo(video: Video) {        
+    func removeFavoriteVideo(_ video: Video) {        
         do {
             let realm = try Realm()
             let predicate = NSPredicate(format: "id == '\(video.id)'")
-            if let _target = realm.objects(FavoriteVideo).filter(predicate).first {
+            if let _target = realm.objects(FavoriteVideo.self).filter(predicate).first {
                 try! realm.write {
                     realm.delete(_target)
                 }
@@ -82,7 +82,7 @@ class FavoriteManager {
         load()
     }
     
-    private func convert(fVideo: FavoriteVideo) -> Video {
+    fileprivate func convert(_ fVideo: FavoriteVideo) -> Video {
         let a = Video()
         a.id = fVideo.id
         a.categoryName = fVideo.categoryName
@@ -96,7 +96,7 @@ class FavoriteManager {
         return a
     }
 
-    private func convert(aVideo: Video) -> FavoriteVideo {
+    fileprivate func convert(_ aVideo: Video) -> FavoriteVideo {
         let f = FavoriteVideo()
         f.id = aVideo.id
         f.categoryName = aVideo.categoryName

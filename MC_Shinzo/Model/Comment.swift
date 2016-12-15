@@ -45,34 +45,34 @@ class Comment: NCMBObject, NSCoding {
     required init(coder aDecoder: NSCoder) {
         super.init(className: Room.className())
         
-        if let vi = aDecoder.decodeObjectForKey(VideoKey.idKey) as? String {
+        if let vi = aDecoder.decodeObject(forKey: VideoKey.idKey) as? String {
             self.videoId = vi
             self.setObject(vi, forKey: VideoKey.idKey)
         }
-        if let sn = aDecoder.decodeObjectForKey(CommentKey.senderName) as? String {
+        if let sn = aDecoder.decodeObject(forKey: CommentKey.senderName) as? String {
             self.senderName = sn
             self.setObject(sn, forKey: CommentKey.senderName)
         }
-        if let si = aDecoder.decodeObjectForKey(CommentKey.senderId) as? String {
+        if let si = aDecoder.decodeObject(forKey: CommentKey.senderId) as? String {
             self.senderId = si
             self.setObject(si, forKey: CommentKey.senderId)
         }
-        if let d = aDecoder.decodeObjectForKey(CommentKey.date) as? Int {
+        if let d = aDecoder.decodeObject(forKey: CommentKey.date) as? Int {
             self.dateInt = d
             self.setObject(d, forKey: CommentKey.date)
         }
-        if let t = aDecoder.decodeObjectForKey(CommentKey.text) as? String {
+        if let t = aDecoder.decodeObject(forKey: CommentKey.text) as? String {
             self.text = t
             self.setObject(t, forKey: CommentKey.text)
         }
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(videoId, forKey: VideoKey.idKey)
-        aCoder.encodeObject(senderName, forKey: CommentKey.senderName)
-        aCoder.encodeObject(senderId, forKey: CommentKey.senderId)
-        aCoder.encodeObject(dateInt, forKey: CommentKey.date)
-        aCoder.encodeObject(text, forKey: CommentKey.text)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(videoId, forKey: VideoKey.idKey)
+        aCoder.encode(senderName, forKey: CommentKey.senderName)
+        aCoder.encode(senderId, forKey: CommentKey.senderId)
+        aCoder.encode(dateInt, forKey: CommentKey.date)
+        aCoder.encode(text, forKey: CommentKey.text)
         
     }
 }

@@ -36,21 +36,21 @@ class User: NCMBObject, NSCoding {
     required init(coder aDecoder: NSCoder) {
         super.init(className: User.className())
         
-        if let i = aDecoder.decodeObjectForKey(UserKey.id) as? String {
+        if let i = aDecoder.decodeObject(forKey: UserKey.id) as? String {
             self.id = i
         }
-        if let n = aDecoder.decodeObjectForKey(UserKey.name) as? String {
+        if let n = aDecoder.decodeObject(forKey: UserKey.name) as? String {
             self.name = n
         }
-        if let im = aDecoder.decodeObjectForKey(UserKey.image) as? String {
+        if let im = aDecoder.decodeObject(forKey: UserKey.image) as? String {
             self.image = im
         }
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(id, forKey: UserKey.id)
-        aCoder.encodeObject(name, forKey: UserKey.name)
-        aCoder.encodeObject(image, forKey: UserKey.image)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: UserKey.id)
+        aCoder.encode(name, forKey: UserKey.name)
+        aCoder.encode(image, forKey: UserKey.image)
     }
 }
 

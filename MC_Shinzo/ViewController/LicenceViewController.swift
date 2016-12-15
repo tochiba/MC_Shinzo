@@ -17,14 +17,14 @@ class LicenceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         var _string = ""
-        for tuple in MITLicenceData.libName.enumerate() {
-            _string += tuple.element + MITLicenceData.newLine + MITLicenceData.header + MITLicenceData.newLine + MITLicenceData.copyright + MITLicenceData.libCopyright[tuple.index] + MITLicenceData.newLine + MITLicenceData.body + MITLicenceData.newLine
+        for tuple in MITLicenceData.libName.enumerated() {
+            _string += tuple.element + MITLicenceData.newLine + MITLicenceData.header + MITLicenceData.newLine + MITLicenceData.copyright + MITLicenceData.libCopyright[tuple.offset] + MITLicenceData.newLine + MITLicenceData.body + MITLicenceData.newLine
         }
         
         self.textView.text = _string
     }
-    @IBAction func didPushDone(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func didPushDone(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -17,20 +17,20 @@ protocol NIFTYManagerDelegate: class {
 extension NIFTYManager {
     func loadDeliveredVideos() {
         let q = NCMBQuery(className: Video.className())
-        q.limit = 1000
-        q.orderByDescending("createDate")
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 1000
+        q?.order(byDescending: "createDate")
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
                 var aArray: [Video] = []
-                for a in array {
+                for a in array! {
                     
                     if let _a = a as? NCMBObject {
-                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
-                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
-                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
-                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
-                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
+                        if  let i = _a.object(forKey: VideoKey.idKey) as? String,
+                            let ana = _a.object(forKey: VideoKey.categoryNameKey) as? String,
+                            let d = _a.object(forKey: VideoKey.dateKey) as? String,
+                            let t = _a.object(forKey: VideoKey.titleKey) as? String,
+                            let th = _a.object(forKey: VideoKey.thumbnailUrlKey) as? String {
                             
                             let an = Video()
                             an.id = i
@@ -38,20 +38,20 @@ extension NIFTYManager {
                             an.date = d
                             an.title = t
                             an.thumbnailUrl = th
-                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                            if let de = _a.object(forKey: VideoKey.descriKey) as? String {
                                 an.descri = de
                             }
-                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                            if let v = _a.object(forKey: VideoKey.videoUrlKey) as? String {
                                 an.videoUrl = v
                             }
                             an.likeCount = 0
-                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                            if let l = _a.object(forKey: VideoKey.likeCountKey) as? Int {
                                 an.likeCount = l
                             }
-                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                            if let cn = _a.object(forKey: VideoKey.channelNameKey) as? String {
                                 an.channelName = cn
                             }
-                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                            if let ci = _a.object(forKey: VideoKey.channelIdKey) as? String {
                                 an.channelId = ci
                             }
 
@@ -73,64 +73,68 @@ extension NIFTYManager {
         })
     }
 
-    func loadDeliveredVideos(inout skip: Int32, inout array aArray: [Video]) {
-        let limitNum: Int32 = 1000
-        let q = NCMBQuery(className: Video.className())
-        q.limit = limitNum
-        q.skip = skip
-        q.orderByDescending("createDate")
-        q.findObjectsInBackgroundWithBlock({
-            (array, error) in
-            if error == nil {
-                for a in array {                    
-                    if let _a = a as? NCMBObject {
-                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
-                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
-                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
-                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
-                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
-                            
-                            let an = Video()
-                            an.id = i
-                            an.categoryName = ana
-                            an.date = d
-                            an.title = t
-                            an.thumbnailUrl = th
-                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
-                                an.descri = de
+    func loadDeliveredVideos( _ skip: inout Int32, array aArray: inout [Video]) {
+        DispatchQueue.main.async { [skip, aArray] in
+            var skip = skip
+            var aArray = aArray
+            let limitNum: Int32 = 1000
+            let q = NCMBQuery(className: Video.className())
+            q?.limit = limitNum
+            q?.skip = skip
+            q?.order(byDescending: "createDate")
+            q?.findObjectsInBackground({
+                (array, error) in
+                if error == nil {
+                    for a in array! {
+                        if let _a = a as? NCMBObject {
+                            if  let i = _a.object(forKey: VideoKey.idKey) as? String,
+                                let ana = _a.object(forKey: VideoKey.categoryNameKey) as? String,
+                                let d = _a.object(forKey: VideoKey.dateKey) as? String,
+                                let t = _a.object(forKey: VideoKey.titleKey) as? String,
+                                let th = _a.object(forKey: VideoKey.thumbnailUrlKey) as? String {
+                                
+                                let an = Video()
+                                an.id = i
+                                an.categoryName = ana
+                                an.date = d
+                                an.title = t
+                                an.thumbnailUrl = th
+                                if let de = _a.object(forKey: VideoKey.descriKey) as? String {
+                                    an.descri = de
+                                }
+                                if let v = _a.object(forKey: VideoKey.videoUrlKey) as? String {
+                                    an.videoUrl = v
+                                }
+                                an.likeCount = 0
+                                if let l = _a.object(forKey: VideoKey.likeCountKey) as? Int {
+                                    an.likeCount = l
+                                }
+                                if let cn = _a.object(forKey: VideoKey.channelNameKey) as? String {
+                                    an.channelName = cn
+                                }
+                                if let ci = _a.object(forKey: VideoKey.channelIdKey) as? String {
+                                    an.channelId = ci
+                                }
+                                
+                                aArray.append(an)
                             }
-                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
-                                an.videoUrl = v
-                            }
-                            an.likeCount = 0
-                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
-                                an.likeCount = l
-                            }
-                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
-                                an.channelName = cn
-                            }
-                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
-                                an.channelId = ci
-                            }
-                            
-                            aArray.append(an)
                         }
                     }
+                    if aArray.count == Int(skip + limitNum) {
+                        skip += limitNum
+                        self.loadDeliveredVideos(&skip, array: &aArray)
+                        return
+                    }
+                    
+                    self.deliverVideos = aArray
+                    APIManager.sharedInstance.delegate?.didFinishLoad(aArray)
                 }
-                if aArray.count == Int(skip + limitNum) {
-                    skip += limitNum
-                    self.loadDeliveredVideos(&skip, array: &aArray)
-                    return
-                }
-                
-                self.deliverVideos = aArray
-                APIManager.sharedInstance.delegate?.didFinishLoad(aArray)
-            }
-        })
+            })
+        }
     }
 
-    func isDeliveredVideo(video: Video) -> Bool {
-        if let _ = self.deliverVideos.indexOf({$0.id == video.id}) {
+    func isDeliveredVideo(_ video: Video) -> Bool {
+        if let _ = self.deliverVideos.index(where: {$0.id == video.id}) {
             return true
         }
         return false
@@ -143,19 +147,19 @@ protocol NIFTYManagerChannelDelegate: class {
 // 外部クラスからの配信済みかチェック用
 extension NIFTYManager {
     // チャンネル用
-    func loadDeliveredChannels(aDelegate: NIFTYManagerChannelDelegate? = nil) {
+    func loadDeliveredChannels(_ aDelegate: NIFTYManagerChannelDelegate? = nil) {
         weak var del = aDelegate
         let q = NCMBQuery(className: Channel.className())
-        q.limit = 500
-        q.orderByDescending("createDate")
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 500
+        q?.order(byDescending: "createDate")
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
                 var aArray: [Channel] = []
-                for a in array {
+                for a in array! {
                     if let _a = a as? NCMBObject {
-                        if  let cn = _a.objectForKey(VideoKey.channelNameKey) as? String,
-                            let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                        if  let cn = _a.object(forKey: VideoKey.channelNameKey) as? String,
+                            let ci = _a.object(forKey: VideoKey.channelIdKey) as? String {
                             let cl = Channel()
                             cl.channelName = cn
                             cl.channelId = ci
@@ -169,21 +173,21 @@ extension NIFTYManager {
         })
     }
     
-    func isDeliveredChannel(channel: Channel) -> Bool {
-        if let _ = self.deliverChannels.indexOf({$0.channelId == channel.channelId}) {
+    func isDeliveredChannel(_ channel: Channel) -> Bool {
+        if let _ = self.deliverChannels.index(where: {$0.channelId == channel.channelId}) {
             return true
         }
         return false
     }
     
-    func isDeliveredChannel(video: Video) -> Bool {
-        if let _ = self.deliverChannels.indexOf({$0.channelId == video.channelId}) {
+    func isDeliveredChannel(_ video: Video) -> Bool {
+        if let _ = self.deliverChannels.index(where: {$0.channelId == video.channelId}) {
             return true
         }
         return false
     }
     
-    func deliverThisChannel(channel: Channel) {
+    func deliverThisChannel(_ channel: Channel) {
         if channel.channelId.utf16.count == 0 {
             return
         }
@@ -193,7 +197,7 @@ extension NIFTYManager {
         }
     }
     
-    func deliverThisChannel(video: Video) {
+    func deliverThisChannel(_ video: Video) {
         if video.channelId.utf16.count == 0 {
             return
         }
@@ -203,14 +207,14 @@ extension NIFTYManager {
         }
     }
     
-    func deleteThisChannel(channel: Channel, aDelegate: NIFTYManagerChannelDelegate? = nil) {
+    func deleteThisChannel(_ channel: Channel, aDelegate: NIFTYManagerChannelDelegate? = nil) {
         let q = NCMBQuery(className: Channel.className())
-        q.limit = 1
-        q.whereKey(VideoKey.channelIdKey, equalTo: channel.channelId)
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 1
+        q?.whereKey(VideoKey.channelIdKey, equalTo: channel.channelId)
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
-                for a in array {
+                for a in array! {
                     if let _a = a as? NCMBObject {
                         self.backgroundDeleteChannel(_a, aDelegate: aDelegate)
                     }
@@ -223,15 +227,15 @@ extension NIFTYManager {
         return self.deliverChannels
     }
     
-    private func convert(video: Video) -> Channel {
+    fileprivate func convert(_ video: Video) -> Channel {
         let c = Channel()
         c.channelName = video.channelName
         c.channelId = video.channelId
         return c
     }
 
-    private func backgroundSaveChannel(channel: Channel) {
-        channel.saveInBackgroundWithBlock({ error in
+    fileprivate func backgroundSaveChannel(_ channel: Channel) {
+        channel.saveInBackground({ error in
             if error != nil {
                 // Error
             }
@@ -239,8 +243,8 @@ extension NIFTYManager {
         })
     }
     
-    private func backgroundDeleteChannel(channel: NCMBObject, aDelegate: NIFTYManagerChannelDelegate? = nil) {
-        channel.deleteInBackgroundWithBlock({ error in
+    fileprivate func backgroundDeleteChannel(_ channel: NCMBObject, aDelegate: NIFTYManagerChannelDelegate? = nil) {
+        channel.deleteInBackground({ error in
             if error != nil {
                 // Error
             }
@@ -251,24 +255,24 @@ extension NIFTYManager {
 
 class NIFTYManager {
     static let sharedInstance = NIFTYManager()
-    private var videoDic: [String:[Video]] = [:]
-    private var delegateDic: [String: NIFTYManagerDelegate?] = [:]
-    private var deliverVideos: [Video] = []
-    private var deliverChannels: [Channel] = []
+    fileprivate var videoDic: [String:[Video]] = [:]
+    fileprivate var delegateDic: [String: NIFTYManagerDelegate?] = [:]
+    fileprivate var deliverVideos: [Video] = []
+    fileprivate var deliverChannels: [Channel] = []
     
     init() {
         loadDeliveredVideos()
         loadDeliveredChannels()
     }
     
-    func illegalThisVideo(video: Video) {
+    func illegalThisVideo(_ video: Video) {
         let v = IllegalVideo()
         v.id = video.id
         v.title = video.title
         v.date = video.date
         v.categoryName = video.categoryName
         
-        v.saveInBackgroundWithBlock({ error in
+        v.saveInBackground({ error in
             if error != nil {
                 // Error
             }
@@ -279,23 +283,23 @@ class NIFTYManager {
         return self.deliverVideos
     }
     
-    func deliverThisVideo(video: Video, isAuto: Bool = false) {
+    func deliverThisVideo(_ video: Video, isAuto: Bool = false) {
         if video.id.utf16.count == 0 || isDeliveredVideo(video) {
             return
         }
         
         let q = NCMBQuery(className: Video.className())
-        q.limit = 1
-        q.whereKey(VideoKey.idKey, equalTo: video.id)//配信済みかチェックするため
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 1
+        q?.whereKey(VideoKey.idKey, equalTo: video.id)//配信済みかチェックするため
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
                 //配信済みかチェックするため
-                if array.count == 0 {
+                if array?.count == 0 {
                     let date = NSDate()
-                    let dateFormatter = NSDateFormatter()
+                    let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyyMMdd"
-                    if  let i = Int(dateFormatter.stringFromDate(date)) {
+                    if  let i = Int(dateFormatter.string(from: date as Date)) {
                         video.dateInteger = i
                     }
                     self.backgroundSaveObject(video)
@@ -310,14 +314,14 @@ class NIFTYManager {
         })
     }
     
-    func deleteThisVideo(video: Video) {
+    func deleteThisVideo(_ video: Video) {
         let q = NCMBQuery(className: Video.className())
-        q.limit = 1
-        q.whereKey(VideoKey.idKey, equalTo: video.id)
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 1
+        q?.whereKey(VideoKey.idKey, equalTo: video.id)
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
-                for a in array {
+                for a in array! {
                     if let _a = a as? NCMBObject {
                         self.backgroundDeleteObject(_a)
                     }
@@ -327,8 +331,8 @@ class NIFTYManager {
     }
     
     func refreshNewCategory() {
-        if let bvc = UIApplication.sharedApplication().keyWindow?.rootViewController as? BaseViewController {
-            bvc.setDrawerState(.Closed, animated: true)
+        if let bvc = UIApplication.shared.keyWindow?.rootViewController as? BaseViewController {
+            bvc.setDrawerState(.closed, animated: true)
             if let mvc = bvc.mainViewController as? MainViewController {
                 mvc.mode = .New
                 mvc.setData()
@@ -346,8 +350,8 @@ class NIFTYManager {
         return false
     }
     */
-    private func backgroundSaveObject(video: Video) {
-        video.saveInBackgroundWithBlock({ error in
+    fileprivate func backgroundSaveObject(_ video: Video) {
+        video.saveInBackground({ error in
             if error != nil {
                 // Error
             }
@@ -355,8 +359,8 @@ class NIFTYManager {
         })
     }
 
-    private func backgroundDeleteObject(video: NCMBObject) {
-        video.deleteInBackgroundWithBlock({ error in
+    fileprivate func backgroundDeleteObject(_ video: NCMBObject) {
+        video.deleteInBackground({ error in
             if error != nil {
                 // Error
             }
@@ -364,11 +368,11 @@ class NIFTYManager {
         })
     }
 
-    func getVideos(query: String, isEncoded: Bool=false) -> [Video] {
+    func getVideos(_ query: String, isEncoded: Bool=false) -> [Video] {
         
         var encodedString = ""
         if !isEncoded {
-            guard let encoded = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+            guard let encoded = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
                 return []
             }
             encodedString = encoded
@@ -384,8 +388,8 @@ class NIFTYManager {
         return array
     }
 
-    func search(query: String, aDelegate: NIFTYManagerDelegate?) {
-        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+    func search(_ query: String, aDelegate: NIFTYManagerDelegate?) {
+        guard let encodedString = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return
         }
         
@@ -393,22 +397,22 @@ class NIFTYManager {
         self.delegateDic[encodedString] = del
         
         let q = NCMBQuery(className: Video.className())
-        q.limit = 200
+        q?.limit = 200
         // 新着順
-        q.orderByDescending("createDate")
-        q.whereKey(VideoKey.categoryNameKey, equalTo: encodedString)
-        q.findObjectsInBackgroundWithBlock({
+        q?.order(byDescending: "createDate")
+        q?.whereKey(VideoKey.categoryNameKey, equalTo: encodedString)
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
                 var aArray: [Video] = []
-                for a in array {
+                for a in array! {
                     
                     if let _a = a as? NCMBObject {
-                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
-                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
-                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
-                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
-                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
+                        if  let i = _a.object(forKey: VideoKey.idKey) as? String,
+                            let ana = _a.object(forKey: VideoKey.categoryNameKey) as? String,
+                            let d = _a.object(forKey: VideoKey.dateKey) as? String,
+                            let t = _a.object(forKey: VideoKey.titleKey) as? String,
+                            let th = _a.object(forKey: VideoKey.thumbnailUrlKey) as? String {
                             
                             let an = Video()
                             an.id = i
@@ -416,20 +420,20 @@ class NIFTYManager {
                             an.date = d
                             an.title = t
                             an.thumbnailUrl = th
-                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                            if let de = _a.object(forKey: VideoKey.descriKey) as? String {
                                 an.descri = de
                             }
-                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                            if let v = _a.object(forKey: VideoKey.videoUrlKey) as? String {
                                 an.videoUrl = v
                             }
                             an.likeCount = 0
-                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                            if let l = _a.object(forKey: VideoKey.likeCountKey) as? Int {
                                 an.likeCount = l
                             }
-                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                            if let cn = _a.object(forKey: VideoKey.channelNameKey) as? String {
                                 an.channelName = cn
                             }
-                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                            if let ci = _a.object(forKey: VideoKey.channelIdKey) as? String {
                                 an.channelId = ci
                             }
                             aArray.append(an)
@@ -444,24 +448,24 @@ class NIFTYManager {
         })
     }
     
-    func search(isNew: Bool=false, aDelegate: NIFTYManagerDelegate?) {
+    func search(_ isNew: Bool=false, aDelegate: NIFTYManagerDelegate?) {
         
         let q = NCMBQuery(className: Video.className())
         
         if isNew {
-            q.orderByDescending("createDate")
-            q.limit = 200
+            q?.order(byDescending: "createDate")
+            q?.limit = 200
         }
         else {
             // Likeの多さ順
-            q.orderByDescending("likeCount")
-            q.limit = 30
+            q?.order(byDescending: "likeCount")
+            q?.limit = 30
             
-            let date = NSDate(timeIntervalSinceNow: -60 * 60 * 24 * 14) //2週間前
-            let dateFormatter = NSDateFormatter()
+            let date = Date(timeIntervalSinceNow: -60 * 60 * 24 * 14) //2週間前
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd"
-            if  let i = Int(dateFormatter.stringFromDate(date)) {
-                q.whereKey(VideoKey.dateIntegerKey, greaterThan: i)
+            if  let i = Int(dateFormatter.string(from: date as Date)) {
+                q?.whereKey(VideoKey.dateIntegerKey, greaterThan: i)
             }
         }
         
@@ -469,18 +473,18 @@ class NIFTYManager {
         weak var del = aDelegate
         self.delegateDic[str] = del
         
-        q.findObjectsInBackgroundWithBlock({
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
                 var aArray: [Video] = []
-                for a in array {
+                for a in array! {
                     
                     if let _a = a as? NCMBObject {
-                        if  let i = _a.objectForKey(VideoKey.idKey) as? String,
-                            let ana = _a.objectForKey(VideoKey.categoryNameKey) as? String,
-                            let d = _a.objectForKey(VideoKey.dateKey) as? String,
-                            let t = _a.objectForKey(VideoKey.titleKey) as? String,
-                            let th = _a.objectForKey(VideoKey.thumbnailUrlKey) as? String {
+                        if  let i = _a.object(forKey: VideoKey.idKey) as? String,
+                            let ana = _a.object(forKey: VideoKey.categoryNameKey) as? String,
+                            let d = _a.object(forKey: VideoKey.dateKey) as? String,
+                            let t = _a.object(forKey: VideoKey.titleKey) as? String,
+                            let th = _a.object(forKey: VideoKey.thumbnailUrlKey) as? String {
                             
                             let an = Video()
                             an.id = i
@@ -488,20 +492,20 @@ class NIFTYManager {
                             an.date = d
                             an.title = t
                             an.thumbnailUrl = th
-                            if let de = _a.objectForKey(VideoKey.descriKey) as? String {
+                            if let de = _a.object(forKey: VideoKey.descriKey) as? String {
                                 an.descri = de
                             }
-                            if let v = _a.objectForKey(VideoKey.videoUrlKey) as? String {
+                            if let v = _a.object(forKey: VideoKey.videoUrlKey) as? String {
                                 an.videoUrl = v
                             }
                             an.likeCount = 0
-                            if let l = _a.objectForKey(VideoKey.likeCountKey) as? Int {
+                            if let l = _a.object(forKey: VideoKey.likeCountKey) as? Int {
                                 an.likeCount = l
                             }
-                            if let cn = _a.objectForKey(VideoKey.channelNameKey) as? String {
+                            if let cn = _a.object(forKey: VideoKey.channelNameKey) as? String {
                                 an.channelName = cn
                             }
-                            if let ci = _a.objectForKey(VideoKey.channelIdKey) as? String {
+                            if let ci = _a.object(forKey: VideoKey.channelIdKey) as? String {
                                 an.channelId = ci
                             }
                             
@@ -517,8 +521,8 @@ class NIFTYManager {
         })
     }
     
-    func searchFromContents(query: String, aDelegate: NIFTYManagerDelegate?) {
-        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+    func searchFromContents(_ query: String, aDelegate: NIFTYManagerDelegate?) {
+        guard let encodedString = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return
         }
         
@@ -527,7 +531,7 @@ class NIFTYManager {
         
         var aArray: [Video] = []
         for a in self.deliverVideos {
-            if a.title.containsString(query.uppercaseString) || a.title.containsString(query.lowercaseString) || a.descri.containsString(query.uppercaseString) || a.descri.containsString(query.lowercaseString) {
+            if a.title.contains(query.uppercased()) || a.title.contains(query.lowercased()) || a.descri.contains(query.uppercased()) || a.descri.contains(query.lowercased()) {
                 aArray.append(a)
             }
         }
@@ -540,18 +544,18 @@ class NIFTYManager {
 
 
     // Like
-    func incrementLike(video: Video) {
+    func incrementLike(_ video: Video) {
         // id から LikeObject 撮ってきてインクリメントしてSave
         let q = NCMBQuery(className: Video.className())
-        q.limit = 1
-        q.whereKey(VideoKey.idKey, equalTo: video.id)
-        q.findObjectsInBackgroundWithBlock({
+        q?.limit = 1
+        q?.whereKey(VideoKey.idKey, equalTo: video.id)
+        q?.findObjectsInBackground({
             (array, error) in
             if error == nil {
-                for a in array {
+                for a in array! {
                     if let _a = a as? NCMBObject {
-                        if  let l = _a.objectForKey(VideoKey.likeCountKey) as? Int,
-                            let id = _a.objectForKey(VideoKey.idKey) as? String {
+                        if  let l = _a.object(forKey: VideoKey.likeCountKey) as? Int,
+                            let id = _a.object(forKey: VideoKey.idKey) as? String {
                             if id.utf16.count == 0 {
                                 return
                             }
@@ -563,9 +567,9 @@ class NIFTYManager {
         })
     }
     
-    private func setLike(video: NCMBObject, count: Int) {
+    fileprivate func setLike(_ video: NCMBObject, count: Int) {
         video.setObject(count+1, forKey: VideoKey.likeCountKey)
-        video.saveInBackgroundWithBlock({ error in
+        video.saveInBackground({ error in
             if error != nil {
                 // Error
             }

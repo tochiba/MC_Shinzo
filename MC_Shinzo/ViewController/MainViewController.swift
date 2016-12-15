@@ -11,7 +11,7 @@ import UIKit
 import KYDrawerController
 
 protocol BaseControllerDelegate: class {
-    func didSelectCell(mode: VideoListViewController.Mode, query: String)
+    func didSelectCell(_ mode: VideoListViewController.Mode, query: String)
 }
 
 class BaseViewController: KYDrawerController {
@@ -22,8 +22,8 @@ class BaseViewController: KYDrawerController {
             dvc.delegate = self
         }
         checkShortcut()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.didBecomeActivee(_:)), name: UIApplicationDidBecomeActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.willEnterFore(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.didBecomeActivee(notification:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.willEnterFore(notification:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     func didBecomeActivee(notification: NSNotification?) {
         checkShortcut()
@@ -35,7 +35,7 @@ class BaseViewController: KYDrawerController {
 
     func checkShortcut() {
         PushAlertViewController.checkPushAlert(self)
-        if let adel = UIApplication.sharedApplication().delegate as? AppDelegate where adel.isShortcut {
+        if let adel = UIApplication.shared.delegate as? AppDelegate, adel.isShortcut {
             if let mvc = self.mainViewController as? MainViewController {
                 mvc.mode = adel.mode
                 mvc.setData()
@@ -45,17 +45,17 @@ class BaseViewController: KYDrawerController {
     }
     deinit {
         self.delegate = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 extension BaseViewController: KYDrawerControllerDelegate {
-    func drawerController(drawerController: KYDrawerController, stateChanged state: KYDrawerController.DrawerState) {
-        UIApplication.sharedApplication().statusBarHidden = state == .Opened
+    func drawerController(_ drawerController: KYDrawerController, stateChanged state: KYDrawerController.DrawerState) {
+        UIApplication.shared.isStatusBarHidden = state == .opened
     }
 }
 extension BaseViewController: BaseControllerDelegate {
-    func didSelectCell(mode: VideoListViewController.Mode, query: String) {
-        self.setDrawerState(.Closed, animated: true)
+    func didSelectCell(_ mode: VideoListViewController.Mode, query: String) {
+        self.setDrawerState(.closed, animated: true)
         if let mvc = self.mainViewController as? MainViewController {
             mvc.mode = mode
             mvc.queryString = query
@@ -66,17 +66,17 @@ extension BaseViewController: BaseControllerDelegate {
 }
 
 class MainViewController: VideoListViewController {
-    @IBAction func didPushOpenButton(sender: AnyObject) {
-        if let pvc = self.parentViewController as? BaseViewController {
-            let state: KYDrawerController.DrawerState = pvc.drawerState == .Opened ? KYDrawerController.DrawerState.Closed : KYDrawerController.DrawerState.Opened
+    @IBAction func didPushOpenButton(_ sender: AnyObject) {
+        if let pvc = self.parent as? BaseViewController {
+            let state: KYDrawerController.DrawerState = pvc.drawerState == .opened ? KYDrawerController.DrawerState.closed : KYDrawerController.DrawerState.opened
             pvc.setDrawerState(state, animated: true)
         }
     }
-    @IBAction func didPushSearchButton(sender: AnyObject) {
+    @IBAction func didPushSearchButton(_ sender: AnyObject) {
         let vc = VideoListViewController.getInstanceWithMode(mode: .Search)
         let nvc = AnimationNavigationController(rootViewController: vc)
         nvc.setBlackStyle()
-        self.presentViewController(nvc, animated: true, completion: {})
+        self.present(nvc, animated: true, completion: {})
     }
 }
 
@@ -86,19 +86,19 @@ class DrawerViewController: SettingViewController {
 class AnimationNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.modalPresentationStyle = .Custom
+        self.modalPresentationStyle = .custom
         self.transitioningDelegate = self
     }
     func setBlackStyle() {
-        self.navigationBar.barStyle = .Black
+        self.navigationBar.barStyle = .black
     }
 }
 extension AnimationNavigationController: UIViewControllerTransitioningDelegate {
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PopUpTransitionAnimater(presenting: true)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PopUpTransitionAnimater(presenting: false)
     }
 }

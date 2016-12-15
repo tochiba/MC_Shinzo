@@ -11,12 +11,12 @@ import UIKit
 
 class ActivityManager: NSObject {
     
-    class private func getActivityViewController(vc: UIViewController?, video: Video) -> UIActivityViewController {
+    class fileprivate func getActivityViewController(_ vc: UIViewController?, video: Video) -> UIActivityViewController {
         
         // 共有する項目
         let shareText = "\(video.title) #Subrhyme \n\(URL.YoutubeShare)\(video.id)"
-        let shareWebsite = NSURL(string: URL.AppStore)!
-        let activityItems = [shareText, shareWebsite]
+        let shareWebsite = Foundation.URL(string: URL.AppStore)!
+        let activityItems = [shareText, shareWebsite] as [Any]
         
         // 初期化処理
         let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
@@ -24,8 +24,8 @@ class ActivityManager: NSObject {
         
         // 使用しないアクティビティタイプ
         let excludedActivityTypes = [
-            UIActivityTypeSaveToCameraRoll,
-            UIActivityTypePrint
+            UIActivityType.saveToCameraRoll,
+            UIActivityType.print
         ]
         
         activityVC.excludedActivityTypes = excludedActivityTypes
@@ -41,10 +41,10 @@ class ActivityManager: NSObject {
         return activityVC
     }
     
-    class func showActivityView(viewController: UIViewController, video: Video) {
+    class func showActivityView(_ viewController: UIViewController, video: Video) {
         weak var vc = viewController
-        vc?.presentViewController(getActivityViewController(vc, video: video), animated: true, completion: {
-            TrackingManager.sharedInstance.sendEventAction(.Share)
+        vc?.present(getActivityViewController(vc, video: video), animated: true, completion: {
+            TrackingManager.sharedInstance.sendEventAction(.share)
         })
     }
 }

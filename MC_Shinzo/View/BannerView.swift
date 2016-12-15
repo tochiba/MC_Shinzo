@@ -11,7 +11,7 @@ import UIKit
 import GoogleMobileAds
 
 class BannerView: GADBannerView, GADBannerViewDelegate {
-    func setup(viewController: UIViewController, unitID: String, isDebug: Bool=false) {
+    func setup(_ viewController: UIViewController, unitID: String, isDebug: Bool=false) {
         self.delegate = self
         self.adUnitID = unitID
         self.rootViewController = viewController
@@ -20,7 +20,7 @@ class BannerView: GADBannerView, GADBannerViewDelegate {
         if isDebug {
             request.testDevices = [""]
         }
-        self.loadRequest(request)
+        self.load(request)
     }
 }
 
@@ -35,20 +35,20 @@ class Interstitial: NSObject, GADInterstitialDelegate {
     
     func createAndLoadInterstitial() -> GADInterstitial {
         let i = GADInterstitial(adUnitID: AD.InterstitialID)
-        i.delegate = self
+        i?.delegate = self
         let request = GADRequest()
-        i.loadRequest(request)
-        return i
+        i?.load(request)
+        return i!
     }
     
-    func show(viewController: UIViewController) {
+    func show(_ viewController: UIViewController) {
         if self.interstitial.isReady {
             weak var vc = viewController
-            self.interstitial.presentFromRootViewController(vc)
+            self.interstitial.present(fromRootViewController: vc)
         }        
     }
     
-    func interstitialDidDismissScreen(ad: GADInterstitial!) {
+    func interstitialDidDismissScreen(_ ad: GADInterstitial!) {
         self.interstitial = createAndLoadInterstitial()
     }
 }

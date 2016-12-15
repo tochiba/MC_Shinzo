@@ -12,18 +12,18 @@ import SwiftyJSON
 import NCMB
 
 protocol SearchAPIManagerDelegate: class {
-    func didFinishLoad(videos: [Video])
+    func didFinishLoad(_ videos: [Video])
 }
 
 enum SearchMode {
-    case Query
-    case Channel
+    case query
+    case channel
     
     var stringUrl: String {
         switch self {
-        case .Query:
+        case .query:
             return APIURL.YoutubeSearch
-        case .Channel:
+        case .channel:
             return APIURL.YoutubeChanel
         }
     }
@@ -31,11 +31,11 @@ enum SearchMode {
 
 class APIManager {
     static let sharedInstance = APIManager()
-    private var videoDic: [String:[Video]] = [:]
+    fileprivate var videoDic: [String:[Video]] = [:]
     weak var delegate: SearchAPIManagerDelegate?
     
-    func getVideos(query: String) -> [Video] {
-        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+    func getVideos(_ query: String) -> [Video] {
+        guard let encodedString = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return []
         }
         
@@ -52,13 +52,13 @@ class APIManager {
         return _array
     }
     
-    func search(query: String, aDelegate: SearchAPIManagerDelegate?, mode: SearchMode = .Query) {
+    func search(_ query: String, aDelegate: SearchAPIManagerDelegate?, mode: SearchMode = .query) {
         self.delegate = aDelegate
-        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+        guard let encodedString = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return
         }
         
-        Alamofire.request(.GET, mode.stringUrl + encodedString + APIPARAM.Token + APITOKEN.YoutubeToken)
+        Alamofire.request(mode.stringUrl + encodedString + APIPARAM.Token + APITOKEN.YoutubeToken, method: .get)
             .responseJSON { response in
                 guard let object = response.result.value else {
                     return
@@ -96,9 +96,9 @@ class APIManager {
         }
     }
     
-    func nextSearch(query: String, nextToken: String, aArray: [Video], mode: SearchMode) {
+    func nextSearch(_ query: String, nextToken: String, aArray: [Video], mode: SearchMode) {
         var _aArray = aArray
-        Alamofire.request(.GET, mode.stringUrl + query + APIPARAM.Token + APITOKEN.YoutubeToken + APIPARAM.NextPageToken + nextToken)
+        Alamofire.request(mode.stringUrl + query + APIPARAM.Token + APITOKEN.YoutubeToken + APIPARAM.NextPageToken + nextToken, method: .get)
             .responseJSON { response in
                 guard let object = response.result.value else {
                     return
@@ -135,24 +135,26 @@ class APIManager {
         }
     }
 
-    func postNotification(video: Video) {
+    func postNotification(_ video: Video) {
         let text = "【新着動画】\(video.title)がアップロードされました"
         let param = ["app_id": APP_ID.OneSignal,
                      "contents": ["en": text],
                      "included_segments": ["All"],
-                     "ios_badgeType": "Increase"];
+                     "ios_badgeType": "Increase"] as [String : Any];
         let headers = [
             "Content-Type": "application/json",
             "Authorization": "Basic \(API_KEY.OneSignal)"
         ]
-        Alamofire.request(.POST, "https://onesignal.com/api/v1/notifications", parameters: param as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
+        Alamofire.request("https://onesignal.com/api/v1/notifications", method: .post, parameters: param, headers: headers).responseJSON { response in
         }
+//        Alamofire.request("https://onesignal.com/api/v1/notifications", method: .post, parameters: param as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
+//        }
     }
 }
 
 extension APIManager {
-    func videoCheckSearch(video: Video) {
-        Alamofire.request(.GET, APIURL.YoutubeVideoSearch + video.id + APIPARAM.Token + APITOKEN.YoutubeToken)
+    func videoCheckSearch(_ video: Video) {
+        Alamofire.request(APIURL.YoutubeVideoSearch + video.id + APIPARAM.Token + APITOKEN.YoutubeToken, method: .get)
             .responseJSON { response in
                 
                 guard let object = response.result.value else {
@@ -163,7 +165,7 @@ extension APIManager {
                     return
                 }
                 for i in _array {
-                    if let s = i["status"]["uploadStatus"].string where s != "processed" {
+                    if let s = i["status"]["uploadStatus"].string, s != "processed" {
                         NIFTYManager.sharedInstance.deleteThisVideo(video)
                     }
                 }

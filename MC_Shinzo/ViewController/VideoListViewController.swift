@@ -20,10 +20,10 @@ class VideoListViewController: UIViewController {
     @IBOutlet weak var topSpace: NSLayoutConstraint!
 
     
-    private var cellSize: CGSize = CGSizeZero
-    private var videoList: [Video] = []
-    private var pickerBaseView: PickerBaseView?
-    private var scrollBeginingPoint: CGPoint = CGPointMake(0, 0)
+    internal var cellSize: CGSize = .zero
+    internal var videoList: [Video] = []
+    internal var pickerBaseView: PickerBaseView?
+    internal var scrollBeginingPoint: CGPoint = CGPoint(x:0, y:0)
     
     var titleString: String = ""
     var queryString: String = ""
@@ -42,7 +42,7 @@ class VideoListViewController: UIViewController {
     
     class func getInstance(query: String, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = storyboard.instantiateViewControllerWithIdentifier("VideoListViewController") as? VideoListViewController {
+        if let vc = storyboard.instantiateViewController(withIdentifier: "VideoListViewController") as? VideoListViewController {
             vc.queryString = query
             vc.view.backgroundColor = color
             vc.collectionView.backgroundColor = color
@@ -54,7 +54,7 @@ class VideoListViewController: UIViewController {
     
     class func getInstanceWithMode(query: String = "", title: String = "", mode: Mode, color: UIColor=Config.baseColor()) -> VideoListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = storyboard.instantiateViewControllerWithIdentifier("VideoListViewController") as? VideoListViewController {
+        if let vc = storyboard.instantiateViewController(withIdentifier: "VideoListViewController") as? VideoListViewController {
             vc.view.backgroundColor = color
             vc.collectionView.backgroundColor = color
             vc.mode = mode
@@ -76,12 +76,12 @@ class VideoListViewController: UIViewController {
         
         let refresher = Refresher { [weak self] () -> Void in
             self?.pullToRefresh()
-            TrackingManager.sharedInstance.sendEventAction(.Refresh)
+            TrackingManager.sharedInstance.sendEventAction(.refresh)
         }
         self.collectionView.srf_addRefresher(refresher)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupColloectionView()
         self.sendScreenNameLog()
@@ -93,27 +93,27 @@ class VideoListViewController: UIViewController {
         setupLayout()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VideoListViewController.deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoListViewController.deviceOrientationDidChange(notification:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         // 3D Touchが使える端末か確認
-        if UIApplication.sharedApplication().keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
+        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.available {
             // どのビューをPeek and Popの対象にするか指定
-            self.registerForPreviewingWithDelegate(self, sourceView: self.view)
+            self.registerForPreviewing(with: self, sourceView: self.view)
         }
         if ReviewChecker.playCheck(self) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
+            if let nVC = storyboard.instantiateViewController(withIdentifier: "ReviewController") as? ReviewController {
                 nVC.delegate = self
                 nVC.showCloseButton = false
-                self.presentViewController(nVC, animated: true, completion: nil)
+                self.present(nVC, animated: true, completion: nil)
             }
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         ARSLineProgressConfiguration.backgroundViewDismissAnimationDuration = 1.0
         ARSLineProgress.hideWithCompletionBlock({
             ARSLineProgressConfiguration.restoreDefaults()
@@ -124,7 +124,7 @@ class VideoListViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
@@ -163,7 +163,7 @@ extension VideoListViewController {
             APIManager.sharedInstance.search(self.queryString, aDelegate: self)
             return
         case .Channel:
-            APIManager.sharedInstance.search(self.queryString, aDelegate: self, mode: .Channel)
+            APIManager.sharedInstance.search(self.queryString, aDelegate: self, mode: .channel)
             return
         case .Search:
             NIFTYManager.sharedInstance.searchFromContents(self.queryString, aDelegate: self)
@@ -202,8 +202,8 @@ extension VideoListViewController {
         }
     }
     
-    private func setupColloectionView() {
-        if let nvc = self.parentViewController as? UINavigationController {
+    internal func setupColloectionView() {
+        if let nvc = self.parent as? UINavigationController {
             for vc in nvc.viewControllers {
                 if let vlc = vc as? VideoListViewController {
                     vlc.collectionView.scrollsToTop = false
@@ -214,7 +214,7 @@ extension VideoListViewController {
     }
     
     // TODO: Cell間のマージンが大きすぎる（2つ分のマージンになってるから？cellのレイアウトだから厳しいかも）
-    private func setupCellSize(num: Int = 0, heightRaito: CGFloat = 0.6) {
+    internal func setupCellSize(num: Int = 0, heightRaito: CGFloat = 0.6) {
         let space: Int = 2 //マージン
         var spaceNum: Int = 0 //スペースの数
         var cellNum: Int = 1 //セルの数
@@ -243,14 +243,14 @@ extension VideoListViewController {
         cellNum  += num
         let screenSizeWidth = self.view.frame.size.width//UIScreen.mainScreen().bounds.size.width
         let size = (screenSizeWidth - CGFloat(space * spaceNum)) / CGFloat(cellNum)
-        self.cellSize = CGSizeMake(size, size * heightRaito)
+        self.cellSize = CGSize(width: size, height: size * heightRaito)
         self.collectionView.reloadData()
     }
     
-    private func reload(isScrollToTop: Bool = true, showSuccess: Bool = false) {
+    internal func reload(isScrollToTop: Bool = true, showSuccess: Bool = false) {
         self.loadData()
         self.collectionView.performBatchUpdates({
-            self.collectionView.reloadSections(NSIndexSet(index: 0))
+            self.collectionView.reloadSections(NSIndexSet(index: 0) as IndexSet)
             }, completion: { finish in
                 if showSuccess {
                     ARSLineProgress.showSuccess()
@@ -263,48 +263,48 @@ extension VideoListViewController {
                 }
                 
                 if isScrollToTop && self.videoList.count > 0 {
-                    self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: UICollectionViewScrollPosition.top, animated: true)
                 }
         })
     }
     
-    private func pullToRefresh() {
+    internal func pullToRefresh() {
         setData()
-        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+        DispatchQueue.main.async() { [weak self] () -> Void in
             guard let s = self else { return }
             s.collectionView.srf_endRefreshing()
         }
     }
     
-    private func playVideo(id: String) {
+    internal func playVideo(id: String) {
         let vc = VideoViewController(videoIdentifier: id)
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     func moviePlayerPlaybackDidFinish(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
 
 extension VideoListViewController: UICollectionViewDataSource {
     // MARK: UICollectionViewDataSource
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.videoList.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("VideoCell", forIndexPath: indexPath) as? CardCollectionCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoCell", for: indexPath) as? CardCollectionCell {
             let video = self.videoList[indexPath.row]
             
             cell.imageView.image = nil
-            if let url = NSURL(string: video.thumbnailUrl) {
-                cell.imageView.sd_setImageWithURL(url)
+            if let url = Foundation.URL(string: video.thumbnailUrl) {
+                cell.imageView.sd_setImage(with: url)
             }
             cell.titleLabel.text = video.title
             cell.likeLabel.text = String(video.likeCount)
-            cell.channelButton.setTitle(video.channelName, forState: .Normal)
+            cell.channelButton.setTitle(video.channelName, for: .normal)
             cell.setup(video, delegate: self)
             
             return cell
@@ -316,12 +316,12 @@ extension VideoListViewController: UICollectionViewDataSource {
 
 extension VideoListViewController: UICollectionViewDelegate {
     // MARK: UICollectionViewDelegate
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {}
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {}
 }
 
 extension VideoListViewController: UICollectionViewDelegateFlowLayout {
     // MARK: UICollectionViewDelegateFlowLayout
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         /*
         if !(self.mode == .New || self.mode == .Popular) {
@@ -369,21 +369,18 @@ extension VideoListViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension VideoListViewController: UIViewControllerPreviewingDelegate {
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
         // 3D Touchの対象がUITableViewかどうかを判別（UITableViewでの位置を取得）
-        guard let cellPosition: CGPoint = self.collectionView.convertPoint(location, fromView: view) else {
-            return nil
-        }
-        
+        let cellPosition: CGPoint = self.collectionView.convert(location, from: view)        
         // 3D Touchされた場所が存在するかどうか判定
         // Peekを表示させたくない、表示すべきではない場合は"nil"を返す
-        guard let indexPath: NSIndexPath = self.collectionView.indexPathForItemAtPoint(cellPosition) else {
+        guard let indexPath: NSIndexPath = self.collectionView.indexPathForItem(at: cellPosition) as NSIndexPath? else {
             return nil
         }
         
         // Peekで表示させる画面のインスタンス生成
-        guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) as? CardCollectionCell else {
+        guard let cell = self.collectionView.cellForItem(at: indexPath as IndexPath) as? CardCollectionCell else {
             return nil
         }
 
@@ -392,10 +389,10 @@ extension VideoListViewController: UIViewControllerPreviewingDelegate {
         
         // Peekで表示させるプレビュー画面の大きさを指定
         // 基本的にwidthの数値は無視される
-        vc.preferredContentSize = CGSize(width: 0.0, height: UIScreen.mainScreen().bounds.size.height * 0.7)
+        vc.preferredContentSize = CGSize(width: 0.0, height: UIScreen.main.bounds.size.height * 0.7)
         
         // 3D Touchではっきりと表示させる部分を指定（どの部分をぼかして、どの部分をPeekしているかを設定）
-        previewingContext.sourceRect = view.convertRect(cell.frame, fromView: self.collectionView)
+        previewingContext.sourceRect = view.convert(cell.frame, from: self.collectionView)
 
         // 次の画面のインスタンスを返す
         return vc
@@ -404,23 +401,23 @@ extension VideoListViewController: UIViewControllerPreviewingDelegate {
     // Popする直前に呼ばれる処理（通常は次の画面を表示させる）
     // UINavigationControllerでのpushでの遷移は"showViewController:sender:"をコールする
     // Modalでの遷移の場合は"presentViewController:animated:completion:"をコールする
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        presentViewController(viewControllerToCommit, animated: true, completion: nil)
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        present(viewControllerToCommit, animated: true, completion: nil)
         //showViewController(viewControllerToCommit, sender: self)
     }
 }
 
 extension VideoListViewController: SearchAPIManagerDelegate {
-    func didFinishLoad(videos: [Video]) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.reload(false)
+    func didFinishLoad(_ videos: [Video]) {
+        DispatchQueue.main.async(execute: {
+            self.reload(isScrollToTop: false)
         })
     }
 }
 
 extension VideoListViewController: NIFTYManagerDelegate {
     func didLoad() {
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.reload()
         })
     }
@@ -428,7 +425,7 @@ extension VideoListViewController: NIFTYManagerDelegate {
 
 extension VideoListViewController: FavoriteManagerDelegate {
     func didLoadFavoriteData() {
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.reload()
         })
     }
@@ -436,60 +433,60 @@ extension VideoListViewController: FavoriteManagerDelegate {
 
 extension VideoListViewController: CardCollectionCellDelegate {
     func didPushFavorite() {
-        reload(false ,showSuccess: true)
+        reload(isScrollToTop: false ,showSuccess: true)
         FavoriteCounter.add()
         if ReviewChecker.favoriteCheck(self) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let nVC = storyboard.instantiateViewControllerWithIdentifier("ReviewController") as? ReviewController {
+            if let nVC = storyboard.instantiateViewController(withIdentifier: "ReviewController") as? ReviewController {
                 nVC.delegate = self
                 nVC.showCloseButton = false
-                self.presentViewController(nVC, animated: true, completion: nil)
+                self.present(nVC, animated: true, completion: nil)
             }
         }
-        TrackingManager.sharedInstance.sendEventAction(.Favorite)
+        TrackingManager.sharedInstance.sendEventAction(.favorite)
     }
     
-    func didPushSetting(video: Video, frame: CGRect) {
+    func didPushSetting(_ video: Video, frame: CGRect) {
         
-        let myAlert = UIAlertController(title: video.title, message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let myAction_1 = UIAlertAction(title: NSLocalizedString("share_share", comment: ""), style: UIAlertActionStyle.Default, handler: {
+        let myAlert = UIAlertController(title: video.title, message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let myAction_1 = UIAlertAction(title: NSLocalizedString("share_share", comment: ""), style: UIAlertActionStyle.default, handler: {
             (action: UIAlertAction) in
             ActivityManager.showActivityView(self, video: video)
         })
         
-        let myAction_2 = UIAlertAction(title: NSLocalizedString("share_illegal", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
+        let myAction_2 = UIAlertAction(title: NSLocalizedString("share_illegal", comment: ""), style: UIAlertActionStyle.destructive, handler: {
             (action: UIAlertAction) in
             NIFTYManager.sharedInstance.illegalThisVideo(video)
         })
         
-        let myAction_3 = UIAlertAction(title: NSLocalizedString("share_cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+        let myAction_3 = UIAlertAction(title: NSLocalizedString("share_cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
             (action: UIAlertAction) in
         })
         
         if !Config.isNotDevMode() {
             resetPickerView()
-            let myAction_01 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.Destructive, handler: {
+            let myAction_01 = UIAlertAction(title: NSLocalizedString("この動画を削除する", comment: ""), style: UIAlertActionStyle.destructive, handler: {
                 (action: UIAlertAction) in
                 NIFTYManager.sharedInstance.deleteThisVideo(video)
             })
             myAlert.addAction(myAction_01)
             
-            let myAction_00 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+            let myAction_00 = UIAlertAction(title: NSLocalizedString("この動画を入稿する", comment: ""), style: UIAlertActionStyle.default, handler: {
                 (action: UIAlertAction) in
-                self.createPickerView(video, frame: frame)
+                self.createPickerView(video: video, frame: frame)
             })
             myAlert.addAction(myAction_00)
             
             
             if !NIFTYManager.sharedInstance.isDeliveredChannel(video) {
-                let myAction_03 = UIAlertAction(title: NSLocalizedString("このチャンネルを登録する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+                let myAction_03 = UIAlertAction(title: NSLocalizedString("このチャンネルを登録する", comment: ""), style: UIAlertActionStyle.default, handler: {
                     (action: UIAlertAction) in
                     NIFTYManager.sharedInstance.deliverThisChannel(video)
                 })
                 myAlert.addAction(myAction_03)
             }
             
-            let myAction_04 = UIAlertAction(title: NSLocalizedString("この動画をPUSH配信する", comment: ""), style: UIAlertActionStyle.Default, handler: {
+            let myAction_04 = UIAlertAction(title: NSLocalizedString("この動画をPUSH配信する", comment: ""), style: UIAlertActionStyle.default, handler: {
                 (action: UIAlertAction) in
                 APIManager.sharedInstance.postNotification(video)
             })
@@ -506,19 +503,19 @@ extension VideoListViewController: CardCollectionCellDelegate {
             myAlert.popoverPresentationController?.sourceRect = frame
         }
         
-        self.presentViewController(myAlert, animated: true, completion: nil)
+        self.present(myAlert, animated: true, completion: nil)
     }
     
-    func didPushPlay(video: Video) {
-        playVideo(video.id)
+    func didPushPlay(_ video: Video) {
+        playVideo(id: video.id)
         PlayCounter.add()
-        TrackingManager.sharedInstance.sendEventAction(.Play)
+        TrackingManager.sharedInstance.sendEventAction(.play)
     }
     
-    func didPushChannel(video: Video) {
-        let vc = VideoListViewController.getInstanceWithMode(video.channelId, title: video.channelName, mode: .Channel)
+    func didPushChannel(_ video: Video) {
+        let vc = VideoListViewController.getInstanceWithMode(query: video.channelId, title: video.channelName, mode: .Channel)
         let nvc = AnimationNavigationController(rootViewController: vc)
-        self.presentViewController(nvc, animated: true, completion: nil)
+        self.present(nvc, animated: true, completion: nil)
     }
 }
 
@@ -529,7 +526,7 @@ extension VideoListViewController: ReviewControllerDelegate {
 }
 
 extension VideoListViewController: UISearchBarDelegate {
-    private func setupSearchLayout() {
+    internal func setupSearchLayout() {
         self.topSpace.constant = 0
         
         if  self.navigationItem.titleView is UISearchBar {
@@ -541,13 +538,13 @@ extension VideoListViewController: UISearchBarDelegate {
             searchBar.delegate = self
             searchBar.placeholder = "Search"
             searchBar.showsCancelButton = false
-            searchBar.tintColor = UIColor.darkGrayColor()
-            searchBar.autocapitalizationType = UITextAutocapitalizationType.None
-            searchBar.keyboardType = UIKeyboardType.Default
+            searchBar.tintColor = UIColor.darkGray
+            searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+            searchBar.keyboardType = UIKeyboardType.default
             self.navigationItem.titleView = searchBar
             self.navigationItem.titleView?.frame = searchBar.frame
-            let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushLeftButton(_:)))
-            leftButton.tintColor = UIColor.whiteColor()
+            let leftButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(VideoListViewController.didPushLeftButton(sender:)))
+            leftButton.tintColor = UIColor.white
             self.navigationItem.leftBarButtonItem = leftButton
             
             searchBar.becomeFirstResponder()
@@ -557,17 +554,17 @@ extension VideoListViewController: UISearchBarDelegate {
         if self.mode == .Search {
             
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     // テキストが変更される毎に呼ばれる
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     }
     // Cancelボタンが押された時に呼ばれる
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
     }
     // Searchボタンが押された時に呼ばれる
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let txt = searchBar.text {
             ARSLineProgress.show()
             self.queryString = txt
@@ -585,16 +582,19 @@ extension VideoListViewController: UISearchBarDelegate {
 }
 
 extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    private func resetPickerView() {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    internal func resetPickerView() {
         self.pickerBaseView?.removeFromSuperview()
         self.pickerBaseView = nil
     }
-    private func createPickerView(video: Video, frame: CGRect) {
+    internal func createPickerView(video: Video, frame: CGRect) {
         var f = frame
         f.origin.y += 10
         f.size.height -= 10
         self.pickerBaseView = PickerBaseView(frame: f)
-        self.pickerBaseView?.backgroundColor = UIColor.whiteColor()
+        self.pickerBaseView?.backgroundColor = UIColor.white
         self.pickerBaseView?.video = video
         self.pickerBaseView?.category = VideoCategory.category[0]
         
@@ -612,12 +612,12 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
         bf.origin.y = pf.size.height
         let button = UIButton()
         button.frame = bf
-        button.setTitle("決定", forState: UIControlState.Normal)
+        button.setTitle("決定", for: UIControlState.normal)
         button.backgroundColor = Config.keyColor(0.3)
-        button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+        button.setTitleColor(UIColor.white, for: UIControlState.normal)
+        button.setTitleColor(UIColor.gray, for: UIControlState.highlighted)
         button.titleLabel?.text = "決定"
-        button.addTarget(self, action: #selector(VideoListViewController.didPushDeliverButton(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(VideoListViewController.didPushDeliverButton(sender:)), for: .touchUpInside)
         
         self.pickerBaseView?.addSubview(button)
         self.pickerBaseView?.addSubview(pview)
@@ -638,13 +638,13 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return VideoCategory.category.count
     }
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return VideoCategory.category[row]
     }
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let p = pickerView.superview as? PickerBaseView {
             p.category = VideoCategory.category[row]
         }
@@ -652,7 +652,7 @@ extension VideoListViewController: UIPickerViewDelegate, UIPickerViewDataSource 
 }
 
 extension VideoListViewController {
-    private func setupChannelLayout() {
+    internal func setupChannelLayout() {
         self.topSpace.constant = 0
         
         if  self.navigationItem.titleView is UISearchBar {
@@ -661,15 +661,15 @@ extension VideoListViewController {
         if let navigationBarFrame = self.navigationController?.navigationBar.bounds {
             let titleView = UILabel(frame: navigationBarFrame)
             titleView.text = self.titleString
-            titleView.textAlignment = .Center
+            titleView.textAlignment = .center
             self.navigationItem.titleView = titleView
             self.navigationItem.titleView?.frame = titleView.frame
         }
-        let leftButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(VideoListViewController.didPushCloseButton(_:)))
+        let leftButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(VideoListViewController.didPushCloseButton(sender:)))
         self.navigationItem.leftBarButtonItem = leftButton
     }
     func didPushCloseButton(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -680,13 +680,13 @@ class PickerBaseView: UIView {
 
 extension VideoListViewController: UIScrollViewDelegate {
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollBeginingPoint = scrollView.contentOffset
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentPoint = scrollView.contentOffset
-        UIApplication.sharedApplication().statusBarHidden = scrollBeginingPoint.y < currentPoint.y
+        UIApplication.shared.isStatusBarHidden = scrollBeginingPoint.y < currentPoint.y
     }
 }
 

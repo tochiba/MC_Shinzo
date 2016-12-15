@@ -11,9 +11,9 @@ import UIKit
 
 protocol CardCollectionCellDelegate: class {
     func didPushFavorite()
-    func didPushSetting(video: Video, frame: CGRect)
-    func didPushPlay(video: Video)
-    func didPushChannel(video: Video)
+    func didPushSetting(_ video: Video, frame: CGRect)
+    func didPushPlay(_ video: Video)
+    func didPushChannel(_ video: Video)
 }
 
 class CardCollectionCell: UICollectionViewCell {
@@ -26,15 +26,15 @@ class CardCollectionCell: UICollectionViewCell {
     @IBOutlet weak var channelButton: UIButton!
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
-    @IBAction func didPushFavoriteButton(sender: AnyObject) {
+    @IBAction func didPushFavoriteButton(_ sender: AnyObject) {
         if let _v = self.video {
             if FavoriteManager.sharedInstance.isFavoriteVideo(_v.id) {
-                self.favoriteButton.selected = false
+                self.favoriteButton.isSelected = false
                 FavoriteManager.sharedInstance.removeFavoriteVideo(_v)
                 changeLikeCount(false)
             }
             else {
-                self.favoriteButton.selected = true
+                self.favoriteButton.isSelected = true
                 FavoriteManager.sharedInstance.addFavoriteVideo(_v)
                 NIFTYManager.sharedInstance.incrementLike(_v)
                 changeLikeCount(true)
@@ -42,17 +42,17 @@ class CardCollectionCell: UICollectionViewCell {
             self.delegate?.didPushFavorite()
         }
     }
-    @IBAction func didPushSettingButton(sender: AnyObject) {
+    @IBAction func didPushSettingButton(_ sender: AnyObject) {
         if let _v = self.video {
             self.delegate?.didPushSetting(_v, frame: self.frame)
         }
     }
-    @IBAction func didPushPlayButton(sender: AnyObject) {
+    @IBAction func didPushPlayButton(_ sender: AnyObject) {
         if let _v = self.video {
             self.delegate?.didPushPlay(_v)
         }
     }
-    @IBAction func didPushChannelButton(sender: AnyObject) {
+    @IBAction func didPushChannelButton(_ sender: AnyObject) {
         if let _v = self.video {
             self.delegate?.didPushChannel(_v)
         }
@@ -63,20 +63,20 @@ class CardCollectionCell: UICollectionViewCell {
         self.settingButton.titleLabel?.adjustsFontSizeToFitWidth = true
     }
     
-    func setup(video: Video, delegate: CardCollectionCellDelegate?) {
+    func setup(_ video: Video, delegate: CardCollectionCellDelegate?) {
         self.delegate = delegate
         self.video = video
-        self.channelButton.hidden = Config.isNotDevMode()
+        self.channelButton.isHidden = Config.isNotDevMode()
         setupFavoButton(video.id)
     }
     
-    private func setupFavoButton(id: String) {
-        self.favoriteButton.hidden  = !Config.isNotDevMode()
-        self.likeLabel.hidden       = !Config.isNotDevMode()
-        self.favoriteButton.selected = FavoriteManager.sharedInstance.isFavoriteVideo(id)
+    fileprivate func setupFavoButton(_ id: String) {
+        self.favoriteButton.isHidden  = !Config.isNotDevMode()
+        self.likeLabel.isHidden       = !Config.isNotDevMode()
+        self.favoriteButton.isSelected = FavoriteManager.sharedInstance.isFavoriteVideo(id)
     }
     
-    private func changeLikeCount(isAdd: Bool) {
+    fileprivate func changeLikeCount(_ isAdd: Bool) {
         if let text = self.likeLabel.text {
             if var num = Int(text) {
                 if isAdd {

@@ -34,30 +34,30 @@ enum videoQuality {
 
 class VideoViewController: XCDYouTubeVideoPlayerViewController, UIViewControllerTransitioningDelegate {
     
-    
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.modalPresentationStyle = .Custom
+        self.modalPresentationStyle = .custom
         self.transitioningDelegate = self
-        self.moviePlayer.repeatMode = .One
-        self.moviePlayer.fullscreen = true
+        self.moviePlayer.repeatMode = .one
+        self.moviePlayer.isFullscreen = true
         self.moviePlayer.prepareToPlay()
         self.moviePlayer.play()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.sendScreenNameLog()
     }
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PopUpTransitionAnimater(presenting: true)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PopUpTransitionAnimater(presenting: false)
     }
 }
@@ -70,38 +70,37 @@ class PopUpTransitionAnimater : NSObject, UIViewControllerAnimatedTransitioning 
         super.init()
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.5
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let toVC    = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromVC  = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toView  = transitionContext.viewForKey(UITransitionContextToViewKey)
-        let fromView  =  transitionContext.viewForKey(UITransitionContextFromViewKey)
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let toVC    = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let fromVC  = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let toView  = transitionContext.view(forKey: UITransitionContextViewKey.to)
+        let fromView  =  transitionContext.view(forKey: UITransitionContextViewKey.from)
         
         let popUpView = presenting ? toVC.view:fromVC.view
-        if let containerView = transitionContext.containerView() {
-            toVC.view.frame     = containerView.frame
-            fromVC.view.frame   = containerView.frame
-            if let to = toView {
-                containerView.addSubview(to)
-            } else if let from = fromView {
-                containerView.addSubview(from)
-            }
+        let containerView = transitionContext.containerView
+        toVC.view.frame     = containerView.frame
+        fromVC.view.frame   = containerView.frame
+        if let to = toView {
+            containerView.addSubview(to)
+        } else if let from = fromView {
+            containerView.addSubview(from)
         }
         
-        popUpView.transform = presenting ? CGAffineTransformMakeScale(0.01, 0.01) : CGAffineTransformMakeScale(1.0, 1.0)
+        popUpView?.transform = presenting ? CGAffineTransform(scaleX: 0.01, y: 0.01) : CGAffineTransform(scaleX: 1.0, y: 1.0)
         
-        UIView.animateWithDuration(0.4,
+        UIView.animate(withDuration: 0.4,
             delay: 0.0,
             usingSpringWithDamping: 0.9,
             initialSpringVelocity: 0.7,
-            options: UIViewAnimationOptions.CurveEaseInOut,
+            options: UIViewAnimationOptions.curveEaseInOut,
             animations: { () -> Void in
-                popUpView.transform = self.presenting ?
-                    CGAffineTransformMakeScale(1.0, 1.0) :
-                    CGAffineTransformMakeScale(0.01, 0.01)
+                popUpView?.transform = self.presenting ?
+                    CGAffineTransform(scaleX: 1.0, y: 1.0) :
+                    CGAffineTransform(scaleX: 0.01, y: 0.01)
                 if self.presenting {
                     toView?.alpha = 1.0
                 } else {

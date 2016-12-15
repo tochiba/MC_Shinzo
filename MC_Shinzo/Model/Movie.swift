@@ -123,64 +123,64 @@ class Video: NCMBObject, NSCoding {
     required init(coder aDecoder: NSCoder) {
         super.init(className: Video.className())
         
-        if let i = aDecoder.decodeObjectForKey(VideoKey.idKey) as? String {
+        if let i = aDecoder.decodeObject(forKey: VideoKey.idKey) as? String {
             self.id = i
             self.setObject(i, forKey: VideoKey.idKey)
         }
-        if let a = aDecoder.decodeObjectForKey(VideoKey.categoryNameKey) as? String {
+        if let a = aDecoder.decodeObject(forKey: VideoKey.categoryNameKey) as? String {
             self.categoryName = a
             self.setObject(a, forKey: VideoKey.categoryNameKey)
         }
-        if let date = aDecoder.decodeObjectForKey(VideoKey.dateKey) as? String {
+        if let date = aDecoder.decodeObject(forKey: VideoKey.dateKey) as? String {
             self.date = date
             self.setObject(date, forKey: VideoKey.dateKey)
         }
-        if let title = aDecoder.decodeObjectForKey(VideoKey.titleKey) as? String {
+        if let title = aDecoder.decodeObject(forKey: VideoKey.titleKey) as? String {
             self.title = title
             self.setObject(title, forKey: VideoKey.titleKey)
         }
-        if let d = aDecoder.decodeObjectForKey(VideoKey.descriKey) as? String {
+        if let d = aDecoder.decodeObject(forKey: VideoKey.descriKey) as? String {
             self.descri = d
             self.setObject(d, forKey: VideoKey.descriKey)
         }
-        if let t = aDecoder.decodeObjectForKey(VideoKey.thumbnailUrlKey) as? String {
+        if let t = aDecoder.decodeObject(forKey: VideoKey.thumbnailUrlKey) as? String {
             self.thumbnailUrl = t
             self.setObject(t, forKey: VideoKey.thumbnailUrlKey)
         }
-        if let v = aDecoder.decodeObjectForKey(VideoKey.videoUrlKey) as? String {
+        if let v = aDecoder.decodeObject(forKey: VideoKey.videoUrlKey) as? String {
             self.videoUrl = v
             self.setObject(v, forKey: VideoKey.videoUrlKey)
         }
-        if let l = aDecoder.decodeObjectForKey(VideoKey.likeCountKey) as? Int {
+        if let l = aDecoder.decodeObject(forKey: VideoKey.likeCountKey) as? Int {
             self.likeCount = l
             self.setObject(l, forKey: VideoKey.likeCountKey)
         }
-        if let cn = aDecoder.decodeObjectForKey(VideoKey.channelNameKey) as? String {
+        if let cn = aDecoder.decodeObject(forKey: VideoKey.channelNameKey) as? String {
             self.channelName = cn
             self.setObject(cn, forKey: VideoKey.channelNameKey)
         }
-        if let ci = aDecoder.decodeObjectForKey(VideoKey.channelIdKey) as? String {
+        if let ci = aDecoder.decodeObject(forKey: VideoKey.channelIdKey) as? String {
             self.channelId = ci
             self.setObject(ci, forKey: VideoKey.channelIdKey)
         }
-        if let di = aDecoder.decodeObjectForKey(VideoKey.dateIntegerKey) as? Int {
+        if let di = aDecoder.decodeObject(forKey: VideoKey.dateIntegerKey) as? Int {
             self.dateInteger = di
             self.setObject(di, forKey: VideoKey.dateIntegerKey)
         }
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(id, forKey: VideoKey.idKey)
-        aCoder.encodeObject(categoryName, forKey: VideoKey.categoryNameKey)
-        aCoder.encodeObject(date, forKey: VideoKey.dateKey)
-        aCoder.encodeObject(title, forKey: VideoKey.titleKey)
-        aCoder.encodeObject(descri, forKey: VideoKey.descriKey)
-        aCoder.encodeObject(thumbnailUrl, forKey: VideoKey.thumbnailUrlKey)
-        aCoder.encodeObject(videoUrl, forKey: VideoKey.videoUrlKey)
-        aCoder.encodeObject(likeCount, forKey: VideoKey.likeCountKey)
-        aCoder.encodeObject(channelName, forKey: VideoKey.channelNameKey)
-        aCoder.encodeObject(channelId, forKey: VideoKey.channelIdKey)
-        aCoder.encodeObject(dateInteger, forKey: VideoKey.dateIntegerKey)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: VideoKey.idKey)
+        aCoder.encode(categoryName, forKey: VideoKey.categoryNameKey)
+        aCoder.encode(date, forKey: VideoKey.dateKey)
+        aCoder.encode(title, forKey: VideoKey.titleKey)
+        aCoder.encode(descri, forKey: VideoKey.descriKey)
+        aCoder.encode(thumbnailUrl, forKey: VideoKey.thumbnailUrlKey)
+        aCoder.encode(videoUrl, forKey: VideoKey.videoUrlKey)
+        aCoder.encode(likeCount, forKey: VideoKey.likeCountKey)
+        aCoder.encode(channelName, forKey: VideoKey.channelNameKey)
+        aCoder.encode(channelId, forKey: VideoKey.channelIdKey)
+        aCoder.encode(dateInteger, forKey: VideoKey.dateIntegerKey)
     }
 }
 

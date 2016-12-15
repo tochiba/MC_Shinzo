@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		344DF3A68C0D109D02861592 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E5740A870A37FB957D9FF2 /* Pods.framework */; };
+		4EBF1C7837C6177F040F1317 /* Pods_MC_Shinzo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2ADD077602680F4693147C /* Pods_MC_Shinzo.framework */; };
 		8F0C1C281CFAC6E900A8ECCD /* PushAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0C1C271CFAC6E900A8ECCD /* PushAlertViewController.swift */; };
 		8F13B6391CF49BD800760438 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F13B6381CF49BD800760438 /* MainViewController.swift */; };
 		8F5517771CA66F7200492953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517761CA66F7200492953 /* AppDelegate.swift */; };
@@ -15,8 +15,6 @@
 		8F55177C1CA66F7200492953 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F55177A1CA66F7200492953 /* Main.storyboard */; };
 		8F55177E1CA66F7200492953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F55177D1CA66F7200492953 /* Assets.xcassets */; };
 		8F5517811CA66F7200492953 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F55177F1CA66F7200492953 /* LaunchScreen.storyboard */; };
-		8F55178C1CA66F7200492953 /* MC_ShinzoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F55178B1CA66F7200492953 /* MC_ShinzoTests.swift */; };
-		8F5517971CA66F7300492953 /* MC_ShinzoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517961CA66F7300492953 /* MC_ShinzoUITests.swift */; };
 		8F5517A61CA6DE3D00492953 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F5517A41CA6DE3D00492953 /* SwiftyJSON.framework */; };
 		8F5517A71CA6DE3D00492953 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F5517A51CA6DE3D00492953 /* Alamofire.framework */; };
 		8F5517AF1CA6E0AC00492953 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5517AE1CA6E0AC00492953 /* APIManager.swift */; };
@@ -54,26 +52,9 @@
 		DB70BAE51CAD14490045E08A /* XCDYouTubeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB70BAE41CAD14490045E08A /* XCDYouTubeKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		8F5517881CA66F7200492953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8F55176B1CA66F7200492953 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F5517721CA66F7200492953;
-			remoteInfo = MC_Shinzo;
-		};
-		8F5517931CA66F7200492953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8F55176B1CA66F7200492953 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F5517721CA66F7200492953;
-			remoteInfo = MC_Shinzo;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		1AECB451EC228C7520FD51C9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		4FD32810B5131896391EEB79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3CC7EBFCC15FA97834BAA8A5 /* Pods-MC_Shinzo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_Shinzo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MC_Shinzo/Pods-MC_Shinzo.debug.xcconfig"; sourceTree = "<group>"; };
+		3E2ADD077602680F4693147C /* Pods_MC_Shinzo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MC_Shinzo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E5740A870A37FB957D9FF2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0C1C271CFAC6E900A8ECCD /* PushAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushAlertViewController.swift; path = ViewController/PushAlertViewController.swift; sourceTree = "<group>"; };
 		8F13B6381CF49BD800760438 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = ViewController/MainViewController.swift; sourceTree = "<group>"; };
@@ -84,12 +65,6 @@
 		8F55177D1CA66F7200492953 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8F5517801CA66F7200492953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8F5517821CA66F7200492953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8F5517871CA66F7200492953 /* MC_Shinzo.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MC_Shinzo.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F55178B1CA66F7200492953 /* MC_ShinzoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC_ShinzoTests.swift; sourceTree = "<group>"; };
-		8F55178D1CA66F7200492953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8F5517921CA66F7200492953 /* MC_Shinzo.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MC_Shinzo.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F5517961CA66F7300492953 /* MC_ShinzoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC_ShinzoUITests.swift; sourceTree = "<group>"; };
-		8F5517981CA66F7300492953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F5517A41CA6DE3D00492953 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		8F5517A51CA6DE3D00492953 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		8F5517AE1CA6E0AC00492953 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIManager.swift; path = Manager/APIManager.swift; sourceTree = "<group>"; };
@@ -145,11 +120,13 @@
 		8FE4EA551CBBF5E700F62BCE /* BannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerView.swift; path = View/BannerView.swift; sourceTree = "<group>"; };
 		8FE4EA571CBBFD4C00F62BCE /* DialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DialogViewController.swift; path = ViewController/DialogViewController.swift; sourceTree = "<group>"; };
 		8FE4EA591CBBFE8400F62BCE /* ReviewRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReviewRequestViewController.swift; path = ViewController/ReviewRequestViewController.swift; sourceTree = "<group>"; };
+		A04309187B74978A082DFFB9 /* Pods-MC_Shinzo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_Shinzo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MC_Shinzo/Pods-MC_Shinzo.release.xcconfig"; sourceTree = "<group>"; };
 		DB70BAB71CAB73190045E08A /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Model/Movie.swift; sourceTree = "<group>"; };
 		DB70BAD91CACBEC60045E08A /* TabPageViewController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TabPageViewController.framework; path = Carthage/Build/iOS/TabPageViewController.framework; sourceTree = "<group>"; };
 		DB70BADE1CACD6250045E08A /* VideoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoListViewController.swift; path = ViewController/VideoListViewController.swift; sourceTree = "<group>"; };
 		DB70BAE01CACD7320045E08A /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		DB70BAE41CAD14490045E08A /* XCDYouTubeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCDYouTubeKit.framework; path = Carthage/Build/iOS/XCDYouTubeKit.framework; sourceTree = "<group>"; };
+		DB89EA921E010ED900E10A0E /* MC_Shinzo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MC_Shinzo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,21 +142,7 @@
 				DB70BADA1CACBEC60045E08A /* TabPageViewController.framework in Frameworks */,
 				8F5517A61CA6DE3D00492953 /* SwiftyJSON.framework in Frameworks */,
 				8F5517A71CA6DE3D00492953 /* Alamofire.framework in Frameworks */,
-				344DF3A68C0D109D02861592 /* Pods.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F5517841CA66F7200492953 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F55178F1CA66F7200492953 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				4EBF1C7837C6177F040F1317 /* Pods_MC_Shinzo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,8 +157,18 @@
 				8F9F618E1CB8CCC400C96076 /* Realm.framework */,
 				8F9F61881CB7FC8800C96076 /* SwiftRefresher.framework */,
 				65E5740A870A37FB957D9FF2 /* Pods.framework */,
+				3E2ADD077602680F4693147C /* Pods_MC_Shinzo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		364AA30C53AFC6DE9713AABB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3CC7EBFCC15FA97834BAA8A5 /* Pods-MC_Shinzo.debug.xcconfig */,
+				A04309187B74978A082DFFB9 /* Pods-MC_Shinzo.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		8F55176A1CA66F7200492953 = {
@@ -208,12 +181,10 @@
 				8F5517A41CA6DE3D00492953 /* SwiftyJSON.framework */,
 				8F5517A51CA6DE3D00492953 /* Alamofire.framework */,
 				8F5517751CA66F7200492953 /* MC_Shinzo */,
-				8F55178A1CA66F7200492953 /* MC_ShinzoTests */,
-				8F5517951CA66F7300492953 /* MC_ShinzoUITests */,
 				8F5517741CA66F7200492953 /* Products */,
-				CEE02D6C1648D4A2AD430F5B /* Pods */,
 				2073F57593E1E898FE77CE01 /* Frameworks */,
 				8F6C2E371CE0ECB90020BD05 /* MC_Shinzo-Bridging-Header.h */,
+				364AA30C53AFC6DE9713AABB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -221,8 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				8F5517731CA66F7200492953 /* MC_Shinzo.app */,
-				8F5517871CA66F7200492953 /* MC_Shinzo.xctest */,
-				8F5517921CA66F7200492953 /* MC_Shinzo.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,6 +199,7 @@
 		8F5517751CA66F7200492953 /* MC_Shinzo */ = {
 			isa = PBXGroup;
 			children = (
+				DB89EA921E010ED900E10A0E /* MC_Shinzo.entitlements */,
 				8F73AC911CB9F1570051D107 /* View */,
 				DB70BADD1CACD5E10045E08A /* ViewController */,
 				DB70BAB61CAB72FA0045E08A /* Entity */,
@@ -246,24 +216,6 @@
 				8F73ACB61CBBE50D0051D107 /* Settings.bundle */,
 			);
 			path = MC_Shinzo;
-			sourceTree = "<group>";
-		};
-		8F55178A1CA66F7200492953 /* MC_ShinzoTests */ = {
-			isa = PBXGroup;
-			children = (
-				8F55178B1CA66F7200492953 /* MC_ShinzoTests.swift */,
-				8F55178D1CA66F7200492953 /* Info.plist */,
-			);
-			path = MC_ShinzoTests;
-			sourceTree = "<group>";
-		};
-		8F5517951CA66F7300492953 /* MC_ShinzoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8F5517961CA66F7300492953 /* MC_ShinzoUITests.swift */,
-				8F5517981CA66F7300492953 /* Info.plist */,
-			);
-			path = MC_ShinzoUITests;
 			sourceTree = "<group>";
 		};
 		8F5517AD1CA6E07700492953 /* Manager */ = {
@@ -289,15 +241,6 @@
 				8FE4EA551CBBF5E700F62BCE /* BannerView.swift */,
 			);
 			name = View;
-			sourceTree = "<group>";
-		};
-		CEE02D6C1648D4A2AD430F5B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4FD32810B5131896391EEB79 /* Pods.debug.xcconfig */,
-				1AECB451EC228C7520FD51C9 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		DB70BAB61CAB72FA0045E08A /* Entity */ = {
@@ -334,14 +277,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F55179B1CA66F7300492953 /* Build configuration list for PBXNativeTarget "MC_Shinzo" */;
 			buildPhases = (
-				AF72D805DAFFA5E984FDBCB4 /* Check Pods Manifest.lock */,
+				299136B8F8405ACF61A214F0 /* [CP] Check Pods Manifest.lock */,
 				8F55176F1CA66F7200492953 /* Sources */,
 				8F5517701CA66F7200492953 /* Frameworks */,
 				8F5517711CA66F7200492953 /* Resources */,
-				E401A8042223AA9A339E5AA7 /* Embed Pods Frameworks */,
-				0C63BF5FF7319C2168CA9ED2 /* Copy Pods Resources */,
 				8F73ACB11CBA50DC0051D107 /* ShellScript */,
 				8F73ACB21CBAAA690051D107 /* ShellScript */,
+				74F1F6B988BC1B9045DC8C2C /* [CP] Embed Pods Frameworks */,
+				BB94D2F7D150956A93E0DC91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -352,42 +295,6 @@
 			productReference = 8F5517731CA66F7200492953 /* MC_Shinzo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8F5517861CA66F7200492953 /* MC_ShinzoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8F55179E1CA66F7300492953 /* Build configuration list for PBXNativeTarget "MC_ShinzoTests" */;
-			buildPhases = (
-				8F5517831CA66F7200492953 /* Sources */,
-				8F5517841CA66F7200492953 /* Frameworks */,
-				8F5517851CA66F7200492953 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8F5517891CA66F7200492953 /* PBXTargetDependency */,
-			);
-			name = MC_ShinzoTests;
-			productName = MC_ShinzoTests;
-			productReference = 8F5517871CA66F7200492953 /* MC_Shinzo.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		8F5517911CA66F7200492953 /* MC_ShinzoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8F5517A11CA66F7300492953 /* Build configuration list for PBXNativeTarget "MC_ShinzoUITests" */;
-			buildPhases = (
-				8F55178E1CA66F7200492953 /* Sources */,
-				8F55178F1CA66F7200492953 /* Frameworks */,
-				8F5517901CA66F7200492953 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8F5517941CA66F7200492953 /* PBXTargetDependency */,
-			);
-			name = MC_ShinzoUITests;
-			productName = MC_ShinzoUITests;
-			productReference = 8F5517921CA66F7200492953 /* MC_Shinzo.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -395,12 +302,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Toshiki Chiba";
 				TargetAttributes = {
 					8F5517721CA66F7200492953 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = AVWWV46Y77;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -409,14 +317,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					8F5517861CA66F7200492953 = {
-						CreatedOnToolsVersion = 7.2;
-						TestTargetID = 8F5517721CA66F7200492953;
-					};
-					8F5517911CA66F7200492953 = {
-						CreatedOnToolsVersion = 7.2;
-						TestTargetID = 8F5517721CA66F7200492953;
 					};
 				};
 			};
@@ -441,8 +341,6 @@
 			projectRoot = "";
 			targets = (
 				8F5517721CA66F7200492953 /* MC_Shinzo */,
-				8F5517861CA66F7200492953 /* MC_ShinzoTests */,
-				8F5517911CA66F7200492953 /* MC_ShinzoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -460,36 +358,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F5517851CA66F7200492953 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F5517901CA66F7200492953 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C63BF5FF7319C2168CA9ED2 /* Copy Pods Resources */ = {
+		299136B8F8405ACF61A214F0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		74F1F6B988BC1B9045DC8C2C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MC_Shinzo/Pods-MC_Shinzo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8F73ACB11CBA50DC0051D107 /* ShellScript */ = {
@@ -526,34 +425,19 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		AF72D805DAFFA5E984FDBCB4 /* Check Pods Manifest.lock */ = {
+		BB94D2F7D150956A93E0DC91 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E401A8042223AA9A339E5AA7 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MC_Shinzo/Pods-MC_Shinzo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -595,36 +479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F5517831CA66F7200492953 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F55178C1CA66F7200492953 /* MC_ShinzoTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F55178E1CA66F7200492953 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F5517971CA66F7300492953 /* MC_ShinzoUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8F5517891CA66F7200492953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F5517721CA66F7200492953 /* MC_Shinzo */;
-			targetProxy = 8F5517881CA66F7200492953 /* PBXContainerItemProxy */;
-		};
-		8F5517941CA66F7200492953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F5517721CA66F7200492953 /* MC_Shinzo */;
-			targetProxy = 8F5517931CA66F7200492953 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8F55177A1CA66F7200492953 /* Main.storyboard */ = {
@@ -681,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -690,8 +546,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Toshiki Chiba (R2U3DJS2ZM)";
@@ -728,6 +586,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -737,8 +596,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Toshiki Chiba (AVWWV46Y77)";
@@ -760,18 +621,22 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "4b2b3507-02b1-4114-beed-51e8fbcba154";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		8F55179C1CA66F7300492953 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FD32810B5131896391EEB79 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 3CC7EBFCC15FA97834BAA8A5 /* Pods-MC_Shinzo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MC_Shinzo/MC_Shinzo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AVWWV46Y77;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -784,18 +649,22 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MC_Shinzo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		8F55179D1CA66F7300492953 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AECB451EC228C7520FD51C9 /* Pods.release.xcconfig */;
+			baseConfigurationReference = A04309187B74978A082DFFB9 /* Pods-MC_Shinzo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = MC_Shinzo/MC_Shinzo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = AVWWV46Y77;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -807,55 +676,8 @@
 				PRODUCT_NAME = MC_Shinzo;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MC_Shinzo-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		8F55179F1CA66F7300492953 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MC_ShinzoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.koganepj.MC_ShinzoTests;
-				PRODUCT_NAME = MC_Shinzo;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MC_Shinzo.app/MC_Shinzo";
-			};
-			name = Debug;
-		};
-		8F5517A01CA66F7300492953 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MC_ShinzoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.koganepj.MC_ShinzoTests;
-				PRODUCT_NAME = MC_Shinzo;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MC_Shinzo.app/MC_Shinzo";
-			};
-			name = Release;
-		};
-		8F5517A21CA66F7300492953 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MC_ShinzoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.koganepj.MC_ShinzoUITests;
-				PRODUCT_NAME = MC_Shinzo;
-				TEST_TARGET_NAME = MC_Shinzo;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		8F5517A31CA66F7300492953 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MC_ShinzoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.koganepj.MC_ShinzoUITests;
-				PRODUCT_NAME = MC_Shinzo;
-				TEST_TARGET_NAME = MC_Shinzo;
-				USES_XCTRUNNER = YES;
 			};
 			name = Release;
 		};
@@ -876,24 +698,6 @@
 			buildConfigurations = (
 				8F55179C1CA66F7300492953 /* Debug */,
 				8F55179D1CA66F7300492953 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8F55179E1CA66F7300492953 /* Build configuration list for PBXNativeTarget "MC_ShinzoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8F55179F1CA66F7300492953 /* Debug */,
-				8F5517A01CA66F7300492953 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8F5517A11CA66F7300492953 /* Build configuration list for PBXNativeTarget "MC_ShinzoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8F5517A21CA66F7300492953 /* Debug */,
-				8F5517A31CA66F7300492953 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -10,15 +10,15 @@ import Foundation
 
 class AutoDeliverManager {
     static let sharedInstance = AutoDeliverManager()
-    private var channels: [Channel] = []
-    var timer: NSTimer = NSTimer()
+    fileprivate var channels: [Channel] = []
+    var timer: Timer = Timer()
 }
 
 extension AutoDeliverManager {
     @objc func start() {
         if UIApplication.isSimulator() {
             // Simulatorは20分に一回チェック
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(60 * 20, target: self, selector: #selector(self.restart), userInfo: nil, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: 60 * 20, target: self, selector: #selector(self.restart), userInfo: nil, repeats: false)
         }
         
         NIFTYManager.sharedInstance.loadDeliveredChannels(self)
@@ -39,20 +39,20 @@ extension AutoDeliverManager: NIFTYManagerChannelDelegate {
     }
 }
 extension AutoDeliverManager {
-    private func loadData() {
+    fileprivate func loadData() {
         self.channels = NIFTYManager.sharedInstance.getChannels()
         loadVideos()
     }
     
-    private func loadVideos() {
+    fileprivate func loadVideos() {
         for c in self.channels {
-            APIManager.sharedInstance.search(c.channelId, aDelegate: self, mode: .Channel)
+            APIManager.sharedInstance.search(c.channelId, aDelegate: self, mode: .channel)
         }
         NIFTYManager.sharedInstance.refreshNewCategory()
     }
 }
 extension AutoDeliverManager: SearchAPIManagerDelegate {
-    func didFinishLoad(videos: [Video]) {
+    func didFinishLoad(_ videos: [Video]) {
         for v in videos {
             v.categoryName = VideoCategory.category[0]
             NIFTYManager.sharedInstance.deliverThisVideo(v, isAuto: true)

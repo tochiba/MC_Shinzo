@@ -10,7 +10,7 @@ import Foundation
 
 class TrackingManager {
     static let sharedInstance = TrackingManager()
-    private var tracker: GAITracker?
+    fileprivate var tracker: GAITracker?
     
     init() {
         setup()
@@ -19,49 +19,49 @@ class TrackingManager {
     func setup() {
         GAI.sharedInstance().trackUncaughtExceptions = true;
         GAI.sharedInstance().dispatchInterval = 20
-        GAI.sharedInstance().logger.logLevel = .Verbose
-        self.tracker = GAI.sharedInstance().trackerWithTrackingId(API_KEY.GoogleAnalytics)
+        GAI.sharedInstance().logger.logLevel = .verbose
+        self.tracker = GAI.sharedInstance().tracker(withTrackingId: API_KEY.GoogleAnalytics)
     }
 
     enum ActionEvent {
-        case Play
-        case Favorite
-        case Share
-        case Refresh
+        case play
+        case favorite
+        case share
+        case refresh
         
         var eventString: String {
             switch self {
-            case .Play:
+            case .play:
                 return "Play"
-            case .Favorite:
+            case .favorite:
                 return "Favorite"
-            case .Share:
+            case .share:
                 return "Share"
-            case .Refresh:
+            case .refresh:
                 return "Refresh"
             }
         }
     }
     
-    func sendEventAction(event: ActionEvent) {
-        let build = GAIDictionaryBuilder.createEventWithCategory("Action", action: event.eventString, label: "ct", value: 1).build()
-        self.tracker?.send(build as [NSObject : AnyObject])
+    func sendEventAction(_ event: ActionEvent) {
+        let build = GAIDictionaryBuilder.createEvent(withCategory: "Action", action: event.eventString, label: "ct", value: 1).build()
+        self.tracker?.send(build! as NSDictionary as! [String : AnyObject])
     }
 
-    func sendEventCategory(category: String) {
-        let build = GAIDictionaryBuilder.createEventWithCategory("Category", action: category, label: "pv", value: 1).build()
-        self.tracker?.send(build as [NSObject : AnyObject])
+    func sendEventCategory(_ category: String) {
+        let build = GAIDictionaryBuilder.createEvent(withCategory: "Category", action: category, label: "pv", value: 1).build()
+        self.tracker?.send(build! as NSDictionary as! [String : AnyObject])
     }
     
-    func sendLogScreenName(name: String) {
+    func sendLogScreenName(_ name: String) {
         let build = GAIDictionaryBuilder.createScreenView().set(name, forKey: kGAIScreenName).build()
-        TrackingManager.sharedInstance.tracker?.send(build as [NSObject : AnyObject])
+        TrackingManager.sharedInstance.tracker?.send(build! as NSDictionary as! [String : AnyObject])
     }
 }
 
 public extension UIViewController {
     func sendScreenNameLog() {
-        let screenName = String(self.dynamicType)
+        let screenName = String(describing: type(of: self))
         TrackingManager.sharedInstance.sendLogScreenName(screenName)
     }
 }

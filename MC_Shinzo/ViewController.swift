@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 
     var tabPageViewController :TabPageViewController?
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.sendScreenNameLog()
     }
@@ -27,12 +27,12 @@ class ViewController: UIViewController {
         setupPageViewController()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let tpvc = self.tabPageViewController {
             let nc = self.navigationController!
             nc.viewControllers = [tpvc]
-            self.presentViewController(nc, animated: false, completion: nil)
+            self.present(nc, animated: false, completion: nil)
         }
         else {
             setupPageViewController()
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    private func setupPageViewController() {
+    fileprivate func setupPageViewController() {
         let tc = TabPageViewController.create()
         tc.isInfinity = true
         let image = UIImage(named: "nav_header_logo")
@@ -53,9 +53,9 @@ extension ViewController {
         tc.tabItems.append((VideoListViewController.getInstanceWithMode(mode: .Popular),
             NSLocalizedString("category_popular", comment: "")))
         
-        for tuple in VideoCategory.category.enumerate() {
-            let lstr = VideoCategory.localizedCategory[tuple.index]
-            tc.tabItems.append((VideoListViewController.getInstance(tuple.element),
+        for tuple in VideoCategory.category.enumerated() {
+            let lstr = VideoCategory.localizedCategory[tuple.offset]
+            tc.tabItems.append((VideoListViewController.getInstance(query: tuple.element),
                 NSLocalizedString(lstr, comment: "")))
         }
         

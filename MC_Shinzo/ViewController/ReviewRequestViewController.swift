@@ -25,16 +25,16 @@ class ReviewController: DialogViewController {
     var delegate: ReviewControllerDelegate?
     var showCloseButton: Bool = true
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.sendScreenNameLog()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.closeView.hidden = !self.showCloseButton
+        self.closeView.isHidden = !self.showCloseButton
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
@@ -42,53 +42,53 @@ class ReviewController: DialogViewController {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func didPushClose(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func didPushClose(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didPushCancel(sender: AnyObject) {
+    @IBAction func didPushCancel(_ sender: AnyObject) {
         stepup(sender.tag)
     }
     
-    @IBAction func didPushOK(sender: AnyObject) {
+    @IBAction func didPushOK(_ sender: AnyObject) {
         stepup(sender.tag)
     }
     
-    private func stepup(tag: Int) {
+    fileprivate func stepup(_ tag: Int) {
         switch tag {
         case 1:
             self.detailLabel.text = FeedBack.detailText
-            self.cancelButton.setTitle(FeedBack.cancelText, forState: .Normal)
+            self.cancelButton.setTitle(FeedBack.cancelText, for: UIControlState())
             self.cancelButton.tag = FeedBack.cancelTag
-            self.okButton.setTitle(FeedBack.okText, forState: .Normal)
+            self.okButton.setTitle(FeedBack.okText, for: UIControlState())
             self.okButton.tag = FeedBack.okTag
             break
         case 2:
             self.detailLabel.text = Review.detailText
-            self.cancelButton.setTitle(Review.cancelText, forState: .Normal)
+            self.cancelButton.setTitle(Review.cancelText, for: UIControlState())
             self.cancelButton.tag = Review.cancelTag
-            self.okButton.setTitle(Review.okText, forState: .Normal)
+            self.okButton.setTitle(Review.okText, for: UIControlState())
             self.okButton.tag = Review.okTag
             break
         case FeedBack.cancelTag:
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             break
         case FeedBack.okTag:
             ReviewChecker.setDisplayed()
-            self.dismissViewControllerAnimated(true, completion: {
+            self.dismiss(animated: true, completion: {
                 self.delegate?.didPushFeedBackButton()
             })
             break
         case Review.cancelTag:
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             break
         case Review.okTag:
             let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1104660363"
-            if let url = NSURL(string: str) {
+            if let url = Foundation.URL(string: str) {
                 ReviewChecker.setDisplayed()
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             break
         default:
             break
@@ -114,7 +114,7 @@ struct Review {
 
 
 class ReviewChecker: NSObject {
-    class func favoriteCheck(viewController: UIViewController) -> Bool {
+    class func favoriteCheck(_ viewController: UIViewController) -> Bool {
         let num = FavoriteCounter.getCount()
         if num > 3 {
             FavoriteCounter.reset()
@@ -137,7 +137,7 @@ class ReviewChecker: NSObject {
         return false
     }
     
-    class func playCheck(viewController: UIViewController) -> Bool {
+    class func playCheck(_ viewController: UIViewController) -> Bool {
         let num = PlayCounter.getCount()
         if num > 4 {
             PlayCounter.reset()
@@ -160,16 +160,16 @@ class ReviewChecker: NSObject {
     }
     
     class func isDisplayed() -> Bool {
-        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
-            return NSUserDefaults.standardUserDefaults().boolForKey(currentVer)
+        if let currentVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            return UserDefaults.standard.bool(forKey: currentVer)
         }
         return false
     }
     
     class func setDisplayed() {
-        if let currentVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: currentVer)
-            NSUserDefaults.standardUserDefaults().synchronize()
+        if let currentVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            UserDefaults.standard.set(true, forKey: currentVer)
+            UserDefaults.standard.synchronize()
         }
     }
 
@@ -182,26 +182,26 @@ class PlayCounter: NSObject {
     class func add() {
         var i = getCount()
         i += 1
-        NSUserDefaults.standardUserDefaults().setInteger(i, forKey: PLAY_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(i, forKey: PLAY_COUNT_KEY)
+        UserDefaults.standard.synchronize()
         
         var t = getTotalCount()
         t += 1
-        NSUserDefaults.standardUserDefaults().setInteger(t, forKey: PLAY_TOTAL_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(t, forKey: PLAY_TOTAL_COUNT_KEY)
+        UserDefaults.standard.synchronize()
     }
     
     class func reset() {
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: PLAY_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(0, forKey: PLAY_COUNT_KEY)
+        UserDefaults.standard.synchronize()
     }
     
     class func getCount() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(PLAY_COUNT_KEY)
+        return UserDefaults.standard.integer(forKey: PLAY_COUNT_KEY)
     }
     
     class func getTotalCount() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(PLAY_TOTAL_COUNT_KEY)
+        return UserDefaults.standard.integer(forKey: PLAY_TOTAL_COUNT_KEY)
     }
 }
 
@@ -212,25 +212,25 @@ class FavoriteCounter: NSObject {
     class func add() {
         var i = getCount()
         i += 1
-        NSUserDefaults.standardUserDefaults().setInteger(i, forKey: FAVORITE_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(i, forKey: FAVORITE_COUNT_KEY)
+        UserDefaults.standard.synchronize()
         
         var t = getTotalCount()
         t += 1
-        NSUserDefaults.standardUserDefaults().setInteger(t, forKey: FAVORITE_TOTAL_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(t, forKey: FAVORITE_TOTAL_COUNT_KEY)
+        UserDefaults.standard.synchronize()
     }
     
     class func reset() {
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: FAVORITE_COUNT_KEY)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(0, forKey: FAVORITE_COUNT_KEY)
+        UserDefaults.standard.synchronize()
     }
     
     class func getCount() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(FAVORITE_COUNT_KEY)
+        return UserDefaults.standard.integer(forKey: FAVORITE_COUNT_KEY)
     }
     
     class func getTotalCount() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(FAVORITE_TOTAL_COUNT_KEY)
+        return UserDefaults.standard.integer(forKey: FAVORITE_TOTAL_COUNT_KEY)
     }
 }

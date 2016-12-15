@@ -18,7 +18,7 @@ class TwitterManager {
     var account: ACAccount?
     
     init() {
-        self.accountType = self.accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
+        self.accountType = self.accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierTwitter)
         getAccounts({ (accounts: [ACAccount]) in
             for a in accounts {
                 if a.username == "Subrhyme_" {
@@ -28,9 +28,9 @@ class TwitterManager {
         })
     }
     
-    private func getAccounts(callback: [ACAccount] -> Void) {
-        let accountType = self.accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
-        self.accountStore.requestAccessToAccountsWithType(accountType, options: nil) { (granted: Bool, error: NSError?) -> Void in
+    fileprivate func getAccounts(_ callback: @escaping ([ACAccount]) -> Void) {
+        let accountType = self.accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierTwitter)
+        self.accountStore.requestAccessToAccounts(with: accountType, options: nil, completion: { (granted: Bool, error: Error?) -> Swift.Void in
             if error != nil {
                 // error
                 return
@@ -41,7 +41,7 @@ class TwitterManager {
                 return
             }
             
-            let accounts = self.accountStore.accountsWithAccountType(accountType) as! [ACAccount]
+            let accounts = self.accountStore.accounts(with: accountType) as! [ACAccount]
             if accounts.count == 0 {
                 //error 設定画面からアカウントを設定してください
                 return
@@ -49,30 +49,32 @@ class TwitterManager {
             
             // アカウント取得完了
             callback(accounts)
-        }
+        })
     }
     
-    private func sendRequest(url: NSURL, requestMethod: SLRequestMethod, params: AnyObject?, responseHandler: (responseData: NSData!, urlResponse: NSHTTPURLResponse!) -> Void) {
+    fileprivate func sendRequest(_ url: Foundation.URL, requestMethod: SLRequestMethod, params: AnyObject?, responseHandler: @escaping (_ responseData: NSData?, _ urlResponse: HTTPURLResponse?) -> Void) {
         if let twAccount = self.account {
             let request = SLRequest(
                 forServiceType: SLServiceTypeTwitter,
                 requestMethod: requestMethod,
-                URL: url,
-                parameters: params as? [NSObject : AnyObject]
+                url: url,
+                parameters: params as? [AnyHashable: Any]
             )
             
-            request.account = twAccount
-            request.performRequestWithHandler { (responseData: NSData!, urlResponse: NSHTTPURLResponse!, error: NSError!) -> Void in
+            request?.account = twAccount
+            
+            let handler = {(responseData: Data?, urlResponse: HTTPURLResponse?, error: Error?) -> Swift.Void in
                 if error != nil {
                     // error
                 } else {
-                    responseHandler(responseData: responseData, urlResponse: urlResponse)
+                    responseHandler(responseData as NSData?, urlResponse)
                 }
             }
+            request?.perform(handler: handler)
         }
     }
     
-    func postTweet(video: Video) {
+    func postTweet(_ video: Video) {
         let shareText = "\(video.title) #Subrhyme \n\(URL.YoutubeShare)\(video.id)\n\(URL.AppStore)"
         
         getAccounts({ (accounts: [ACAccount]) in
@@ -85,16 +87,16 @@ class TwitterManager {
         })
     }
     
-    func uploadImage(imageUrl: String, message: String) {
-        if let imageURL = NSURL(string: imageUrl) {
-            if let data = NSData(contentsOfURL: imageURL) {
-                let base64String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-                let url = NSURL(string: "https://upload.twitter.com/1.1/media/upload.json")!
+    func uploadImage(_ imageUrl: String, message: String) {
+        if let imageURL = Foundation.URL(string: imageUrl) {
+            do {
+                let data = try Data(contentsOf: imageURL)
+                let base64String = data.base64EncodedString(options: .lineLength64Characters)
+                let url = Foundation.URL(string: "https://upload.twitter.com/1.1/media/upload.json")!
                 let params = ["media_data" : base64String]
-                
-                sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+                sendRequest(url, requestMethod: .POST, params: params as AnyObject?) { (responseData, urlResponse) -> Void in
                     do {
-                        let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData as! Data, options: JSONSerialization.ReadingOptions.mutableContainers)
                         let json = JSON(jsonObject)
                         if let id = json["media_id"].int {
                             self.postTweet(message, mediaId: id)
@@ -106,43 +108,46 @@ class TwitterManager {
                     }
                 }
             }
+            catch {
+                return
+            }
         }
     }
     
-    func postTweet(msg: String, mediaId: Int? = nil) {
-        let url = NSURL(string: "https://api.twitter.com/1.1/statuses/update.json")!
+    func postTweet(_ msg: String, mediaId: Int? = nil) {
+        let url = Foundation.URL(string: "https://api.twitter.com/1.1/statuses/update.json")!
         var params = ["status" : msg]
         if let mid = mediaId {
             params["media_ids"] = String(mid)
         }
         
-        sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+        sendRequest(url, requestMethod: .POST, params: params as AnyObject?) { (responseData, urlResponse) -> Void in
         }
     }
 
-    func favorite(id id: Int) {
+    func favorite(_ id: Int) {
         if self.account != nil {
-            postFavorite(id: id)
+            postFavorite(id)
         }
         else {
             getAccounts({ (accounts: [ACAccount]) in
                 for a in accounts {
                     if a.username == "Subrhyme_" {
                         self.account = a
-                        self.postFavorite(id: id)
+                        self.postFavorite(id)
                     }
                 }
             })
         }
     }
     
-    private func postFavorite(id id: Int) {
-        let url = NSURL(string: "https://api.twitter.com/1.1/favorites/create.json")!
+    fileprivate func postFavorite(_ id: Int) {
+        let url = Foundation.URL(string: "https://api.twitter.com/1.1/favorites/create.json")!
         let params = ["id" : String(id)]
-        print("Check Twitter: \(NSDate()) Favo ID: \(String(id))")
-        sendRequest(url, requestMethod: .POST, params: params) { (responseData, urlResponse) -> Void in
+        print("Check Twitter: \(Date()) Favo ID: \(String(id))")
+        sendRequest(url, requestMethod: .POST, params: params as AnyObject?) { (responseData, urlResponse) -> Void in
             do {
-            let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+            let jsonObject = try JSONSerialization.jsonObject(with: responseData as! Data, options: JSONSerialization.ReadingOptions.mutableContainers)
             let json = JSON(jsonObject)
                 print(json)
             }
@@ -151,7 +156,7 @@ class TwitterManager {
         }
     }
     
-    func searchTweet(query: String) {
+    func searchTweet(_ query: String) {
         if self.account != nil {
             getTweet(query)
         }
@@ -167,22 +172,22 @@ class TwitterManager {
         }
     }
     
-    func getTweet(query: String) {
-        guard let encodedString = query.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+    func getTweet(_ query: String) {
+        guard let encodedString = query.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             return
         }
-        let url = NSURL(string: "https://api.twitter.com/1.1/search/tweets.json")!
+        let url = Foundation.URL(string: "https://api.twitter.com/1.1/search/tweets.json")!
         let params = ["q" : encodedString, "lang" : "ja", "result_type" : "recent", "count" : "5"]
         
-        sendRequest(url, requestMethod: .GET, params: params) { (responseData, urlResponse) -> Void in
+        sendRequest(url, requestMethod: .GET, params: params as AnyObject?) { (responseData, urlResponse) -> Void in
             do {
-                let jsonObject : AnyObject = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers)
+                let jsonObject = try JSONSerialization.jsonObject(with: responseData as! Data, options: JSONSerialization.ReadingOptions.mutableContainers)
                 let json = JSON(jsonObject)
                 for entity in json["statuses"].arrayValue {
                     if let id = entity["id"].int, let favo = entity["favorited"].bool {
                         //favorited
                         if !favo {
-                            self.favorite(id: id)
+                            self.favorite(id)
                         }
                     }
                 }

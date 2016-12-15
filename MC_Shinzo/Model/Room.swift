@@ -30,19 +30,19 @@ class Room: NCMBObject, NSCoding {
     required init(coder aDecoder: NSCoder) {
         super.init(className: Room.className())
         
-        if let vi = aDecoder.decodeObjectForKey(VideoKey.idKey) as? String {
+        if let vi = aDecoder.decodeObject(forKey: VideoKey.idKey) as? String {
             self.videoId = vi
             self.setObject(vi, forKey: VideoKey.idKey)
         }
-        if let cc = aDecoder.decodeObjectForKey(RoomKey.commentCount) as? Int {
+        if let cc = aDecoder.decodeObject(forKey: RoomKey.commentCount) as? Int {
             self.commentCount = cc
             self.setObject(cc, forKey: RoomKey.commentCount)
         }
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(videoId, forKey: VideoKey.idKey)
-        aCoder.encodeObject(commentCount, forKey: RoomKey.commentCount)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(videoId, forKey: VideoKey.idKey)
+        aCoder.encode(commentCount, forKey: RoomKey.commentCount)
     }
 }
 struct RoomKey {

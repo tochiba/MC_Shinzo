@@ -21,55 +21,56 @@ class UserManager {
         static let saveUser = "UserKey"
     }
     
-    func saveUser(user: User) {
-        let encodedData = NSKeyedArchiver.archivedDataWithRootObject(user)
-        NSUserDefaults.standardUserDefaults().setObject(encodedData, forKey: Keys.saveUser)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    func saveUser(_ user: User) {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: user)
+        UserDefaults.standard.set(encodedData, forKey: Keys.saveUser)
+        UserDefaults.standard.synchronize()
         self.delegate?.refreshUserInfo()
     }
     
     func getUser() -> User {
-        if let data = NSUserDefaults.standardUserDefaults().objectForKey(Keys.saveUser) as? NSData {
-            if let user = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? User {
+        if let data = UserDefaults.standard.object(forKey: Keys.saveUser) as? Data {
+            if let user = NSKeyedUnarchiver.unarchiveObject(with: data) as? User {
                 return user
             }
         }
         
         let _user = User()
-        _user.id = NSUUID().UUIDString
+        _user.id = UUID().uuidString
         saveUser(_user)
         return _user
     }
     
-    func uploadUserImage(userID: String, data: NSData) -> String {
+    func uploadUserImage(_ userID: String, data: Data) -> String {
         let fileName = userID + ".jpg"
         var error: NSError?
-        let file = NCMBFile.fileWithName(fileName, data: data)
-        file.save(&error)
+        if let file = NCMBFile.file(withName: fileName, data: data) as? NCMBObject {
+            file.save(&error)
+        }
         return fileName
     }
     
-    func getUserImage(userID: String) -> NSData {
+    func getUserImage(_ userID: String) -> Data {
         let fileName = userID
-        if let file = NCMBFile.fileWithName(fileName, data: nil) as? NCMBFile {
+        if let file = NCMBFile.file(withName: fileName, data: nil) as? NCMBFile {
             return file.getFileData()
         }
         
-        return NSData()
+        return Data()
     }
 }
 
 public extension NCMBFile {
-    public func getFileData() -> NSData {
+    public func getFileData() -> Data {
         let request = NCMBURLConnection(path: "files/\(self.name)", method: "GET", data: nil)
         
         do {
-            if let responseData = try request.syncConnection() as? NSData {
+            if let responseData = try request?.syncConnection() as? Data {
                 return responseData
             }
         }
         catch {}
         
-        return NSData()
+        return Data()
     }
 }
